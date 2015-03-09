@@ -9,14 +9,14 @@
 - Rename template/buecherregal_header.tmpl_sample to
          template/buecherregal_header.tmpl
   and adapt the example to your normal webpage header
-- Rename externer_server/ds/config.php_tmpl to
+- Rename proxy/ds/config.php_tmpl to
          externer_server/ds/config.php
   and adapt the example to your needs
 
 
 ### Java
 
-a lokal Version of java is needed to minimize the js and css files. see html/js/ErzeugeMiniVersion.cmd
+a local Version of java is needed to minimize the js and css files. see html/js/ErzeugeMiniVersion.cmd
 there you have to insert the path into the variable "javaprog"
 
 apt-get install openjdk-7-jdk
@@ -27,7 +27,7 @@ need for minimizing js and css files.
 see html/js/ErzeugeMiniVersion.cmd
 there you have to insert the path into the variable "yuicomp"
 
-cd /usr/bin/vMaBookShelf
+cd /usr/local/bin/vMaBookShelf
 
 https://github.com/yui/yuicompressor/releases
 and download the actual jar file.
