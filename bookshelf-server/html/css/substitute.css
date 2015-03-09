@@ -1,0 +1,124 @@
+ul.booklist div.shelf-image-container,
+ul.booklist span.shelf-image-container {
+	margin: 0 auto;
+	padding: 0 0 8px 0;
+	text-decoration: none;
+}
+ul.booklist div.shelf-image-container,
+ul.booklist span.shelf-image-container {
+	width: 158px;
+	height: 200px;
+	margin: 20px 5px 0 5px;
+	text-align: center;
+}
+ul.booklist div.shelf-image-container image,
+ul.booklist span.shelf-image-container image {
+	border: none;
+}
+
+ul.booklist div.shelf-image-substitute,
+ul.booklist span.shelf-image-substitute {
+	overflow: hidden;
+	position: relative;
+	color: white;
+	font-family: Verdana, Verdana, Geneva, sans-serif;
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	padding: 0 6px 0 14px;
+	text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+ul.booklist div.shelf-image-substitute,
+ul.booklist span.shelf-image-substitute {
+	width: 125px;
+	height: 200px;
+	font-size: 18px;
+}
+ul.booklist div.shelf-image-bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-size: 100% 100%;
+}
+ul.booklist div.shelf-image-title,
+ul.booklist div.shelf-image-subtitle,
+ul.booklist div.shelf-image-authors {
+	display: inline-block;
+	z-index: 0;
+}
+/*
+ul.booklist div.shelf-image-title {
+	position: relative;
+	padding-top: 0.5em;
+    margin-left: 10px;
+}
+*/
+ul.booklist div.shelf-image-title,
+ul.booklist div.shelf-image-title11
+ {
+    display: inline;
+    font-size: 12px;
+    margin-left: 10px;
+    padding-top: 0.5em;
+    position: relative;
+    width: 126px;
+}
+
+ul.booklist div.shelf-image-title11 {
+    font-size: 11px;
+}
+
+
+ul.booklist div.shelf-image-subtitle {
+	position: relative;
+	padding-top: 0.5em;
+	font-size: 9px;
+}
+ul.booklist div.shelf-image-authors {
+	position: absolute;
+	font-size: 12px;
+	padding: 1em 0 1.5em 0;
+	bottom: 0;
+	left: 14px;
+	right: 6px;
+    width: 126px; /* versuch wg Author umbrechen */
+}
+ul.booklist div.shelf-image-authors.static {
+	position: static;
+}
+
+ul.booklist div.shelf-ie-no-text-shadow {
+	text-shadow: none;
+}
+ul.booklist div.shelf-ie-box-shadow {
+	position: absolute;
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='5',MakeShadow='true',ShadowOpacity='0.25');
+	background: black;
+}
+ul.booklist div.shelf-ie-text-shadow {
+	position: absolute;
+	left: -2px;
+	right: 2px;
+	top: -1px;
+	bottom: 1px;
+	z-index: -1;
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='2',MakeShadow='true',ShadowOpacity='0.25');
+}
+ul.booklist div.shelf-image-title > .shelf-ie-text-shadow {
+	padding-top: 0.5em;
+}
+ul.booklist div.shelf-image-subtitle > .shelf-ie-text-shadow {
+	padding-top: 0.5em;
+}
+ul.booklist div.shelf-image-authors > .shelf-ie-text-shadow {
+	padding: 1em 0 1.5em 0;
+}
+
+/*
+ul.booklist div.shelf-image-title
+{
+    width: 27px;
+}
+*/

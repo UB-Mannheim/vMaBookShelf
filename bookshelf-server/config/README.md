@@ -1,0 +1,249 @@
+config/booklist.ini
+----------------------
+
+
+
+[PATH]
+# csv files with book data
+# relative path
+cvs=csv
+
+# path for QR-Code files, the script will generate the QR-Code files
+# in these path. The path should be accessible via web browser
+#
+# absolute path
+qr_cache=/var/www/booklist/QRCache/
+# or Windows:
+# qr_cache=D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtual_bookshelf\QRCache\
+
+
+# html-path
+# absolut or relative path
+# path to the dir where the script have to create the html files
+html_path=../../html/
+
+
+
+
+[CSV]
+# file names without path
+# print => file with the book data for printed books
+# details see csv/print.readme.md
+print=sample_print.csv
+
+
+# file names without path
+# ebook => file with the book data for ebooks books
+# details see csv/ebook.readme.md
+ebook=sample_ebooks.csv
+
+
+
+[URL]
+# This URL points to a script that forwards to Primo
+# This workaround is necessary because the number of characters must be encoded in the QR code, it is in this way much lower.
+# This URL will be complemented by 'MAN_ALEPH001494969'. see [ALEPH_ID] vorspann
+qr_base=http://link.bib.uni-mannheim.de/ds/
+
+
+# This URL points to a php script that opens externam URLs, also Primo
+openExterneURL_base=http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
+
+
+# Local Opac, in Mannheim Primo
+# at the end of this url the script will add the opac id, in Mannheim the aleph id
+printMedien_base=http://primo.bib.uni-mannheim.de/primo_library/libweb/action/dlSearch.do?institution=MAN&vid=MAN_UB&search_scope=MAN_ALEPH&query=any,exact,
+
+
+
+[ALEPH_ID]
+# Every ID in the local opac beginn with ...
+# in Primo you can identify this string if you search for 'doc' within the link of 'Details'
+#
+# Kann ermittelt werden aus dem Link auf dem Reiter 'Details' und
+# innerhalb dessen der Parameter 'doc'
+# http://primo.bib.uni-mannheim.de/primo_library/libweb/action/display.do?ct=display&fn=search&doc=MAN_ALEPH001045794&indx=10&recIds=MAN_ALEPH001045794&recIdxs=9&elementId=0&renderMode=poppedOut&displayMode=full&fctN=facet_rtype&dscnt=1&rfnGrp=1&frbrVersion=2&fctV=books&scp.scps=scope%3A%28MAN_CIANDO%29%2Cscope%3A%28MAN_CUP%29%2Cscope%3A%28MAN_EBR%29%2Cscope%3A%28MAN_ALEPH%29%2Cscope%3A%28MAN%29%2Cscope%3A%28MAN_EB_TEST%29&tab=default_tab&dstmp=1401707388057&srt=rank&mode=Basic&gathStatTab=true&tb=t&fromLogin=true&rfnGrpCounter=1&vl(freeText0)=irland&vid=MAN_UB&vl(63144028UI0)=any&frbg=&vl(37987049UI1)=all_items&dum=true&http://primo.bib.uni-mannheim.de:80/primo_library/libweb/action/expand.do?dscnt=0&vl(1UIStartWith0)=contains&tabs=detailsTab&gathStatTab=true
+vorspann=MAN_ALEPH
+
+
+
+[INDEX]
+# file name of the index file.
+html=index.html
+
+
+# if you like to use a version for gesture control you can choose here a second index file
+html_gestensteuerung=index_g.html
+
+
+
+[STORE]
+# cache file if you didn't find a cover for this book
+# if a id is in this file the script will skip thes id if it has to check amazon
+# relative path with file name and perhaps extention
+kein_treffer_cache_file=DatenCache/keinTreffer.dat
+
+
+
+[REGAL]
+# shelf rows
+# attention: at the moment only 4 rows!!!!
+regal_reihen=4
+
+
+
+[NAVIGATION]
+# list of Subjects
+# in the direction in which they should be displayed in the html files
+# key is value in the csv file
+# value is text for the link in the html file
+# in print-csv-file: Fach
+# in ebook-csv-file: Fach
+27=Allg. u. vergl. Sprach- und Literaturwissenschaft
+01=Allgemeines
+28=Anglistik
+35=Geographie, Wirtschaftsgeographie
+15=Geowissenschaften
+29=Germanistik, Niederlandistik, Skandinavistik
+34=Geschichte
+12=Informatik
+31=Klassische Philologie
+24=Kunstwissenschaften
+11=Mathematik
+17=Medizin
+25=Medien- und Kommunikationswissenschaften
+10=Naturwissenschaften
+05=P&auml;dagogik
+02=Philosophie
+07=Politikwissenschaft
+03=Psychologie
+09=Rechtswissenschaften
+30=Romanistik
+32=Slawistik
+33=Sonstige Sprachen
+06=Soziologie, Statistik
+26=Sportwissenschaft
+18=Technik
+04=Theologie
+23=Umweltschutz, Landschaftsgestaltung
+08=Wirtschaftswissenschaften
+
+
+
+[CSS]
+# these variables are used to create a css file, like SASS or LESS do it
+# i didn't use these until now.
+# in template/booklist.css.tmpl you will find these variables
+# example: background-color: [% menu_active__background_color %];
+# the script will create a normal css file in css/booklist.css
+
+# Menu active background color
+menu_active__background_color=#ffffff
+
+# Menu active text color
+menu_active__color=#000000
+
+# Menu normal background color
+menu__background_color=#990000
+
+# Menu normal text color
+menu__color=#ffffff
+
+# Menu, color of the right border, used as separator between menu and bookshelf, default is #ffffff
+menu__border_right__color=#ffffff
+
+
+
+
+# Header background color
+header__background_color=#990000
+
+
+# shelf number, background color
+regalnummer__background_color=#585858
+
+# shelf number, text and border color
+regalnummer__color=#ffffff
+
+
+
+# shelf mark text color
+buchsignatur__color=#ffffff
+
+# color of the left border, used as separator between menu and fold in icon / fold out icon
+id_collapse_menu__border_left_color=#CABB94
+
+
+# shelf grafik left (used as background)
+regal_grafik_anfang__background=../images/bookshelf-bg-dunkler-geteilt-links-001.png
+
+# shelf grafik right (used as background)
+regal_grafik_abschluss__background=../images/bookshelf-bg-dunkler-geteilt-rechts-001.png
+
+# shelf grafik behinde each book (used as background)
+regal_grafik_mitte__background=../images/bookshelf-bg-dunkler-geteilt-mitte-001.png
+
+
+
+
+# if the script didn't find a cover (at amazon), the script will used a default image
+# (only color and color gradient). On top of this image the script will insert some informations
+# about the book.
+# the script will used random color, so each book looks a little be differnet
+# if the script will find a printed book and a ebook with the same title, ed. and year it will use
+# the same color for both books
+# only books without a cover from amazon get this captions!
+
+# the next tree variables are for the size of the information about the book
+# all sizes are in px
+
+# used this font size (px) for the book title
+ohne_cover_shelf_image_title__font_size=12
+
+# used this font size (px) for the book subtitle
+ohne_cover_shelf_image_subtitle__font_size=9
+
+# used this font size (px) for the authors
+ohne_cover_shelf_image_authors__font_size=12
+
+# Text color of title, subtitle and authors for books without amazon cover
+ohne_cover_shelf_image_substitute__color=#ffffff
+
+
+
+# height of header in px
+header_hoehe=95
+
+
+# Absolut Hight of the shelf in px
+# you find this value not direct in the css-file
+# value used to calculate other values
+GesamtRegalHoehe=980
+
+
+# width ob a QR image in px
+# we start with small qr codes, but then we realised not every smartphone can read this qr codes
+# so its a good idee to test the qr codes with different devices
+QRBreite=82
+
+# Value correlated with the width of a QR image
+# absolute width of a book
+# if QRBreite is 82px
+MediumGesamtBreite=241
+
+
+
+[GESTENSTEUERUNG]
+# this section is used for a second version of the html-files
+# if you will use gesture control
+
+# Create a second version of the html files with gesture control
+# yes or no
+# Options
+# turned on: ja / yes / j / y
+# turned off: nein / no / n
+erzeuge=ja
+
+# the gesture control software will send only one key if you wipe to left or right
+# with this parameter you can repeat X times this key
+tastendruckmultiplikator=20

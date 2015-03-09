@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="ebook.svg">
+  <defs
+     id="defs4">
+    <filter
+       id="filter4195"
+       inkscape:label="Cracked glass"
+       inkscape:menu="Textures"
+       inkscape:menu-tooltip="Under a cracked glass"
+       color-interpolation-filters="sRGB">
+      <feTurbulence
+         id="feTurbulence4197"
+         baseFrequency="0.1"
+         seed="50"
+         numOctaves="5"
+         result="result1"
+         type="fractalNoise" />
+      <feGaussianBlur
+         id="feGaussianBlur4199"
+         stdDeviation="4"
+         result="result7" />
+      <feDisplacementMap
+         id="feDisplacementMap4201"
+         in2="result7"
+         result="result5"
+         in="SourceGraphic"
+         scale="20"
+         xChannelSelector="G" />
+      <feComposite
+         id="feComposite4203"
+         in2="result1"
+         result="result2"
+         operator="in"
+         in="result5" />
+      <feGaussianBlur
+         id="feGaussianBlur4205"
+         stdDeviation="1"
+         result="result6" />
+      <feSpecularLighting
+         id="feSpecularLighting4207"
+         surfaceScale="-3"
+         result="result4"
+         specularConstant="3.5"
+         specularExponent="35"
+         in="result6">
+        <feDistantLight
+           id="feDistantLight4209"
+           elevation="45"
+           azimuth="225" />
+      </feSpecularLighting>
+      <feComposite
+         id="feComposite4211"
+         in2="result2"
+         k1="1.7"
+         k3="0.7"
+         in="result4"
+         operator="arithmetic"
+         result="result91" />
+      <feBlend
+         id="feBlend4213"
+         in2="result91"
+         result="fbSourceGraphic"
+         mode="multiply" />
+      <feComposite
+         id="feComposite4215"
+         in2="fbSourceGraphic"
+         in="fbSourceGraphic"
+         result="result2"
+         operator="arithmetic" />
+      <feComposite
+         id="feComposite4217"
+         in2="fbSourceGraphic"
+         in="result2"
+         result="result4"
+         operator="arithmetic"
+         k2="2"
+         k3="2" />
+      <feBlend
+         id="feBlend4219"
+         in2="result4"
+         mode="screen"
+         in="result4" />
+    </filter>
+    <filter
+       id="filter4221"
+       inkscape:label="Tinfoil"
+       inkscape:menu-tooltip="Metallic foil effect combining two lighting types and variable crumple"
+       inkscape:menu="Bumps"
+       height="1.4"
+       width="1.4"
+       x="-0.2"
+       y="-0.2"
+       color-interpolation-filters="sRGB">
+      <feGaussianBlur
+         id="feGaussianBlur4223"
+         in="SourceGraphic"
+         result="result14"
+         stdDeviation="0.5" />
+      <feFlood
+         id="feFlood4225"
+         in="result14"
+         flood-color="rgb(127,126,123)"
+         result="result15"
+         flood-opacity="1" />
+      <feTurbulence
+         id="feTurbulence4227"
+         type="fractalNoise"
+         seed="25"
+         baseFrequency="0.004 0.008"
+         numOctaves="1"
+         result="result5" />
+      <feDisplacementMap
+         id="feDisplacementMap4229"
+         in2="result14"
+         scale="100"
+         xChannelSelector="R"
+         in="result5"
+         result="result8"
+         yChannelSelector="B" />
+      <feGaussianBlur
+         id="feGaussianBlur4231"
+         stdDeviation="0.5"
+         result="result17" />
+      <feSpecularLighting
+         id="feSpecularLighting4233"
+         specularExponent="40"
+         specularConstant="1"
+         surfaceScale="12"
+         result="result2"
+         lighting-color="rgb(254,218,71)"
+         in="result17">
+        <feDistantLight
+           id="feDistantLight4235"
+           elevation="70"
+           azimuth="225" />
+      </feSpecularLighting>
+      <feDiffuseLighting
+         id="feDiffuseLighting4237"
+         diffuseConstant="0.5"
+         surfaceScale="50"
+         in="result17"
+         lighting-color="rgb(116,245,254)"
+         result="result18">
+        <feDistantLight
+           id="feDistantLight4239"
+           elevation="55"
+           azimuth="225" />
+      </feDiffuseLighting>
+      <feBlend
+         id="feBlend4241"
+         in2="SourceGraphic"
+         result="result9"
+         mode="screen" />
+      <feComposite
+         id="feComposite4243"
+         in2="result9"
+         k3="1"
+         k2="1"
+         in="result2"
+         result="result11"
+         operator="arithmetic" />
+      <feComposite
+         id="feComposite4245"
+         in2="SourceGraphic"
+         operator="in"
+         result="result16" />
+      <feBlend
+         id="feBlend4247"
+         in2="result16"
+         mode="multiply"
+         result="result19" />
+      <feDisplacementMap
+         id="feDisplacementMap4249"
+         in2="result5"
+         xChannelSelector="R"
+         scale="0" />
+    </filter>
+    <filter
+       id="filter4251"
+       style="color-interpolation-filters:sRGB;"
+       inkscape:label="Drop Shadow">
+      <feFlood
+         id="feFlood4253"
+         flood-opacity="0.5"
+         flood-color="rgb(0,0,0)"
+         result="flood" />
+      <feComposite
+         id="feComposite4255"
+         in2="SourceGraphic"
+         in="flood"
+         operator="in"
+         result="composite1" />
+      <feGaussianBlur
+         id="feGaussianBlur4257"
+         in="composite"
+         stdDeviation="2"
+         result="blur" />
+      <feOffset
+         id="feOffset4259"
+         dx="4"
+         dy="4"
+         result="offset" />
+      <feComposite
+         id="feComposite4261"
+         in2="offset"
+         in="SourceGraphic"
+         operator="over"
+         result="composite2" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="73.726133"
+     inkscape:cy="974.9921"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3861"
+     showgrid="false"
+     inkscape:window-width="1547"
+     inkscape:window-height="812"
+     inkscape:window-x="25"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     showguides="true"
+     inkscape:guide-bbox="true">
+    <sodipodi:guide
+       orientation="0,1"
+       position="188.39345,889.94439"
+       id="guide3783" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:none">
+    <path
+       sodipodi:type="arc"
+       style="fill:#993333;fill-opacity:1;stroke:#000000;stroke-width:1.26300001;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path2987"
+       sodipodi:cx="165.71428"
+       sodipodi:cy="340.93362"
+       sodipodi:rx="85.714287"
+       sodipodi:ry="91.428574"
+       d="m 251.42857,340.93362 a 85.714287,91.428574 0 1 1 -171.428578,0 85.714287,91.428574 0 1 1 171.428578,0 z"
+       transform="translate(-73.974612,-244.65684)"
+       inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\ebook3.png"
+       inkscape:export-xdpi="15.635179"
+       inkscape:export-ydpi="15.635179" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="Kreis2"
+     style="display:none">
+    <path
+       sodipodi:type="arc"
+       style="fill:#993333;fill-opacity:1;stroke:none"
+       id="path3781"
+       sodipodi:cx="74.246208"
+       sodipodi:cy="57.361931"
+       sodipodi:rx="37.375645"
+       sodipodi:ry="37.375645"
+       d="m 111.62185,57.361931 a 37.375645,37.375645 0 1 1 -74.751286,0 37.375645,37.375645 0 1 1 74.751286,0 z"
+       transform="matrix(2.3339293,0,0,2.4014969,-81.545734,-41.477715)"
+       inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\ebook3.png"
+       inkscape:export-xdpi="9.8014364"
+       inkscape:export-ydpi="9.8014364" />
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="Kreis2 unscharf"
+     id="g3861"
+     inkscape:groupmode="layer">
+    <path
+       inkscape:export-ydpi="9.7170696"
+       inkscape:export-xdpi="9.7170696"
+       inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\ebook4.png"
+       transform="matrix(2.3339293,0,0,2.4014969,-81.545734,-41.477715)"
+       d="m 111.62185,57.361931 a 37.375645,37.375645 0 1 1 -74.751286,0 37.375645,37.375645 0 1 1 74.751286,0 z"
+       sodipodi:ry="37.375645"
+       sodipodi:rx="37.375645"
+       sodipodi:cy="57.361931"
+       sodipodi:cx="74.246208"
+       id="path3863"
+       style="fill:#993333;fill-opacity:1;stroke:none;opacity:1;filter:url(#filter4251)"
+       sodipodi:type="arc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Buchstabe"
+     style="display:none">
+    <text
+       xml:space="preserve"
+       style="font-size:209.82929993px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+       x="26.490885"
+       y="159.14371"
+       id="text2990"
+       sodipodi:linespacing="125%"
+       transform="scale(1.0879021,0.91920035)"
+       inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\ebook.png"
+       inkscape:export-xdpi="87"
+       inkscape:export-ydpi="87"><tspan
+         sodipodi:role="line"
+         id="tspan2992"
+         x="26.490885"
+         y="159.14371">e</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Buchstabe2"
+     style="display:none">
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3763"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion3765"><rect
+           id="rect3767"
+           width="131.42857"
+           height="65.714287"
+           x="292.85715"
+           y="83.790756" /></flowRegion><flowPara
+         id="flowPara3769" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:274.92922974px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+       x="13.951871"
+       y="172.29839"
+       id="text3771"
+       sodipodi:linespacing="125%"
+       transform="scale(1.1259081,0.88817195)"
+       inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\ebook2.png"
+       inkscape:export-xdpi="87"
+       inkscape:export-ydpi="87"><tspan
+         sodipodi:role="line"
+         id="tspan3773"
+         x="13.951871"
+         y="172.29839"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Agfa Rotis Semi Serif;-inkscape-font-specification:Agfa Rotis Semi Serif">e</tspan></text>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="Buchstabe3"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       style="font-size:229.97419739px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="24.575819"
+       y="149.74689"
+       id="text3002"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\ebook4.png"
+       inkscape:export-xdpi="9.7170696"
+       inkscape:export-ydpi="9.7170696"><tspan
+         sodipodi:role="line"
+         id="tspan3004"
+         x="24.575819"
+         y="149.74689"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Consolas;-inkscape-font-specification:Consolas">e</tspan></text>
+  </g>
+</svg>

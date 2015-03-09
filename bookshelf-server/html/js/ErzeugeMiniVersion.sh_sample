@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#::=============================================================================
+#::Function: Merge the steps for generating the reduced versions
+#:: UB Mannheim
+#::  Status: 2014-03-14, 14:05:25
+#::   Autor: Bernd Fallert, UB Mannheim
+#::=============================================================================
+#:: History:
+#:: 2014-03-14, 14:05:18
+#::  new css/font-awesome/css/font-awesome.css
+#::=============================================================================
+
+#:: Doku for YUI compressor http://yui.github.io/yuicompressor/
+
+
+#::-----------------------------------------------
+#:: Hier den Pfad zur Java-Installation eintragen
+#:: Enter the path to the Java installation here
+#::-----------------------------------------------
+javaprog=java
+
+
+
+#::---------------------------------------------------------
+#:: Hier den Pfad zum YUICompressor eintragen
+#:: Enter the path to the YUICompressor installation here
+#::---------------------------------------------------------
+yuicomp=/usr/bin/vMaBookShelf/yuicompressor/build/yuicompressor-2.4.8.jar
+
+[ -f jquery.lazyload.js ] &&  $javaprog -jar $yuicomp --charset utf-8  -o jquery.lazyload.min.js jquery.lazyload.js
+[ -f ../css/booklist_erz.css ] && $javaprog -jar $yuicomp --charset utf-8  -o ../css/booklist_erz.min.css ../css/booklist_erz.css
+[ -f ../css/substitute.css ]  && $javaprog -jar $yuicomp --charset utf-8  -o ../css/substitute.min.css ../css/substitute.css
+[ -f ../css/gesten.css ] && $javaprog -jar $yuicomp --charset utf-8  -o ../css/gesten.min.css ../css/gesten.css
+[ -f ../css/externeurls.css ] && $javaprog -jar $yuicomp --charset utf-8  -o ../css/externeurls.min.css ../css/externeurls.css
+
+[ -f ../css/font-awesome/css/font-awesome.css ] && $javaprog -jar $yuicomp --charset utf-8  -o ../css/font-awesome/css/font-awesome.min.css ../css/font-awesome/css/font-awesome.css
+

@@ -1,0 +1,118 @@
+/**
+ * externeurls.css
+ *
+ * @creator     Bernd Fallert, UB Mannheim
+ * @file        externe.css
+ * Stand:       02.03.2015, 09:06:47 
+ * Version für Add-On
+ *
+ */
+
+html, body, form
+{
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#unten,
+#oben,
+#mitte {
+    position: fixed;
+}
+
+#unten {
+    bottom: 29px;
+}
+
+#oben {
+    top: 29px;
+}
+
+
+#mitte {
+    right: 19px;
+    top: 50%;
+}
+
+
+
+#oben,
+#unten {
+    color: #FFFFFF;
+    font-size: 33px;
+    padding: 4px;
+    position: fixed;
+    right: 36px;
+}
+
+
+/* Version links */
+.schliessbutton_neu_links {
+    background-color: #990000;
+    border: 1px solid #2E2E2E;
+    border-radius: 5px;
+    box-shadow: 6px 5px 6px #000000;
+    color: #ffffff;
+    float: left;
+    font-family: Arial,verdana;
+    height: 96.8%;
+    margin: 10px 21px 20px 3px;
+    padding-right: 3px;
+    text-align: center;
+    width: 73px;
+
+    margin-left: 8px;
+    margin-right: 21px;
+}
+
+.schliessbutton_neu_links #oben,
+.schliessbutton_neu_links #unten
+{
+    left: 27px;
+    background-repeat: no-repeat;
+    background-size: 50px;
+    height: 23px;
+}
+
+#oben,
+#unten
+{
+    left: 27px;
+    background-repeat: no-repeat;
+    background-size: 50px;
+    height: 23px;
+}
+
+.schliessbutton_neu_links #mitte {
+    left: 12px;
+    top: 50%;
+    width: auto;
+    right: inherit;
+}
+
+
+/* wenn Adroid-Zurueck-Button */
+.schliessbutton_neu_links #oben,
+.schliessbutton_neu_links #unten {
+    background-color: #990000;
+    border: 0 none;
+    left: 18px;
+    width: 33px;
+}
+
+
+.UBMaSchliess {
+    bottom: 0;
+    float: left;
+    height: 100%;
+    position: fixed;
+    width: 110px;
+    border: 1px solid lightgreen;
+}
+
+#ft_ma_original {
+    height: 100%;
+    width: 110px;
+    border: 1px solid green;
+}

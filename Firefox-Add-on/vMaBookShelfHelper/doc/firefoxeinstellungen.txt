@@ -1,0 +1,14 @@
+about:config
+
+browser.link.open_newwindow.disabled_in_fullscreen	vom Benutzer festlegen in true
+
+dann klappt der Windows Fullscreenmodus
+
+
+browser.triple_click_selects_paragraph;false
+extensions.shownSelectionUI;false
+
+
+
+Installieren der Erweiterung MenuEditor und dann Kontextmenu Hauptfenster Sichtbar Haken entfernen
+Kontextmenü Tabs sichtbar Haken entfernen

@@ -1,0 +1,482 @@
+<html>
+<head>
+[%- USE date %]
+[%- mit_title = "" %]
+[%- mit_alt = "" %]
+[%- fehlersuche = "" %]
+[%- rollfaktor = "70" %]
+[%- rollfaktorMinus = "-70" %]
+[%- aktstand = date.format(mytime, format => '%Y%m%d_%H%M') %]
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+[%-# ----------------------------------------------------------------------------------- %]
+[%- # Einbinden von CSS-Dateien                                                          %]
+[%-# ----------------------------------------------------------------------------------- %]
+    <link type="text/css" rel="stylesheet" href="css/booklist_erz.css?Stand=[% aktstand %]">
+    [%- IF gesten %]
+    <link type="text/css" rel="stylesheet" href="css/gesten.css?Stand=[% aktstand %]">
+    [%- END # IF gesten %]
+    [%- #<link type="text/css" rel="stylesheet" href="css/booklist.min.css?Stand={% aktstand %}"> %]
+
+    [%- # Einbinden der CSS-Datei fuer die Bildschirmschrift font-awesome %]
+    <link type="text/css" rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css?Stand=[% aktstand %]">
+
+
+[%-# ----------------------------------------------------------------------------------- %]
+[%-# Einbinden von Javascript-Dateien                                                    %]
+[%-# ----------------------------------------------------------------------------------- %]
+    <script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+[%- # lazyload fuer Nachladen von gekennzeichneten Elementen sobald sie in den sichtbaren Bereich kommen %]
+    <script src="js/jquery.lazyload.min.js" type="text/javascript"></script>
+[%- # Debug-Version von lazyload fuer Nachladen von gekennzeichneten Elementen sobald sie in den sichtbaren Bereich kommen %]
+[%- #<script src="js/jquery.lazyload.js" type="text/javascript"></script> %]
+
+    <script type="text/javascript">
+        var lFixed = false;
+[%- IF gesten %]
+        var nFtIndex = 0;
+        var rollinterval;
+[%- END # IF gesten %]
+        $( document ).ready( function() {
+            var lFixed = false;
+            //console.log( "test" );
+            $("img.lazy0").lazyload();
+            $("img.lazy1").lazyload();
+            $("img.lazy2").lazyload();
+            $("img.lazy3").lazyload();
+            $("img.lazy4").lazyload();
+
+            //--------------------------------------------------
+            // Navigation ein und ausklappen
+            // Alles wird ueber die body class folded geregelt
+            //--------------------------------------------------
+            // hier: normale Navigation-Icon Menue einklappen
+            //--------------------------------------------------
+            $("#collapse-menu").bind("touchstart click",function(){
+                if ($("body").hasClass("folded")) {
+                    if ($("body").hasClass("fixed")) {
+                        $("body").removeClass("folded").addClass("unfolded");
+                    } else {
+                        $("body").removeClass("folded");
+                    }
+                } else if ($("body").hasClass("unfolded")) {
+                    if ($("body").hasClass("fixed")) {
+                        $("body").removeClass("unfolded");
+                    } else {
+                        $("body").removeClass("unfolded").addClass("folded");
+                    }
+
+                } else {
+                    if ($("body").hasClass("fixed")) {
+                        $("body").addClass("unfolded");
+                    } else {
+                        $("body").addClass("folded");
+                    }
+                }
+            });
+            //--------------------------------------------------
+            // Navigation ein und ausklappen Ende
+            //--------------------------------------------------
+
+            //--------------------------------------------------
+            // Menuepunkte mit Funktion belegen
+            //--------------------------------------------------
+            $("#top-navi-to-bottom").bind("touchstart click",function(){
+                if ($("body").hasClass("top-navi-to-bottom")) {
+                    $("body").removeClass("top-navi-to-bottom");
+                } else {
+                    $("body").addClass("top-navi-to-bottom");
+                };
+            });
+            $("#top-navi-to-top").bind("touchstart click",function(){
+                if ($("body").hasClass("top-navi-to-bottom")) {
+                    $("body").removeClass("top-navi-to-bottom");
+                } else {
+                    $("body").addClass("top-navi-to-bottom");
+                };
+            });
+            //--------------------------------------------------
+            // Menuepunkte mit Funktion belegen
+            //--------------------------------------------------
+
+[%- IF gesten %]
+            //------------------------------------------------------
+            // Pfeiltasten belegen mit rollen nach rechts und links
+            // wird fuer die Gestensteuerung benoetigt
+[%-#        // http://florianherlings.de/artikel/tastendruck_mit_javascript_abfangen %]
+[%-#        // http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes %]
+            //------------------------------------------------------
+            document.onkeydown = function(event) {
+                // Pfeiltaste nach Rechts
+                if (event.keyCode == 39) {
+                    event.cancelBubble = true;
+                    event.returnValue = false;
+                    [%- # Pfeiltasten wirken nur wenn nicht gerade schon ein  %]
+                    [%- # Seitenrollen aktiv ist, sonst Endlosrollen moeglich %]
+                    if (nFtIndex == 0) {
+                        pageScrollRight();
+                    }
+                // Pfeiltaste nach Links
+                } else if (event.keyCode == 37) {
+                    event.cancelBubble = true;
+                    event.returnValue = false;
+                    [%- # Pfeiltasten wirken nur wenn nicht gerade schon ein  %]
+                    [%- # Seitenrollen aktiv ist, sonst Endlosrollen moeglich %]
+                    if (nFtIndex == 0) {
+                        pageScrollLeft();
+                    }
+                }
+                return event.returnValue;
+            }
+[%- END # IF gesten %]
+
+        });
+
+        //--------------------------------------------------
+        // Lazy-Load initialisieren
+        //--------------------------------------------------
+        $("img.lazy0").lazyload({
+            event : "click",
+            failure_limit : 40
+        });
+        $("img.lazy1").lazyload({
+            event : "click",
+            failure_limit : 40
+        });
+        $("img.lazy2").lazyload({
+            event : "click",
+            failure_limit : 40
+        });
+        $("img.lazy3").lazyload({
+            event : "click",
+            failure_limit : 40
+        });
+        $("img.lazy4").lazyload({
+            event : "click",
+            failure_limit : 40
+        });
+        //--------------------------------------------------
+        // Lazy-Load initialisieren Ende
+        //--------------------------------------------------
+
+        [%- #============================  %]
+        [%- #     Scroll-Ereignis          %]
+        [%  #============================  %]
+        $(window).on("scroll", function(e) {
+
+            var nGrenzeBerechnet = $('body').scrollLeft();
+                [%- IF fehlersuche %]console.log( "nGrenzeBerechnet: " + nGrenzeBerechnet );[%- END # fehlersuche %]
+            if (!lFixed) {
+                if ($("body").hasClass("folded")) {
+                    [%- IF fehlersuche %] console.log(nGrenzeBerechnet);[%- END # fehlersuche %]
+                    [%- IF fehlersuche %] console.log( '130' );[%- END # fehlersuche %]
+                    if (nGrenzeBerechnet > 2) {
+                        [%- IF fehlersuche %] console.log( "folded   nGrenzeBerechnet > 2");[%- END # fehlersuche %]
+                        $("body").addClass("fixed");
+                        lFixed  = true;
+                        [%- IF fehlersuche %] console.log( '135' );[%- END # fehlersuche %]
+                    }
+                } else if (nGrenzeBerechnet > 2 && nGrenzeBerechnet < 216) {
+                    $("body").addClass("fixed");
+                    lFixed  = true;
+                } else if (nGrenzeBerechnet > 215) {
+                    [%- IF fehlersuche %] console.log( "!folded    nGrenzeBerechnet > 215");[%- END # fehlersuche %]
+                    $("body").addClass("fixed");
+                    [%- IF fehlersuche %] //$("body").addClass("fixed-bottom-menu");[%- END # fehlersuche %]
+                    lFixed  = true;
+                    [%- IF fehlersuche %] console.log( "Zeile: " + '142' );[%- END # fehlersuche %]
+                }
+                [%- IF fehlersuche %] //console.log( nGrenzeBerechnet);[%- END # fehlersuche %]
+            } else {
+                if ($("body").hasClass("folded")) {
+                    [%- IF fehlersuche %] //console.log( '207' );[%- END # fehlersuche %]
+                    if (nGrenzeBerechnet <= 2) {
+                        [%- IF fehlersuche %] //console.log( "Grenzbedingung erreicht");[%- END # fehlersuche %]
+                        $("body").removeClass("fixed");
+                        lFixed  = false;
+                        [%- IF fehlersuche %] //console.log( '212' );[%- END # fehlersuche %]
+                    }
+                } else if (nGrenzeBerechnet <= 2) {
+                    $("body").removeClass("fixed");
+                    lFixed  = false;
+                } else if (nGrenzeBerechnet <= 215) {
+                } else if (nGrenzeBerechnet <= 215) {
+                    [%- IF fehlersuche %] //console.log( "Grenzbedingung erreicht");[%- END # fehlersuche %]
+                    $("body").removeClass("fixed");
+                    [%- IF fehlersuche %] //$("body").removeClass("fixed-bottom-menu");[%- END # fehlersuche %]
+                    lFixed  = false;
+                    [%- IF fehlersuche %] //console.log( '219' );[%- END # fehlersuche %]
+                }
+                [%- IF fehlersuche %] //console.log( nGrenzeBerechnet);[%- END # fehlersuche %]
+            }
+        });
+
+        //---------------------------------------
+        //
+        //---------------------------------------
+        function openExterneURL(url) {
+            var baseurl = '[% openExterneURL_base %]';
+            var gesamturl = baseurl + url;
+            var width=1024;
+            var height=660;
+            var newWin = window.open( gesamturl,"subWin",
+                                      "directories=no," +
+                                      "dependent=yes," +
+                                      "dialog=off," +
+                                      "fullscreen=yes," +
+                                      "height=" + screen.height + "," +
+                                      "width=" + screen.width + "," +
+                                      "left=0," +
+                                      "location=no," +
+                                      "menubar=no," +
+                                      "personalbar=no," +
+                                      "resizable=no," +
+                                      "scrollbars=yes," +
+                                      "status=no," +
+                                      "titlebar=no," +
+                                      "toolbar=no," +
+                                      "alwaysRaised=yes," +
+                                      "top=0");
+            newWin.moveTo(0,0);
+            newWin.focus();
+        };
+
+        function loadURL(url) {
+            $("#loadContainer").show();
+            window.location = '' + url;
+        };
+
+[%- IF gesten %]
+        //----------------------------------------------------------------------
+        // Funktionen fuer Bildschirmrollen wg. Gestensteuerung
+        //----------------------------------------------------------------------
+        function pageScrollRight() {
+            nFtIndex = 0;
+            console.log( "pageScrollRight: " + " pageXOffset: " + window.pageXOffset + " " + nFtIndex);
+
+            // Um Doppelaufrufe durch mehrfaches Druecken der Pfeiltasten abzubrechen
+            if (typeof(rollinterval) != "undefined") {
+                clearInterval(rollinterval);
+            }
+
+            rollinterval = setInterval(GestenScrollRight, 1 );
+        }
+        function GestenScrollRight() {
+
+            window.scrollBy([% rollfaktor %],0);
+            nFtIndex++;
+            [%- IF fehlersuche %]console.log( "GestenScrollRight: " + " pageXOffset: " + window.pageXOffset + " " + nFtIndex);[% END # IF fehlersuche %]
+            if (nFtIndex > [% tastendruckmultiplikator %]) {
+                nFtIndex = 0;
+                clearInterval(rollinterval);
+                console.log( "GestenScrollRight: nFtIndex war groesser [% tastendruckmultiplikator %], jetzt zurueckgesetzt");
+            };
+        }
+
+
+
+        function pageScrollLeft() {
+            nFtIndex = 0;
+            [%- IF fehlersuche %]console.log( "pageScrollLeft: " + " pageXOffset: " + window.pageXOffset + " " + nFtIndex);[% END # IF fehlersuche %]
+
+            // Um Doppelaufrufe durch mehrfaches Druecken der Pfeiltasten abzubrechen
+            if (typeof(rollinterval) != "undefined") {
+                clearInterval(rollinterval);
+            }
+
+            rollinterval = setInterval(GestenScrollLeft, 1 );
+        }
+        function GestenScrollLeft() {
+            window.scrollBy([% rollfaktorMinus %],0);
+            nFtIndex++;
+            console.log( "GestenScrollLeft: " + " pageXOffset: " + window.pageXOffset + " " + nFtIndex);
+            if (nFtIndex > [% tastendruckmultiplikator %]) {
+                nFtIndex = 0;
+                clearInterval(rollinterval);
+                console.log( "GestenScrollLeft: nFtIndex war groesser [% tastendruckmultiplikator %], jetzt zurueckgesetzt");
+            };
+        }
+[%- END # IF gesten %]
+    </script>
+
+[%-# ----------------------------------------------------------------------------------- %]
+[%- # CSS-Infos die fuer jede Datei individuell sind                                     %]
+[%-# ----------------------------------------------------------------------------------- %]
+<style>
+ul.booklist,
+#header {
+    width: [% Breite %]px;
+}
+</style>
+[%-# ----------------------------------------------------------------------------------- %]
+[%- # CSS-Infos die fuer jede Datei individuell sind                                     %]
+[%-# ----------------------------------------------------------------------------------- %]
+</head>
+<body id="[% bodyid %]" ondragstart="return false;" ondrop="return false;">
+
+[%- # Bereich Oben in separate Datei auslagern: Ist spezifisch fuer jeden Anwender %]
+[% INCLUDE buecherregal_header.tmpl %]
+[%- # ENDE Bereich Oben in separate Datei auslagern: Ist spezifisch fuer jeden Anwender %]
+
+<div id="abstand"></div>
+
+<div id="navirahmen">
+    [%- # Eingeblendete Navi, kann ausgeblendet werden %]
+    <div class="navi">
+        <ul>
+            <li id="index"><a href="javascript:loadURL('[% index %]')">Index</a></li>
+    [%- FOREACH Navigation IN NavigationsObjekte %]
+            <li id="fach[%- Navigation.fach %]" class="fachnavi" data-id="[% Navigation.fach %]"><a href="javascript:loadURL('[% Navigation.fach %][% IF gesten %]g[% END # IF gesten %].html')">[%- Navigation.title %]</a></li>
+    [%- END # FOREACH Navigation IN NavigationsObjekte %]
+        </ul>
+    </div>
+
+    [%- # Wo soll die Hauptnavigation angezeigt werden Navigation am unteren Rand %]
+    <div class="wo-mainnavi-menu" title="Men&uuml; Position verschieben und Regalreihenfolge &auml;ndern">
+        <ul>
+            [%- #<li id="top-navi-to-bottom">Navigation unten</li> %]
+            <li id="top-navi-to-bottom"><i class="fa fa-sort fa-fw fa-border"></i>[% IF gesten %]Regalreihenfolge[% ELSE # IF gesten %]Navigation & Regalreihenfolge[% END # IF gesten %]</li>
+            [%- #<li id="top-navi-to-top">Navigation oben</li> %]
+            <li id="top-navi-to-top"><i class="fa fa-sort fa-fw fa-border"></i>[% IF gesten %]Regalreihenfolge[% ELSE # IF gesten %]Navigation & Regalreihenfolge[% END # IF gesten %]</li>
+        </ul>
+    </div>
+
+    [%- # Zusatzspalte am rechten Rand der Navigation fuer ein / ausklappen %]
+    <div id="collapse-menu">
+        <div class="menue_einklappen_abstand">
+            <i class="fa fa-2x fa-caret-left"></i>
+        </div>
+        <div class="menue_ausklappen_abstand">
+            <i class="fa fa-2x fa-caret-right"></i>
+        </div>
+    </div>
+</div>
+
+<!--
+Welche Werte gelten fuer diese HTML-Datei:
+Anzahl Medien: [%- AnzahlMedien %];
+Anzahl Reihen: [%- AnzahlReihen %];
+Anzahl je Reihe: [%- AnzahlJeReihe %];
+myhash.keys: [%- myhash.keys %];
+myarray: [% DurchlaufObjekte.0.nr %];
+-->
+
+
+[%- #------------------------------------------------------ %]
+[%- # Einige Werte lokal fuer diesen Durchlauf definieren    %]
+[%- # nAktDurchlauf: wird benutzt um die Regalreihen zu     %]
+[%- #       unterscheiden, z.B. fuer die Beschriftung       %]
+[%- #------------------------------------------------------ %]
+[% nAktDurchlauf = 0 %]
+[% nBuchInRegal = 0 %]
+[% nBisBuchInRegal = 9 %]
+[% AktGrenzWert = DurchlaufObjekte.0.nr %]
+
+[%- #----------------------------------------------- %]
+<ul class="booklist regal_[% nAktDurchlauf %]">
+    <li class="anfang"><span class="regalnummer">[%- nAktDurchlauf + 1 %]</span></li>
+
+[%- FOREACH Buch IN BuchObjekte %]
+    [%- nAktIndex = loop.index %]
+    [% nBuchInRegal = nBuchInRegal + 1 %]
+    [%- #-------------------------------------------------- %]
+    [%- # Ermitteln der Umbruchgrenzwerte                   %]
+    [%- #-------------------------------------------------- %]
+    [%- nDurchlaufNr = 0 %]
+    [%- FOREACH durchlauf IN DurchlaufObjekte %]
+    [%- # <!-- nDurchlaufNr: nDurchlaufNr  --> %]
+        [%- SWITCH nAktDurchlauf %]
+            [%-   CASE nDurchlaufNr %]
+                [%- AktGrenzWert = durchlauf.nr  %]
+        [%- END %]
+        [%- nDurchlaufNr = nDurchlaufNr + 1 %]
+    [%- END %]
+    [%- # <!-- AktGrenzWert: AktGrenzWert  --> %]
+[%- #----------------------------------------------- %]
+[%- SWITCH nAktIndex %]
+    [%- #----------------------------------------------- %]
+    [%-   CASE AktGrenzWert  %]
+    [%- #----------------------------------------------- %]
+
+    <li class="abschluss"></li>
+</ul>
+<ul class="booklist regal_[% nAktDurchlauf + 1%]">
+[%- nBuchInRegal = 1 %]
+    <li class="anfang"><span class="regalnummer">[%- nAktDurchlauf + 2 %]</span></li>
+    <li id="[% nAktIndex %] NEUEZEILE">
+            [%- nAktDurchlauf = nAktDurchlauf + 1 %]
+[%- #----------------------------------------------- %]
+[%-   CASE %]
+[% #----------------------------------------------- %]
+    <li id="[% nAktIndex %]">
+[%-#----------------------------------------------- %]
+[%- END %]
+[%-#----------------------------------------------- %]
+    [%- IF Buch.amazon %]
+        <div class="cover">
+    [%- ELSE # if Buch.amazon%]
+        <div>
+    [%- END # if Buch.amazon%]
+    [%- IF Buch.dummy %]
+    [%- ELSE # Buch.dummy %]
+            [%- IF Buch.ebook %]
+                [%- # bei ebooks auf die URL verlinken, jetzt aber ueber neues Fenster wg Schliessen-Button %]
+            <a href="javascript:openExterneURL('[% Buch.URL | uri %]')"[% IF mit_title %][% ELSE # IF mit_title %]>[% END # IF mit_title %]
+            [%- ELSE # IF Buch.ebook %]
+                [%- # bei print-Medien auf Primo verlinken, jetzt aber ueber neues Fenster wg Schliessen-Button %]
+            <a href="javascript:openExterneURL('[% printMedien_base %][% Buch.alephid %]')" [% IF mit_title %][% ELSE # IF mit_title %]>[% END # IF mit_title %]
+                [%- # target="_blank" %]
+            [%- END # IF Buch.ebook %]
+[%- IF mit_title %]                title="[% IF Buch.jahr != 0 %][% Buch.jahr %]: [% END # IF Buch.jahr != 0 %][% IF Buch.authors %][% Buch.authors %]: [% END # Buch.authors %][% Buch.title %][% IF Buch.subtitle %] : [% Buch.subtitle %][% END # Buch.subtitle %][% IF Buch.fach %] (Fach: [% Buch.fach %])[% END # Buch.fach %]" >[% END # mit_title %]
+            [%- IF Buch.amazon %]
+                [%- IF nBuchInRegal >= nBisBuchInRegal %]
+                    [%- # auf Folge-Seiten Bilder spaeter laden %]
+                <img class="lazy[% nAktDurchlauf %] img_buchcover" data-original="[% IF Buch.lThumbnail %][% Buch.thumbnailgrafik_web %]?[% Buch.thumbnailtime %][% ELSE # IF Buch.lThumbnail %][% Buch.grafikname_web %]?[% Buch.grafiktime %][% END # IF Buch.lThumbnail %]" [% IF mit_alt %] alt="[% Buch.title %][% IF Buch.subtitle %] : [% Buch.subtitle %][% END # Buch.subtitle %]"[% END # IF mit_alt %]>
+                <img class="lazy[% nAktDurchlauf %] img_qr" data-original="QRCache/[% Buch.qrcode %]" [% IF mit_title %] title="[% Buch.qrcode %]" [% END # IF mit_title %] [% IF mit_alt %] alt="[% Buch.qrcode %]" [% END # IF mit_alt %]>
+                [%- ELSE # IF nBuchInRegal >= nBisBuchInRegal %]
+                    [%- # ======================================================================================== %]
+                    [%- # auf erster Seite Bilder sofort laden  class lazy nAktDurchlauf  entfernt                 %]
+                    [%- # und data-original durch src ersetzt                                                      %]
+                    [%- # ======================================================================================== %]
+                <img class="img_buchcover" src="[% IF Buch.lThumbnail %][% Buch.thumbnailgrafik_web %]?[% Buch.thumbnailtime %][% ELSE # IF Buch.lThumbnail %][% Buch.grafikname_web %]?[% Buch.grafiktime %][% END # IF Buch.lThumbnail %]" [% IF mit_alt %] alt="[% Buch.title %][% IF Buch.subtitle %] : [% Buch.subtitle %][% END # Buch.subtitle %]" [% END # IF mit_alt %]>
+                <img class="img_qr" src="QRCache/[% Buch.qrcode %]" [% IF mit_title %] title="[% Buch.qrcode %]" [% END # IF mit_title %]  [% IF mit_alt %] alt="[% Buch.qrcode %]" [% END # IF mit_alt %]>
+                [%- END # IF nBuchInRegal >= nBisBuchInRegal %]
+            [%- ELSE # if Buch.amazon%]
+                <div class="shelf-image-container">
+                    <div style="background-color: rgb([% Buch.color %]); box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.3);" class="shelf-image-substitute">
+                        <div class="shelf-image-bg" style="background-image: url('images/book200.png');"></div>
+                        <div class="shelf-image-title" style="top: 27px;">[% Buch.titleHTML  %]</div><br>
+                        <div class="shelf-image-subtitle" style="top: 27px;">[% Buch.subtitle %]</div><br>
+                        <div class="shelf-image-authors">[% Buch.authors %][% IF Buch.jahr != 0 %]<div class="shelf-image-jahr">[% Buch.jahr %]</div>[% END # IF Buch.jahr != 0 %]</div>
+                    </div>
+                    <div class="qrcode">
+                        <img class="lazy[% nAktDurchlauf %] img_qr" data-original="QRCache/[% Buch.qrcode %]" [% IF mit_title %] title="[% Buch.qrcode %]"[% END # IF mit_title %]  [% IF mit_alt %] alt="[% Buch.qrcode %]" [% END # IF mit_alt %]>
+                    </div>
+                </div>
+            [%- END # if Buch.amazon%]</a>
+    [%- END # if Buch.dummy%]
+        </div>
+        [%- IF Buch.signatur %]
+        <div class="buchsignatur">[% Buch.signatur %]</div>
+        [%- ELSE # IF Buch.signatur %]
+            [%- IF Buch.ebook %]
+        <div class="sigposEbook">
+            <img class="lazy[% nAktDurchlauf %] ebookicon" data-original="images/ebook_green.png" [% IF mit_title %] title="ebook" [% END # IF mit_title %] [% IF mit_alt %] alt="ebook" [% END # IF mit_alt %] width="26px" height="27px">
+            [%- # Buch.sortsignatur #nur fuer Debugzwecke anzeigen%]
+        </div>
+            [%- END # if Buch.ebook %]
+        [%- END # IF Buch.signatur %]
+    </li>
+[%- END %]
+
+<li class="abschluss"></li>
+
+</ul>
+
+<div id="loadContainer">
+    <div id="load" style=""></div>
+    <div id="loadZeige"><img src="images/loader_gr.gif"></div>
+</div>
+</body>
+</html>

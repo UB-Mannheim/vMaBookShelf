@@ -1,0 +1,11 @@
+<?php
+    $urlbase = 'http://primo.bib.uni-mannheim.de/primo_library/libweb/action/' .
+                'dlSearch.do?' .
+                'institution=MAN&vid=MAN_UB&search_scope=MAN_ALEPH' .
+                '&query=any,exact,';
+
+    //----------------------------------
+    // Path for statistik csv files
+    //----------------------------------
+    $myFilePath         = "/var/www/ds/";
+?>
