@@ -4,19 +4,34 @@
 
 ### After download:
 
-- Rename config/booklist.ini_tmpl to config/booklist.ini
-  and adapt the configuration to your needs. See config/readme.md for details.
-- Rename template/buecherregal_header.tmpl_sample to
-         template/buecherregal_header.tmpl
+- Rename bookshelf-server/config/booklist.ini_tmpl to bookshelf-server/config/booklist.ini
+  and adapt the configuration to your needs. See bookshelf-server/config/readme.md for details.
+- Rename bookshelf-server/template/buecherregal_header.tmpl_sample to
+         bookshelf-server/template/buecherregal_header.tmpl
   and adapt the example to your normal webpage header
-- Rename proxy/ds/config.php_tmpl to
-         externer_server/ds/config.php
+- Rename proxy-server/ds/config.php_tmpl to
+         proxy-server/ds/config.php
+  and adapt the example to your needs
+- Rename bookshelf-server/RufeExterneURL.config.php_tmpl to
+         bookshelf-server/RufeExterneURL.config.php
   and adapt the example to your needs
 
+- for QR codes is a proxy-script needed which redirects to primo,
+  you can use this script on another server or install on the same server.
+  You must configure the URL to the proxy script, which is encoded in
+  the QR code.
+  In bookshelf-server/config/booklist.ini,
+  [URL] section,
+  specify variable qr_base,
+  see the example in this file.
 
 ### Java
 
-a local Version of java is needed to minimize the js and css files. see html/js/ErzeugeMiniVersion.cmd
+a local Version of java is needed to minimize the js and css files.
+See
+  * bookshelf-server/html/js/ErzeugeMiniVersion.sh_sample (for Linux)
+  * bookshelf-server/html/js/ErzeugeMiniVersion.cmd_sample (for Windows)
+
 there you have to insert the path into the variable "javaprog"
 
 apt-get install openjdk-7-jdk
@@ -24,16 +39,28 @@ apt-get install openjdk-7-jdk
 
 ### YUICompressor
 need for minimizing js and css files.
-see html/js/ErzeugeMiniVersion.cmd
+see
+  * bookshelf-server/html/js/ErzeugeMiniVersion.sh_sample (for Linux)
+  * bookshelf-server/html/js/ErzeugeMiniVersion.cmd_sample (for Windows)
+
 there you have to insert the path into the variable "yuicomp"
 
-cd /usr/local/bin/vMaBookShelf
+#### Download YUICompressor
 
 https://github.com/yui/yuicompressor/releases
 and download the actual jar file.
 
 
-rename html/js/ErzeugeMiniVersionen.sh_sample to html/js/ErzeugeMiniVersionen.sh
+rename
+  * bookshelf-server/html/js/ErzeugeMiniVersionen.sh_sample to
+  * bookshelf-server/html/js/ErzeugeMiniVersionen.sh
+
+or
+
+rename
+  * bookshelf-server/html/js/ErzeugeMiniVersionen.cmd_sample to
+  * bookshelf-server/html/js/ErzeugeMiniVersionen.sh
+
 and adapt the example to your needs
 here you put the path and name of the jar file to the variable "yuicomp"
 
@@ -42,7 +69,7 @@ here you put the path and name of the jar file to the variable "yuicomp"
 
 ### Perl
 
-For lokal Test i use http://strawberryperl.com/
+For lokal tests in Windows i use http://strawberryperl.com/
 
 The scripts used the folowing perl modules. You can download them from cpan.
 
@@ -62,11 +89,19 @@ The scripts used the folowing perl modules. You can download them from cpan.
 - Business::ISBN
 
 
-Now you can create the html files, with createFiles.sh / createFiles.cmd
+### Create HTML-File, Download Covers ...
+Now you can create the html files, with
+cd bookshelf-server
+- ./createFiles.sh (for Linux)
+- createFiles.cmd  (for Windows)
 
 
-### html/js/ErzeugeMiniVersion.cmd
-create minimized versions of js and css files.
+### Create minimized versions of js and css files
+with
+cd bookshelf-server/html/js/
+- ./ErzeugeMiniVersion.sh   (for Linux)
+- ErzeugeMiniVersion.cmd    (for Windows)
+
 
 
 ### RufeExterneURL.php
@@ -138,3 +173,6 @@ I will work on a simple configuration for that problem.
 
 ### Link html path to /var/www/<YourProjectName>
 create from /usr/local/bin/vMaBookShelf/bookshelf-server/html a symbolic link to /var/www/<YourProjectName>
+
+### Link proxy-server/ds/ path to /var/www/ds
+create from /usr/local/bin/vMaBookShelf/proxy-server/ds a symbolic link to /var/www/ds, or copy the script to a diffrent server
