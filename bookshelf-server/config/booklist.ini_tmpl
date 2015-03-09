@@ -7,12 +7,13 @@ cvs=csv
 # in these path. The path should be accessible via web browser
 #
 # absolute path
-qr_cache=/usr/bin/vMaBookShelf/bookshelf-server/html/QRCache/
+qr_cache=/usr/local/bin/vMaBookShelf/bookshelf-server/html/QRCache/
 #qr_cache=D:/Data/listing/Perl/Primo/VirtuellesBuchregal/virtuelles_buchregal_erzeugen/QRCache/
 
 # html-path
 # absolut or relative path
 # path to the directory where the script have to create the html files
+# create from this path a symbolic link to the /var/www directory
 html_path=html/
 
 

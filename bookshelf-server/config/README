@@ -12,15 +12,16 @@ cvs=csv
 # in these path. The path should be accessible via web browser
 #
 # absolute path
-qr_cache=/var/www/booklist/QRCache/
+qr_cache=/usr/local/bin/vMaBookShelf/bookshelf-server/html/QRCache/
 # or Windows:
-# qr_cache=D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtual_bookshelf\QRCache\
+# qr_cache=D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtual_bookshelf\html\QRCache\
 
 
 # html-path
 # absolut or relative path
 # path to the dir where the script have to create the html files
-html_path=../../html/
+# create from this path a symbolic link to the /var/www directory
+html_path=html/
 
 
 
@@ -242,7 +243,7 @@ MediumGesamtBreite=241
 # Options
 # turned on: ja / yes / j / y
 # turned off: nein / no / n
-erzeuge=ja
+erzeuge=no
 
 # the gesture control software will send only one key if you wipe to left or right
 # with this parameter you can repeat X times this key
