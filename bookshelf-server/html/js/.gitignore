@@ -1,0 +1,4 @@
+# Ignore everything in this directory
+*.min.js
+# Except this file
+!.gitignore
