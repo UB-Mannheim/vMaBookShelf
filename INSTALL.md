@@ -65,7 +65,6 @@ The scripts used the folowing perl modules. You can download them from cpan.
 Now you can create the html files, with createFiles.sh / createFiles.cmd
 
 
-
 ### html/js/ErzeugeMiniVersion.cmd
 create minimized versions of js and css files.
 
@@ -136,3 +135,6 @@ I will work on a simple configuration for that problem.
 
  - install the Firefox Add-On "vMaBookShelfHelper" from "Firefox-Add-on/vMaBookShelfHelper/vmabookshelfhelper.xpi"
 
+
+### Link html path to /var/www/<YourProjectName>
+create from /usr/local/bin/vMaBookShelf/bookshelf-server/html a symbolic link to /var/www/<YourProjectName>
