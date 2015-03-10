@@ -1,0 +1,39 @@
+<?php
+
+    function CheckAllowed ( $_http_referer, $_remote_addr ) {
+
+        //----------------------------------------------------------------------
+        // if the Variable $_SERVER['HTTP_REFERER'] start with this string
+        // the script get true back
+        // otherwise the script checks some ips
+        // so you can allowed a singel or a range of ips
+        //----------------------------------------------------------------------
+        $allowed_base_url = 'http://aleph.bib.uni-mannheim.de/booklist/';
+
+        $lenurl = strlen($allowed_base_url);
+        $lTrust = false;
+
+
+        //if (substr($_SERVER['HTTP_REFERER'],0,42) ===
+        if (substr($_http_referer,0,$lenurl) === $allowed_base_url) {
+            $lTrust = true;
+        } else if ($_remote_addr === 'xxx.xxx.xx.xx') {
+            // Testzugang
+            $lTrust = true;
+        } else if (substr($_remote_addr,0,11) === 'xxx.xxx.xx.') {
+            // Testzugang
+            $lTrust = true;
+        } else if ($_remote_addr === 'xxx.xxx.xxx.<IP_of_your_touchscreen_client1>') {
+            // allowed
+            $lTrust = true;
+        } else if ($_remote_addr === 'xxx.xxx.xxx.<IP_of_your_touchscreen_client2>') {
+            // normal allowed touchscreen client
+            $lTrust = true;
+        } else if ($_remote_addr === 'xxx.xxx.xxx.<IP_of_your_touchscreen_client3...>') {
+            // Testzugang
+            $lTrust = true;
+        }
+
+        return( $lTrust );
+    }
+?>
