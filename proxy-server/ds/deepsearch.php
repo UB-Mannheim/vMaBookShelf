@@ -14,13 +14,13 @@
     //      http://link.bib.uni-mannheim.de/ds/
     // Sicherheit:
     //
-    //   Anpassen:
+    //   Anpassen in config.php:
     //      - ggf. sollte der Pfad innerhalb der Variablen
-    //          $myFilePath angepasst werden.
+    //          "$myFilePath" angepasst werden.
     //          In Mannheim ist dies "/var/www/ds/"
     //          In diesem Verzeichnis werden die Statistik-CSV-Dateien
     //          gespeichert
-    //      - In der Variable $url muss der Pfad zu Primo und die Werte der
+    //      - In der Variable "$url" muss der Pfad zu Primo und die Werte der
     //          Paramter:
     //              - institution
     //              - vid
@@ -92,7 +92,6 @@
         //----------------------------------------------------------------------
         // CSV-Dateiname bilden
         //----------------------------------------------------------------------
-        //$myFilePath         = "/var/www/ds/";
         $myFile             = $myFilePath .
                                 "qr_statistik_" .
                                 $zugriffsdate[year] .

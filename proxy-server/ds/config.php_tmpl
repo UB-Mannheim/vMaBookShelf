@@ -1,4 +1,10 @@
 <?php
+    //----------------------------------
+    //  - Base URL to primo
+    //  - institution
+    //  - vid
+    //  - search_scope
+    //----------------------------------
     $urlbase = 'http://primo.bib.uni-mannheim.de/primo_library/libweb/action/' .
                 'dlSearch.do?' .
                 'institution=MAN&vid=MAN_UB&search_scope=MAN_ALEPH' .
