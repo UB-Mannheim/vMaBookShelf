@@ -132,11 +132,16 @@ cd bookshelf-server/html/js/
 
    i working on that problem to make the Add-on more flexibel, with a config dialog, or something like that.
 
- - install the Firefox Add-On "vMaBookShelfHelper" from "Firefox-Add-on/vMaBookShelfHelper/vmabookshelfhelper.xpi"
+ - install the Firefox Add-On "vMaBookShelfHelper" 
+   from "Firefox-Add-on/vMaBookShelfHelper/vmabookshelfhelper.xpi"
 
 
-### Link html path to /var/www/<YourProjectName>
-create from /usr/local/bin/vMaBookShelf/bookshelf-server/html a symbolic link to /var/www/<YourProjectName>
+### Link html path to /var/www/**YourProjectName**
+create a symbolic link
+  * from: /usr/local/bin/vMaBookShelf/bookshelf-server/html
+  * to:   /var/www/**YourProjectName**
 
 ### Link proxy-server/ds/ path to /var/www/ds
-create from /usr/local/bin/vMaBookShelf/proxy-server/ds a symbolic link to /var/www/ds, or copy the script to a diffrent server
+create a symbolic link
+  * from: /usr/local/bin/vMaBookShelf/proxy-server/ds 
+  * to:   /var/www/ds, or copy the script to a diffrent server
