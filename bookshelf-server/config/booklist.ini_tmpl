@@ -13,9 +13,8 @@ qr_cache=/usr/local/bin/vMaBookShelf/bookshelf-server/html/QRCache/
 # html-path
 # absolut or relative path
 # path to the directory where the script have to create the html files
-# create from this path a symbolic link to the /var/www directory
+# create from this path a symbolic link to /var/www/**YourProjectName**
 html_path=html/
-
 
 
 
@@ -25,6 +24,7 @@ html_path=html/
 # print => file with the book data for printed books
 # details see csv/print.readme.md
 print=sample_print.csv
+
 
 # file names without path
 # ebook => file with the book data for ebooks books
@@ -77,6 +77,7 @@ html=index.html
 html_gestensteuerung=index_g.html
 
 
+
 [STORE]
 # cache file if you didn't find a cover for this book
 # if a id is in this file the script will skip thes id if it has to check amazon
@@ -84,10 +85,12 @@ html_gestensteuerung=index_g.html
 kein_treffer_cache_file=DatenCache/keinTreffer.dat
 
 
+
 [REGAL]
 # shelf rows
 # attention: at the moment only 4 rows!!!!
 regal_reihen=4
+
 
 
 [NAVIGATION]
@@ -126,6 +129,8 @@ regal_reihen=4
 23=Umweltschutz, Landschaftsgestaltung
 08=Wirtschaftswissenschaften
 
+
+
 [CSS]
 # these variables are used to create a css file, like SASS or LESS do it
 # i didn't use these until now.
@@ -150,6 +155,7 @@ menu__border_right__color=#ffffff
 
 
 
+
 # Header background color
 header__background_color=#990000
 
@@ -157,10 +163,12 @@ header__background_color=#990000
 # shelf number, background color
 regalnummer__background_color=#585858
 
+
 # shelf number, text and border color
 regalnummer__color=#ffffff
 
-# shelf mark  text color
+
+# shelf mark text color
 buchsignatur__color=#ffffff
 
 
@@ -212,6 +220,7 @@ ohne_cover_shelf_image_substitute__color=#ffffff
 # height of header in px
 header_hoehe=95
 
+
 # Absolut Hight of the shelf in px
 # you find this value not direct in the css-file
 # value used to calculate other values
@@ -240,7 +249,7 @@ MediumGesamtBreite=241
 # Options
 # turned on: ja / yes / j / y
 # turned off: nein / no / n
-erzeuge=nein
+erzeuge=no
 
 
 # the gesture control software will send only one key if you wipe to left or right

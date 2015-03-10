@@ -1,7 +1,10 @@
-config/booklist.ini
-----------------------
+copy booklist.ini_tmpl to your local file booklist.ini.
 
 
+
+
+config/booklist.ini_tmpl
+--------------------------
 
 [PATH]
 # csv files with book data
@@ -19,8 +22,8 @@ qr_cache=/usr/local/bin/vMaBookShelf/bookshelf-server/html/QRCache/
 
 # html-path
 # absolut or relative path
-# path to the dir where the script have to create the html files
-# create from this path a symbolic link to the /var/www directory
+# path to the directory where the script have to create the html files
+# create from this path a symbolic link to /var/www/**YourProjectName**
 html_path=html/
 
 
@@ -163,13 +166,14 @@ header__background_color=#990000
 # shelf number, background color
 regalnummer__background_color=#585858
 
+
 # shelf number, text and border color
 regalnummer__color=#ffffff
 
 
-
 # shelf mark text color
 buchsignatur__color=#ffffff
+
 
 # color of the left border, used as separator between menu and fold in icon / fold out icon
 id_collapse_menu__border_left_color=#CABB94
@@ -201,14 +205,18 @@ regal_grafik_mitte__background=../images/bookshelf-bg-dunkler-geteilt-mitte-001.
 # used this font size (px) for the book title
 ohne_cover_shelf_image_title__font_size=12
 
+
 # used this font size (px) for the book subtitle
 ohne_cover_shelf_image_subtitle__font_size=9
+
 
 # used this font size (px) for the authors
 ohne_cover_shelf_image_authors__font_size=12
 
+
 # Text color of title, subtitle and authors for books without amazon cover
 ohne_cover_shelf_image_substitute__color=#ffffff
+
 
 
 
@@ -227,16 +235,17 @@ GesamtRegalHoehe=980
 # so its a good idee to test the qr codes with different devices
 QRBreite=82
 
+
 # Value correlated with the width of a QR image
 # absolute width of a book
 # if QRBreite is 82px
 MediumGesamtBreite=241
 
 
-
 [GESTENSTEUERUNG]
 # this section is used for a second version of the html-files
 # if you will use gesture control
+
 
 # Create a second version of the html files with gesture control
 # yes or no
@@ -245,6 +254,7 @@ MediumGesamtBreite=241
 # turned off: nein / no / n
 erzeuge=no
 
+
 # the gesture control software will send only one key if you wipe to left or right
 # with this parameter you can repeat X times this key
-tastendruckmultiplikator=20
+tastendruckmultiplikator=15
