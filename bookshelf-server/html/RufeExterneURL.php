@@ -29,6 +29,28 @@
 
     $lTrust = CheckAllowed($_SERVER['HTTP_REFERER'],$_SERVER['REMOTE_ADDR']);
 
+    /*
+    if (substr($_SERVER['HTTP_REFERER'],0,42) ===
+        'http://aleph.bib.uni-mannheim.de/booklist/') {
+        $lTrust = true;
+    } else if ($_SERVER['REMOTE_ADDR'] === '134.155.36.67') {
+        // Testzugang
+        $lTrust = true;
+    } else if (substr($_SERVER['REMOTE_ADDR'],0,11) === '134.155.36.') {
+        // Testzugang
+        $lTrust = true;
+    } else if ($_SERVER['REMOTE_ADDR'] === '134.155.62.209') {
+        // Testzugang
+        $lTrust = true;
+    } else if ($_SERVER['REMOTE_ADDR'] === '134.155.62.217') {
+        // Testzugang
+        $lTrust = true;
+    } else if ($_SERVER['REMOTE_ADDR'] === '134.155.62.219') {
+        // Testzugang
+        $lTrust = true;
+    }
+    */
+
     //------------------------------------------
     // Wenn aus dem booklist-Kontext aufgerufen
     // oder Testzugang
