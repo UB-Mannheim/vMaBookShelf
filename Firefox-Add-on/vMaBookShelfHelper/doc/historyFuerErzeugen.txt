@@ -1,0 +1,93 @@
+$ pwd
+/d/Data/listing/Firefox-Add-ons/booklisthelper
+
+fallert@EDV6 /d/Data/listing/Firefox-Add-ons/booklisthelper
+$ history
+    1  sed
+    2  exit
+    3  ls -la
+    4  cd d:
+    5  cd Data/listing/Perl/Primo/VirtuellesBuchregal/firefoxpluginentwicklung/sample/
+    6  ls -la *.sh
+    7  ./build.sh
+    8  cd ..
+    9  cd helloworld
+   10  ls -la
+   11  ./build.sh
+   12  ls -la
+   13  ls -la
+   14  cd ..
+   15  ls -la
+   16  cd sample/
+   17  ls -la
+   18  ./build.sh
+   19  ./build.sh
+   20  ./build.sh
+   21  ./build.sh
+   22  ./build.sh
+   23  ./build.sh
+   24  ./build.sh
+   25  ./build.sh
+   26  ./build.sh
+   27  ./build.sh
+   28  ./build.sh
+   29  ./build.sh
+   30  cd ..
+   31  cd helloworld
+   32  ./build.sh
+   33  cd ..
+   34  cd helloworld
+   35  ls -la
+   36  ./build.sh
+   37  cd ..
+   38  cd helloworld
+   39  ls -la
+   40  ls -la *.sh
+   41  ./build.sh
+   42  ./build.sh
+   43  ./build.sh
+   44  exit
+   45  ls -la
+   46  cd d:
+   47  cd /d/Data/listing/Firefox-Add-ons/booklisthelper/
+   48  /c/mozilla-build/addon-sdk-1.15/bin/cfx run
+   49  /c/mozilla-build/addon-sdk-1.15/bin/cfx run
+   50  /c/mozilla-build/addon-sdk-1.15/bin/cfx xpi
+   51  ls -la
+   52  /c/mozilla-build/addon-sdk-1.15/bin/cfx run
+   53  /c/mozilla-build/addon-sdk-1.15/bin/cfx run
+   54  /c/mozilla-build/addon-sdk-1.15/bin/cfx run
+   55  /c/mozilla-build/addon-sdk-1.15/bin/cfx run
+   56  /c/mozilla-build/addon-sdk-1.15/bin/cfx run
+   57  /c/mozilla-build/addon-sdk-1.15/bin/cfx xpi
+   58  /c/mozilla-build/addon-sdk-1.15/bin/cfx run
+   59  /c/mozilla-build/addon-sdk-1.15/bin/cfx xpi
+   60  /c/mozilla-build/addon-sdk-1.15/bin/cfx xpi
+   61  /c/mozilla-build/addon-sdk-1.15/bin/cfx xpi
+   62  /c/mozilla-build/addon-sdk-1.15/bin/cfx run
+   63  /c/mozilla-build/addon-sdk-1.15/bin/cfx xpi
+   64  /c/mozilla-build/addon-sdk-1.15/bin/cfx xpi
+   65  pwd
+   66  history
+
+fallert@EDV6 /d/Data/listing/Firefox-Add-ons/booklisthelper
+
+
+
+$ cd mozilla-build/addon-sdk-1.17/
+fallert@EDV6 /c/mozilla-build/addon-sdk-1.17
+$ source bin/activate
+Welcome to the Add-on SDK. For the docs, visit https://addons.mozilla.org/en-US/developers/docs/sdk/latest/
+(addon-sdk-1.17)
+fallert@EDV6 /c/mozilla-build/addon-sdk-1.17
+$ pwd
+/c/mozilla-build/addon-sdk-1.17
+(addon-sdk-1.17)
+fallert@EDV6 /c/mozilla-build/addon-sdk-1.17
+$
+
+
+
+cd /d/Data/listing/Firefox-Add-ons/booklisthelper
+/c/mozilla-build/addon-sdk-1.15/bin/cfx run
+/c/mozilla-build/addon-sdk-1.15/bin/cfx xpi
