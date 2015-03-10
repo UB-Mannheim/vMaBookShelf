@@ -22,8 +22,9 @@
   the QR code.
   In bookshelf-server/config/booklist.ini,
   [URL] section,
-  specify variable qr_base,
+  specify variable "qr_base",
   see the example in this file.
+
 
 ### Java
 
@@ -45,11 +46,11 @@ see
 
 there you have to insert the path into the variable "yuicomp"
 
+
 #### Download YUICompressor
 
 https://github.com/yui/yuicompressor/releases
 and download the actual jar file.
-
 
 rename
   * bookshelf-server/html/js/ErzeugeMiniVersionen.sh_sample to
@@ -63,8 +64,6 @@ rename
 
 and adapt the example to your needs
 here you put the path and name of the jar file to the variable "yuicomp"
-
-
 
 
 ### Perl
@@ -102,6 +101,15 @@ cd bookshelf-server/html/js/
 - ./ErzeugeMiniVersion.sh   (for Linux)
 - ErzeugeMiniVersion.cmd    (for Windows)
 
+### Link html path to /var/www/**YourProjectName**
+create a symbolic link
+  * from: /usr/local/bin/vMaBookShelf/bookshelf-server/html
+  * to:   /var/www/**YourProjectName**
+
+### Link proxy-server/ds/ path to /var/www/ds
+create a symbolic link
+  * from: /usr/local/bin/vMaBookShelf/proxy-server/ds
+  * to:   /var/www/ds, or copy the script to a diffrent server
 
 
 
@@ -120,6 +128,7 @@ cd bookshelf-server/html/js/
 
   change value to 'true' (you can click on the value to change)
 
+
 #### Firefox Add-On "vMaBookShelfHelper"
 
  - in Firefox-Add-on\vMaBookShelfHelper\data\js\erzeuge-close-button.js you have to change some strings
@@ -132,16 +141,5 @@ cd bookshelf-server/html/js/
 
    i working on that problem to make the Add-on more flexibel, with a config dialog, or something like that.
 
- - install the Firefox Add-On "vMaBookShelfHelper" 
+ - install the Firefox Add-On "vMaBookShelfHelper"
    from "Firefox-Add-on/vMaBookShelfHelper/vmabookshelfhelper.xpi"
-
-
-### Link html path to /var/www/**YourProjectName**
-create a symbolic link
-  * from: /usr/local/bin/vMaBookShelf/bookshelf-server/html
-  * to:   /var/www/**YourProjectName**
-
-### Link proxy-server/ds/ path to /var/www/ds
-create a symbolic link
-  * from: /usr/local/bin/vMaBookShelf/proxy-server/ds 
-  * to:   /var/www/ds, or copy the script to a diffrent server
