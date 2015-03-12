@@ -17,6 +17,13 @@ qr_cache=/usr/local/bin/vMaBookShelf/bookshelf-server/html/QRCache/
 html_path=html/
 
 
+# this is the directory that you specified as the target of the symbolic link of the 'html' subdirectory
+# if Apache DocumentRoot is /var/www
+# and your linked your html subdirecory to /var/www/booklist
+# then you should write here only /booklist/
+html_web_path=/booklist/
+
+
 
 
 [CSV]
@@ -46,13 +53,27 @@ ebook=sample_ebooks.csv
 qr_base=http://link.bib.uni-mannheim.de/ds/
 
 
-# This URL points to a php script that opens externam URLs, also Primo
-openExterneURL_base=http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
+# hostname full, (servername with html files and RufeExterneURL.php)
+# without "http://" !!!
+host=aleph.bib.uni-mannheim.de
+
+
+#--------------------------------------------------------------------------------
+# This Variable points to a php script that opens external URLs (including Primo)
+# The script adds at the beginning of these variables the following: 
+# 'http://' + 
+# section '[URL]' variable 'host' + 
+# section '[PATH]' variable 'html_web_path' + 
+# section '[URL]' variable 'openExterneURL_base'
+#--------------------------------------------------------------------------------
+# result: openExterneURL_base=http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
+openExterneURL_base=RufeExterneURL.php?url=
 
 
 # Local Opac, in Mannheim Primo
 # at the end of this url the script will add the opac id, in Mannheim the aleph id
 printMedien_base=http://primo.bib.uni-mannheim.de/primo_library/libweb/action/dlSearch.do?institution=MAN&vid=MAN_UB&search_scope=MAN_ALEPH&query=any,exact,
+
 
 
 

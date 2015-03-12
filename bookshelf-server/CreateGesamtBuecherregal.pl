@@ -133,8 +133,36 @@ my $pSourceFileEbook        = $cfg->val( 'CSV', 'ebook' );
 # wird jeweils noch ergaenzen um 'MAN_ALEPH001494969'
 my $SearchLinkBase          = $cfg->val( 'URL', 'qr_base' );
 
+
+
+#http://section [URL] variable host / section [PATH] variable html_web_path
+my $host_name               = $cfg->val( 'URL', 'host' );
+# / am Ende von hostname entfernen
+if ($host_name =~ m/^(.*?)\/$/) {
+    $host_name = $1;
+}
+# http[s]:// am Anfang entfernen
+if ($host_name =~ m/^http[s]{0,1}\:\/\/(.*?)$/) {
+    $host_name = $1;
+}
+
+
+my $html_web_path   = $cfg->val( 'PATH', 'html_web_path' );
+# prüfen ob html_web_path mit / beginnt und endet
+if ($html_web_path =~ m/^\/(.*?)\/$/) {
+    $html_web_path = '/' . $1 . '/';
+} elsif ($html_web_path =~ m/^\/(.*?)$/) {
+    $html_web_path = '/' . $1 . '/';
+} elsif ($html_web_path =~ m/^(.*?)\/$/) {
+    $html_web_path = '/' . $1 . '/';
+}
+
+
+
+
+
 # http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
-my $openExterneURL_base     = $cfg->val( 'URL', 'openExterneURL_base' );
+my $openExterneURL_base     = 'http://' . $host_name . $html_web_path . $cfg->val( 'URL', 'openExterneURL_base' );
 
 # http://primo.bib.uni-mannheim.de/primo_library/libweb/action/dlSearch.do?institution=MAN&vid=MAN_UB&search_scope=MAN_ALEPH&query=any,exact,
 my $printMedien_base        = $cfg->val( 'URL', 'printMedien_base' );
@@ -165,6 +193,15 @@ my $AusgleichsPixel         = 20;
 # innerhalb dessen der Parameter 'doc'
 #-------------------------------------------------------------------------------
 my $cAlephIDVorspann        = $cfg->val( 'ALEPH_ID', 'vorspann' );
+
+
+#-------------------------------------------------------------------------------
+# Abschnitt für [vMaBookShelfHelper]
+#-------------------------------------------------------------------------------
+#my $vMaBookShelfHelper_scriptpath   = $cfg->val( 'vMaBookShelfHelper', 'scriptpath' );
+my $vMaBookShelfHelper_scriptpath   = $html_web_path;
+
+
 
 #-------------------------------------------------------------------------
 # Konfiguration lesen Ende
@@ -202,16 +239,20 @@ if ($lresetlog)
 };
 
 
-$templ_ref->{index}                     = $html;
-$templ_ref->{tastendruckmultiplikator}  = $tastendruckmultiplikator;
-$templ_ref->{openExterneURL_base}       = $openExterneURL_base;
-$templ_ref->{printMedien_base}          = $printMedien_base;
+$templ_ref->{index}                         = $html;
+$templ_ref->{tastendruckmultiplikator}      = $tastendruckmultiplikator;
+$templ_ref->{openExterneURL_base}           = $openExterneURL_base;
+$templ_ref->{printMedien_base}              = $printMedien_base;
+
+$templ_ref->{vMaBookShelfHelper_scriptpath} = $vMaBookShelfHelper_scriptpath;
 
 
 
-my $SourceFilePrint                     = $sourceDir . '/' . $pSourceFilePrint;
-my $SourceFileEbook                     = $sourceDir . '/' . $pSourceFileEbook;
-my $cStatistikFile                      = 'log/' . "statistik.log";
+
+
+my $SourceFilePrint                         = $sourceDir . '/' . $pSourceFilePrint;
+my $SourceFileEbook                         = $sourceDir . '/' . $pSourceFileEbook;
+my $cStatistikFile                          = 'log/' . "statistik.log";
 
 
 open( SOURCEPRINT, "<$SourceFilePrint" ) or die

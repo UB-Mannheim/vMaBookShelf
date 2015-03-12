@@ -1,5 +1,5 @@
 //   Name: erzeuge-close-button.js
-//  Stand: 2015-03-02, 09:08:14
+//  Stand: 2015-03-11, 13:47:17
 // Author: Bernd Fallert, UB Mannheim
 
 // ToDo: Timer des Hauptfensters ausschalten wenn unterfenster aufgerufen wird
@@ -8,6 +8,15 @@
 
 var d                       = document;
 var host                    = d.location.host;
+
+
+var cFileType               = $( "#vMaBookShelfHelper_type" ).text();
+var lInfoBlockVorhanden     = false;
+if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+    lInfoBlockVorhanden = true;
+
+    console.log( "----> Aus Webseite ausgelesen: cFileType: " + cFileType );
+}
 //------------------------------------------------------------------------------
 // Fuer Pruefung auf RufeExterneURL.php und UB3D
 //------------------------------------------------------------------------------
@@ -60,11 +69,37 @@ console.log("\n\n\n\n\n\n" + "#".repeat(80) + "\n" + "ScriptName: '" +
     ScriptName + "' ----------substr 10> " + ScriptName.substr(0, 10));
 
 
+if (lInfoBlockVorhanden) {
 
-if ((host === "aleph.bib.uni-mannheim.de") &&
-    (ScriptName.substr(0, 9) != '/cgi-bin/' ) ||
-    (host === "onlinelesen.ciando.com")) {
+    console.log( "----------CHECK 1------------------" );
+    console.log( "cFileType: " + cFileType );
 
+    if (cFileType === 'html') {
+        // normale html-Seiten des BookShelfs
+        lZeigeButton    = false;
+        lHauptFenster   = true;
+        lUnterFenster   = false;
+    } else {
+        // seiten auf denen der Button angezeigt werden soll
+        // hier ist cFileType nicht 'html'!
+        lZeigeButton    = true;
+        lHauptFenster   = false;
+        lUnterFenster   = true;
+    };
+
+//} else if ((host === "aleph.bib.uni-mannheim.de") &&
+//    (ScriptName.substr(0, 9) != '/cgi-bin/' ) ||
+//    (host === "onlinelesen.ciando.com")) {
+} else if (host === "onlinelesen.ciando.com") {
+
+    console.log( "----------CHECK 2 else if onlinelesen.ciando.com ---------------" );
+
+    // In diesem Fall kann ich eine alternative Technik versuchen
+    // die bei JumpHomeMa verwendet habe!
+    // und zwar den Button nicht in einem IFrame sondern als halbtransparenter
+    // Button links unten einblenden
+
+    /*
     if ( ScriptName === '/booklist/RufeExterneURL.php') {
         lZeigeButton    = true;
         lHauptFenster   = false;
@@ -101,10 +136,12 @@ if ((host === "aleph.bib.uni-mannheim.de") &&
     } else {
         console.log( "UnterFenster falsch" );
     }
-
+*/
 
 
 } else {
+    console.log( "----------CHECK 3 else ---------------" );
+
     //alert( "Kontext verlassen" + "\n" + window.location );
     var aktLocation = window.location;
     lZeigeButton    = true;
@@ -117,10 +154,13 @@ if ((host === "aleph.bib.uni-mannheim.de") &&
         // iframe
         lZeigeButton    = false;
         lIframe         = true;
+
         //alert( "im IFrame" + "\n" + window.location );
     }
     else {
         // no iframe
+        // Script ist aus iframe ausgebrochen
+        // nochmaliger Aufruf um es wieder einzufangen!
         lZeigeButton    = true;
         lIframe         = false;
 
@@ -132,6 +172,8 @@ if ((host === "aleph.bib.uni-mannheim.de") &&
         //----------------------------------------------------------------------
         // Seite nochmals über das Script RufeExterneURL.php aufrufen,
         // damit Seite wieder in IFrame gefangen wird
+        // TODO: diese Parameter muss der Benutzer im Add-on einstellen können!
+        //       2015-03-11, 08:00:37 Ft
         //----------------------------------------------------------------------
         document.location.replace("http://aleph.bib.uni-mannheim.de/" +
                                   "booklist/RufeExterneURL.php?url=" +
@@ -238,16 +280,6 @@ function WelchesFensterIstAktiv () {
     //#############################################
     //#############################################
 
-
-
-    if (host === "aleph.bib.uni-mannheim.de") {
-
-        if ( ScriptName === '/booklist/RufeExterneURL.php') {
-          // prüfen ob in weiterem Kontext wie z.B.
-        } else if (ScriptName.substr(0,7) === '/cgi-bin/') {
-            // Sonst kann UB3D aus dem Frame ausbrechen
-        }
-    }
 
     if (nBooklistTimerIndex.getCount() < (6 * nMinutenExternFenster)) {
         //----------------------------------------------------------------------
@@ -499,7 +531,7 @@ function WaehleZufaelligesFach() {
         aktIndex + " aHtmlFaecherListe.length: " + aHtmlFaecherListe.length);
 
     //--------------------------------------------------------------------------
-    // Feststellen welche Version, d.h. Normal oder g dann Gestensteuerungspc
+    // Feststellen welche Version, d.h. Normal oder g dann Gestensteuerungs-PC
     //--------------------------------------------------------------------------
     var aktPath     = document.location.pathname;
     var nPathL      = aktPath.length;
@@ -511,8 +543,22 @@ function WaehleZufaelligesFach() {
         cOptGesten = "g";
     }
 
-    document.location.replace("http://aleph.bib.uni-mannheim.de/" +
-                              "booklist/" +
+    var d                       = document;
+    var host                    = d.location.host;
+    var ccscriptpath            = $( "#vMaBookShelfHelper_scriptpath" ).text();
+    var cFileType               = $( "#vMaBookShelfHelper_type" ).text();
+    var lInfoBlockVorhanden     = false;
+
+    if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+        lInfoBlockVorhanden = true;
+    }
+    console.log( "\n\n\n===================================\nhost: " + host + "\nccscriptpath: " + ccscriptpath + "\n===================================\n" );
+
+
+    // An die URL wird random angehaengt, damit koennen diese Aufrufe separat
+    // gezaehlt werden
+    document.location.replace("http://" + host +
+                              ccscriptpath +
                               aHtmlFaecherListe[ aktIndex - 1 ] +
-                              cOptGesten + ".html");
+                              cOptGesten + ".html?random");
 }
