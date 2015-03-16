@@ -1,10 +1,35 @@
 var tag = "ul";
 
+var vMaBookShelfHelper = vMaBookShelfHelper || {};
+vMaBookShelfHelper.settings = vMaBookShelfHelper.settings || {};
+
 var data = require("sdk/self").data;
 var pageMod = require("sdk/page-mod");
 //var bookListTimer = require("sdk/timers");
 var utils = require('sdk/window/utils');
 var windows = require("sdk/windows");
+
+var prefs = require("sdk/simple-prefs");
+
+vMaBookShelfHelper.settings.HomeUrl = prefs.prefs['HomeUrl'];
+
+
+
+// define a generic prefs change callback
+function onPrefChange(prefName) {
+    console.log("The " + prefName +
+        " preference changed, current value is: " +
+        prefs.prefs[prefName]
+    );
+    if (prefName == 'HomeUrl') {
+        vMaBookShelfHelper.settings.HomeUrl = prefs.prefs[prefName];
+    }
+    console.log( vMaBookShelfHelper );
+}
+
+prefs.on("HomeUrl", onPrefChange);
+
+
 var lUnterFensterAktiv  = false;
 
 pageMod.PageMod({
@@ -43,8 +68,15 @@ pageMod.PageMod({
             console.log( "worker.port.on 'gotElement' " + "+".repeat(68) );
             console.log(elementContent);
         });
+        worker.port.on("giveUrlBack", function(data) {
+            worker.port.emit("aktURL", vMaBookShelfHelper.settings.HomeUrl);
+        });
         worker.port.on("anzahlElemente", function(elementContent) {
             //console.log( "worker.port.on 'anzahlElemente' " + "+".repeat(68) );
+            console.log( "\n" + "=".repeat(80) + "\n" +
+                "worker.port.on 'BEGINN von anzahlElemente' " + "\n" +
+                "=".repeat(80));
+
             console.log( "\n" + "=".repeat(80) + "\n" +
                 "worker.port.on 'anzahlElemente' " + "\n" +
                 "=".repeat(80) +
@@ -61,7 +93,10 @@ pageMod.PageMod({
                 "=".repeat(80));
         });
         worker.port.on("empfangeUnterfensterAktiv", function(elementContent) {
-            //console.log( "worker.port.on 'empfangeUnterfensterAktiv' " + "+".repeat(68) );
+            console.log( "\n" + "=".repeat(80) + "\n" +
+                "worker.port.on 'BEGINN von empfangeUnterfensterAktiv' " + "\n" +
+                "=".repeat(80));
+
             console.log( "\n" + "=".repeat(80) + "\n" +
                 "worker.port.on 'empfangeUnterfensterAktiv' " +
                 "\n" + "=".repeat(80) +

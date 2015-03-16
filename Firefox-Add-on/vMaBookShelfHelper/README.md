@@ -16,10 +16,10 @@ vMaBookShelfHelper ist ein Add-on für Firefox.
 ## Konfiguration
 
 - In Extras / Add-ons / vMaBookShelfHelper / Einstellungen gibt es ein
-  Eingabefeld "URL". In diesem Feld kann die URL hinterlegt werden,
+  Eingabefeld "HomeUrl". In diesem Feld kann die URL hinterlegt werden,
   auf die der Home-Button verlinkt werden soll.
 - Gggf. muss nach dem Ändern der URL der Browser neu gestartet werden,
-  damit die neue Adresse akzeptiert wird.
+  damit die neue Adresse akzeptiert wird. (scheint nicht mehr der Fall zu sein, noch testen, Fallert 2015-03-16, 13:00:46)
 
 ## Notwendige Einstellung in Firefox
 
@@ -40,6 +40,8 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 
 ## Historie
 
+* 0.9 2015-03-16, 12:57:32 Adresse für Rück-Button wenn iFrame verlassen werden konnte
+                            wird jetzt aus einem Konfigurationsdialog ausgelesen
 * 0.8 2014-07-15, 10:03:45 Adresse fuer zufaelligen Sprungs auf andere Faecher
                             wird jetzt direkt aus dem Dokument erzeugt
                             es muss kein Array innerhalb des Add-ons gepflegt

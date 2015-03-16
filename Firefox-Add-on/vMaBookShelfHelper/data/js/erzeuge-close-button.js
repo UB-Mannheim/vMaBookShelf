@@ -6,6 +6,9 @@
 //          und wieder einschalten wenn unterfenster aus irgendeinem Grunde
 //          geschlossen wird
 
+var vMaBookShelfHelper = vMaBookShelfHelper || {};
+vMaBookShelfHelper.settings = vMaBookShelfHelper.settings || {};
+
 var d                       = document;
 var host                    = d.location.host;
 
@@ -172,12 +175,28 @@ if (lInfoBlockVorhanden) {
         //----------------------------------------------------------------------
         // Seite nochmals über das Script RufeExterneURL.php aufrufen,
         // damit Seite wieder in IFrame gefangen wird
-        // TODO: diese Parameter muss der Benutzer im Add-on einstellen können!
-        //       2015-03-11, 08:00:37 Ft
         //----------------------------------------------------------------------
-        document.location.replace("http://aleph.bib.uni-mannheim.de/" +
-                                  "booklist/RufeExterneURL.php?url=" +
-                                  aktLocation);
+        //alert( "im IFrame" + "\n" + window.location );
+
+        // an main.js Nachricht schicken, ich brauche die aktuelle Konfiguration für url
+        self.port.emit("giveUrlBack", '');
+        self.port.on("aktURL", function holeurl(cUrl) {
+            vMaBookShelfHelper.settings.HomeUrl = cUrl;
+
+            console.log( "A".repeat(50) + "\n" );
+            console.log( "in aktURL cUrl: " + cUrl );
+            console.log( "A".repeat(50) + "\n" );
+
+            // Setze location abhängig von Einstellungen neu
+            document.location.replace( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
+                                      aktLocation);
+
+        });
+
+        // Verlagert in self.port.on("aktURL"
+        //document.location.replace("http://aleph.bib.uni-mannheim.de/" +
+        //                          "booklist/RufeExterneURL.php?url=" +
+        //                          aktLocation);
     }
 }
 

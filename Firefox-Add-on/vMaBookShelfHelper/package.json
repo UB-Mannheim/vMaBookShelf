@@ -5,5 +5,12 @@
   "description": "vMaBookShelfHelper dient zur Einfügung der Navigation für Booklist und Sicherstellen das die Seite in einem IFrame gefangen ist. Jetzt mit zwei Timer. 1. Timer für Hauptfenster 30 Minuten, dann wird eine andere Fachliste aufgerufen. 2. Timer für Externe Links (inkl. Primo) mit 10 Minuten, dann wird beim Nutzer nachgefragt ob er noch weiter lesen möchte und ggf. das Fenster geschlossen.",
   "author": "Bernd Fallert, UB Mannheim",
   "license": "GNU GPL v3.0",
-  "version": "0.8"
+  "version": "0.9",
+  "preferences": [{
+        "name": "HomeUrl",
+        "title": "HomeUrl",
+        "description": "Auf welche URL soll der Back-Button zeigen. Es wird automatisch 'RufeExterneURL.php?url=' ergänzt.",
+        "type": "string",
+        "value": "http://aleph.bib.uni-mannheim.de/booklist/"
+    }]
 }
