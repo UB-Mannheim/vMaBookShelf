@@ -40,16 +40,16 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 
 ## Historie
 
-0.8 2014-07-15, 10:03:45 Adresse fuer zufaelligen Sprungs auf andere Faecher
+* 0.8 2014-07-15, 10:03:45 Adresse fuer zufaelligen Sprungs auf andere Faecher
                             wird jetzt direkt aus dem Dokument erzeugt
                             es muss kein Array innerhalb des Add-ons gepflegt
                             werden
-0.7 2014-06-25, 16:01:28 Fehlersituation umgangen beim zufälligen Laden der
+* 0.7 2014-06-25, 16:01:28 Fehlersituation umgangen beim zufälligen Laden der
                             Navigationsseiten
-0.6 2014-06-04, 15:27:38 1. Versuch mit onlinelesen.ciando.com, Reload-Sturm
+* 0.6 2014-06-04, 15:27:38 1. Versuch mit onlinelesen.ciando.com, Reload-Sturm
                             unterbrechen und Liste der Nummern nach Timeout
                             angepasst
-0.5 2014-04-16, 08:31:32 jetzt mit Timer für Haupt- (30 Minuten) und
+* 0.5 2014-04-16, 08:31:32 jetzt mit Timer für Haupt- (30 Minuten) und
                             Unterfenster (10 Minuten)
-0.4 2014-04-07, 15:40:50 Statt Click jetzt ontouchstart
-0.3 2014.03.28, 12:47:26 Link auf Beschriftung und Grafiken ergänzt
+* 0.4 2014-04-07, 15:40:50 Statt Click jetzt ontouchstart
+* 0.3 2014.03.28, 12:47:26 Link auf Beschriftung und Grafiken ergänzt
