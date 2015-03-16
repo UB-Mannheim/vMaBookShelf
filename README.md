@@ -24,7 +24,7 @@ vMaBookShelf creates a virtual bookshelf
 - includes a Firefox Add-on "vMaBookShelfHelper" for
   - wrap the content of other websides in a iframe and
   - establish two timers.
-    - Timer one shows a random part of the ****fach**** html-file and
+    - Timer one shows a random part of the subjects-html-files and
     - timer two close all websides (ebook or opac) and show the
       virtual bookshelf again.
 
