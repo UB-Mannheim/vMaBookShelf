@@ -89,6 +89,14 @@ my %KeineTrefferCache       = ();
 my %MedienDaten             = ();
 my %PrintTitel              = ();
 
+#-------------------------------------------------------------------------------
+# Altes CSV-Fehler Protokoll leeren
+#-------------------------------------------------------------------------------
+my $log_csv_error = __FILE__ . ".csv_error.log";
+open( CSVERRORLOG, ">$log_csv_error" ) or die "Kann nicht in $log_csv_error schreiben $!\n";
+close CSVERRORLOG;
+
+
 
 #-------------------------------------------------------------------------------
 # Normale Programmkonfiguration einlesen
@@ -1068,6 +1076,7 @@ sub LeseQuellDaten {
     # zum ermitteln ob es zu einem ebook auch eine gedruckte Ausgabe gibt
     # wenn ja dann diese Variable auf true setzen
     my $lPrintEbook         = $falsch;
+    my $nAnzahlMaxSpalten   = 0;
 
 
     while(<$fh>) {
@@ -1104,6 +1113,11 @@ sub LeseQuellDaten {
             my $cAktSigWStatistikFehler = "";
             my $cKeyPrintBook           = "";
 
+            # wg Fehlersuche eingeschaltet
+            #if ($aktZeile =~ m/^001711965(.*?)$/) {
+            #    sleep( 1 );
+            #};
+
             # Jede Spalte durchgehen
             foreach my $akt (@AktFelder) {
                 #---------------------------------------------------
@@ -1117,7 +1131,10 @@ sub LeseQuellDaten {
 
                     if ($akt eq "RecordID") {
                         $lEbook = $wahr;
-                    }
+                    };
+
+                    # Anzahl der Spalten ermitteln
+                    $nAnzahlMaxSpalten++;
                 }
 
 
@@ -1125,6 +1142,17 @@ sub LeseQuellDaten {
                 # erst ab der ersten Datenzeile die Datensätze einlesen
                 #---------------------------------------------------------------
                 if ($nIndex > 1) {
+
+                    #-----------------------------------------------------------
+                    # Prüfen ob die Anzahl der Spalten in dieser Zeile
+                    # kleiner ist wie erwartet
+                    #-----------------------------------------------------------
+                    my $nAnzahlAktSpalten = @AktFelder;
+                    if ($nAnzahlAktSpalten < $nAnzahlMaxSpalten) {
+                        # wenn die Anzahl der Spalten kleiner als erwartet ist
+                        # muss dieser Datensatz verworfen werden.
+                        $lWgFehlerDelete    = $wahr;
+                    };
 
                     # Unbehandelter Origianal-Inhalt der Spalte speichern
                     $cSpalteOriginalInhalt  = $akt;
@@ -1984,7 +2012,6 @@ sub LeseQuellDaten {
                             # deshalb muss dieser Datensatz verworfen werden.
                             #---------------------------------------------------
                             $lWgFehlerDelete    = $wahr;
-
                         }
                     }
                     #-----------------------------------------------------------
@@ -2014,6 +2041,12 @@ sub LeseQuellDaten {
                 }
 
                 if ($lWgFehlerDelete) {
+
+                    # Protokollieren des Fehlers damit der Datensatz korrigiert werden kann
+                    open( CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error schreiben $!\n";
+                    print CSVERRORLOG "Fehler in: " . $aktZeile . "\n";
+                    close CSVERRORLOG;
+
                     # bei bestimmten Fehlern Datensatz nicht aufnehmen!
                     delete(${$MedienDaten}{$aktAlephID});
                 }
