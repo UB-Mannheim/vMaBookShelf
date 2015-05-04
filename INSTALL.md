@@ -93,6 +93,15 @@ Now you can create the html files, with
 cd bookshelf-server
 - ./createFiles.sh (for Linux)
 - createFiles.cmd  (for Windows)
+ 
+#### Log-Files / Error-Log-Files
+Infos from the perlscripts CreateQRCodeFuerBuecherregal.pl and CreateGesamtBuecherregal.pl are stored in
+
+- CreateQRCodeFuerBuecherregal.pl stored in
+  - CreateQRCodeFuerBuecherregal.pl.log (Normal Infos and Errors)
+- CreateGesamtBuecherregal.pl stored in
+  - CreateGesamtBuecherregal.pl.log (Normal Infos and Errors)
+  - CreateGesamtBuecherregal.pl.csv_error.log (Errors in csv-file)
 
 
 ### Create minimized versions of js and css files
