@@ -555,174 +555,166 @@ foreach my $akt (sort {
 
     $nTempIndex++;
 
-    #---------------------------------------------------------------------------
-    # Check if Title is "empty"
-    # Ein Buch ohne Titel darf es nicht geben, deswegen wird in
-    # sub LeseQuellDaten bei einem leeren Titel ein '-~-' als Titel gespeichert
-    # diese werden hier aber uebersprungen
-    #---------------------------------------------------------------------------
-    if ($MedienDaten{$akt}->{title} ne '-~-') {
 
-        my $SubTitle    =  '';
-        if (defined($MedienDaten{$akt}->{untertitel}) and
-           ($MedienDaten{$akt}->{untertitel} ne "")) {
+    my $SubTitle    =  '';
+    if (defined($MedienDaten{$akt}->{untertitel}) and
+       ($MedienDaten{$akt}->{untertitel} ne "")) {
 
-            $SubTitle    =  encode_utf8($MedienDaten{$akt}->{untertitel});
+        $SubTitle    =  encode_utf8($MedienDaten{$akt}->{untertitel});
 
-        } elsif (defined($MedienDaten{$akt}->{subtitle}) and
-                ($MedienDaten{$akt}->{subtitle} ne "")) {
+    } elsif (defined($MedienDaten{$akt}->{subtitle}) and
+            ($MedienDaten{$akt}->{subtitle} ne "")) {
 
-            $SubTitle    =  encode_utf8($MedienDaten{$akt}->{subtitle});
+        $SubTitle    =  encode_utf8($MedienDaten{$akt}->{subtitle});
 
-        };
+    };
 
-        my $Authors     =  '';
-        if (defined($MedienDaten{$akt}->{authors}) and
-            ($MedienDaten{$akt}->{authors} ne "")) {
+    my $Authors     =  '';
+    if (defined($MedienDaten{$akt}->{authors}) and
+        ($MedienDaten{$akt}->{authors} ne "")) {
 
-            $Authors    =  encode_utf8($MedienDaten{$akt}->{authors});
+        $Authors    =  encode_utf8($MedienDaten{$akt}->{authors});
 
-        } elsif (defined($MedienDaten{$akt}->{author}) and
-                ($MedienDaten{$akt}->{author} ne "")) {
+    } elsif (defined($MedienDaten{$akt}->{author}) and
+            ($MedienDaten{$akt}->{author} ne "")) {
 
-            $Authors    =  encode_utf8($MedienDaten{$akt}->{authors});
+        $Authors    =  encode_utf8($MedienDaten{$akt}->{authors});
 
-        };
+    };
 
-        my $lAmazon     = $wahr;
-        if (!defined($MedienDaten{$akt}->{isbn}) or
-            ($MedienDaten{$akt}->{isbn} eq "")) {
-            #-------------------------------------------------------
-            # keine pruefung auf Cover bei Amazon wenn isbn leer
-            # oder nicht definiert ist
-            #-------------------------------------------------------
-            $lAmazon     = $falsch;
+    my $lAmazon     = $wahr;
+    if (!defined($MedienDaten{$akt}->{isbn}) or
+        ($MedienDaten{$akt}->{isbn} eq "")) {
+        #-------------------------------------------------------
+        # keine pruefung auf Cover bei Amazon wenn isbn leer
+        # oder nicht definiert ist
+        #-------------------------------------------------------
+        $lAmazon     = $falsch;
+    }
+
+    my $lGrafik                 = $wahr;
+    my $cGrafikName             = '';
+    my $cGrafikNameWeb          = '';
+    my $GrafikMtime             = '';
+    my $lThumbnail              = $falsch;
+    my $cThumbnailImageName     = '';
+    my $cThumbnailImageNameWeb  = '';
+    my $ThumbnailMtime          = '';
+
+
+    if (!defined($MedienDaten{$akt}->{grafik}) or
+        ($MedienDaten{$akt}->{grafik} eq "")) {
+
+        $lGrafik        = $falsch;
+
+    } else {
+
+        $cGrafikName    = $MedienDaten{$akt}->{grafik};
+        $cGrafikNameWeb = $MedienDaten{$akt}->{grafik_web};
+        $GrafikMtime    = $MedienDaten{$akt}->{grafiktime};
+
+    }
+
+    if (!defined($MedienDaten{$akt}->{thumbnail}) or
+        ($MedienDaten{$akt}->{thumbnail} eq "")) {
+
+        $lThumbnail     = $falsch;
+
+    } else {
+        $lThumbnail     = $MedienDaten{$akt}->{thumbnail};
+
+        if ($lThumbnail) {
+            $cThumbnailImageName    = $MedienDaten{$akt}->{thumbnailgrafik};
+            $cThumbnailImageNameWeb = $MedienDaten{$akt}->{thumbnailgrafik_web};
+            $ThumbnailMtime         = $MedienDaten{$akt}->{thumbnailtime};
         }
+    }
 
-        my $lGrafik                 = $wahr;
-        my $cGrafikName             = '';
-        my $cGrafikNameWeb          = '';
-        my $GrafikMtime             = '';
-        my $lThumbnail              = $falsch;
-        my $cThumbnailImageName     = '';
-        my $cThumbnailImageNameWeb  = '';
-        my $ThumbnailMtime          = '';
+    my $cAlternativeURL    = "";
+    if ($MedienDaten{$akt}->{ebook}){
+        $cAlternativeURL     = $MedienDaten{$akt}->{URL};
+    }
 
 
-        if (!defined($MedienDaten{$akt}->{grafik}) or
-            ($MedienDaten{$akt}->{grafik} eq "")) {
-
-            $lGrafik        = $falsch;
-
+    #-----------------------------------------------
+    # Fach für Ausgabe auf Webseite zusammensetzen
+    #-----------------------------------------------
+    my $aktFaecher  = '';
+    foreach my $aktF (@{$MedienDaten{$akt}->{fach}}) {
+        if ($aktFaecher eq '') {
+            $aktFaecher = $aktF;
         } else {
-
-            $cGrafikName    = $MedienDaten{$akt}->{grafik};
-            $cGrafikNameWeb = $MedienDaten{$akt}->{grafik_web};
-            $GrafikMtime    = $MedienDaten{$akt}->{grafiktime};
-
+            $aktFaecher .= ', ' . $aktF;
         }
+    }
 
-        if (!defined($MedienDaten{$akt}->{thumbnail}) or
-            ($MedienDaten{$akt}->{thumbnail} eq "")) {
+    #----------------------------------------------------------
+    # Sprache wg. sprachspezifischen Trennzeichen speichern
+    #----------------------------------------------------------
+    if (defined($MedienDaten{$akt}->{sprache})
+        and ($MedienDaten{$akt}->{sprache} eq 'eng')) {
 
-            $lThumbnail     = $falsch;
+        $hyphenator->default_lang('en-us');
 
-        } else {
-            $lThumbnail     = $MedienDaten{$akt}->{thumbnail};
+    } elsif (defined($MedienDaten{$akt}->{sprache})
+        and ($MedienDaten{$akt}->{sprache} eq 'ger')) {
 
-            if ($lThumbnail) {
-                $cThumbnailImageName    = $MedienDaten{$akt}->{thumbnailgrafik};
-                $cThumbnailImageNameWeb = $MedienDaten{$akt}->{thumbnailgrafik_web};
-                $ThumbnailMtime         = $MedienDaten{$akt}->{thumbnailtime};
-            }
-        }
+        $hyphenator->default_lang('de-de');
 
-        my $cAlternativeURL    = "";
-        if ($MedienDaten{$akt}->{ebook}){
-            $cAlternativeURL     = $MedienDaten{$akt}->{URL};
-        }
+    } else {
 
+        $hyphenator->default_lang('de-de');
 
-        #-----------------------------------------------
-        # Fach für Ausgabe auf Webseite zusammensetzen
-        #-----------------------------------------------
-        my $aktFaecher  = '';
-        foreach my $aktF (@{$MedienDaten{$akt}->{fach}}) {
-            if ($aktFaecher eq '') {
-                $aktFaecher = $aktF;
-            } else {
-                $aktFaecher .= ', ' . $aktF;
-            }
-        }
+    }
 
-        #----------------------------------------------------------
-        # Sprache wg. sprachspezifischen Trennzeichen speichern
-        #----------------------------------------------------------
-        if (defined($MedienDaten{$akt}->{sprache})
-            and ($MedienDaten{$akt}->{sprache} eq 'eng')) {
+    my $aktHash = {
+        title               => encode_utf8($MedienDaten{$akt}->{title}),
+        titleHTML           => encode_utf8($hyphenator->hyphenated($MedienDaten{$akt}->{title})),
+        subtitle            => $SubTitle,
+        isbn                => $MedienDaten{$akt}->{isbn},
+        alephid             => $MedienDaten{$akt}->{alephid},
+        jahr                => $MedienDaten{$akt}->{jahr},
+        fach                => $aktFaecher,
+        amazon              => $lAmazon,
+        authors             => $Authors,
+        color               => $MedienDaten{$akt}->{color},
+        grafikname          => $cGrafikName,
+        grafikname_web      => $cGrafikNameWeb,
+        grafiktime          => $GrafikMtime,
+        lThumbnail          => $lThumbnail,
+        thumbnailgrafik     => $cThumbnailImageName,
+        thumbnailgrafik_web => $cThumbnailImageNameWeb,
+        thumbnailtime       => $ThumbnailMtime,
+        qrcode              => $MedienDaten{$akt}->{qrcode},
+        URL                 => $cAlternativeURL,
+        print               => $MedienDaten{$akt}->{print},
+        ebook               => $MedienDaten{$akt}->{ebook},
+        signatur            => $MedienDaten{$akt}->{signatur},
+        sortsignatur        => $MedienDaten{$akt}->{sortSignatur},
+        dummy               => $falsch
+    };
 
-            $hyphenator->default_lang('en-us');
+    push( @BuchObjekte, $aktHash );
 
-        } elsif (defined($MedienDaten{$akt}->{sprache})
-            and ($MedienDaten{$akt}->{sprache} eq 'ger')) {
-
-            $hyphenator->default_lang('de-de');
-
-        } else {
-
-            $hyphenator->default_lang('de-de');
-
-        }
-
-        my $aktHash = {
-            title               => encode_utf8($MedienDaten{$akt}->{title}),
-            titleHTML           => encode_utf8($hyphenator->hyphenated($MedienDaten{$akt}->{title})),
-            subtitle            => $SubTitle,
-            isbn                => $MedienDaten{$akt}->{isbn},
-            alephid             => $MedienDaten{$akt}->{alephid},
-            jahr                => $MedienDaten{$akt}->{jahr},
-            fach                => $aktFaecher,
-            amazon              => $lAmazon,
-            authors             => $Authors,
-            color               => $MedienDaten{$akt}->{color},
-            grafikname          => $cGrafikName,
-            grafikname_web      => $cGrafikNameWeb,
-            grafiktime          => $GrafikMtime,
-            lThumbnail          => $lThumbnail,
-            thumbnailgrafik     => $cThumbnailImageName,
-            thumbnailgrafik_web => $cThumbnailImageNameWeb,
-            thumbnailtime       => $ThumbnailMtime,
-            qrcode              => $MedienDaten{$akt}->{qrcode},
-            URL                 => $cAlternativeURL,
-            print               => $MedienDaten{$akt}->{print},
-            ebook               => $MedienDaten{$akt}->{ebook},
-            signatur            => $MedienDaten{$akt}->{signatur},
-            sortsignatur        => $MedienDaten{$akt}->{sortSignatur},
-            dummy               => $falsch
-        };
-
-        push( @BuchObjekte, $aktHash );
-
-        foreach my $aktFach (@{$MedienDaten{$akt}->{fach}}) {
-            $templ_ref->{'fach' . $aktFach} = $wahr;
-            push( @{$FachBuchObjekte{ $aktFach }->{'daten'}}, $aktHash);
-            $FachBuchObjekte{ $aktFach }->{'anzahl'}++;
-        }
+    foreach my $aktFach (@{$MedienDaten{$akt}->{fach}}) {
+        $templ_ref->{'fach' . $aktFach} = $wahr;
+        push( @{$FachBuchObjekte{ $aktFach }->{'daten'}}, $aktHash);
+        $FachBuchObjekte{ $aktFach }->{'anzahl'}++;
+    }
 
 
 
 
-        if ($lAmazon) {
-            push( @BuchObjekteOhneSubstitution, {
-                        title       => encode_utf8($MedienDaten{$akt}->{title}),
-                        subtitle    => $SubTitle,
-                        isbn        => $MedienDaten{$akt}->{isbn},
-                        alephid     => $MedienDaten{$akt}->{alephid},
-                        amazon      => $lAmazon,
-                        authors     => $Authors,
-                        color       => $MedienDaten{$akt}->{color},
-                    } );
-        }
+    if ($lAmazon) {
+        push( @BuchObjekteOhneSubstitution, {
+                    title       => encode_utf8($MedienDaten{$akt}->{title}),
+                    subtitle    => $SubTitle,
+                    isbn        => $MedienDaten{$akt}->{isbn},
+                    alephid     => $MedienDaten{$akt}->{alephid},
+                    amazon      => $lAmazon,
+                    authors     => $Authors,
+                    color       => $MedienDaten{$akt}->{color},
+                } );
     }
 };
 
