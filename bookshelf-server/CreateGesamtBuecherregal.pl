@@ -1110,6 +1110,7 @@ sub LeseQuellDaten {
             my $sorttitle               = "";       # bei jedem Buch am Anfang
                                                     # zurücksetzen
             my $lWgFehlerDelete         = $falsch;
+            my $lWgFehlerDeleteReport   = $wahr;
             my $cAktSigWStatistikFehler = "";
             my $cKeyPrintBook           = "";
 
@@ -1300,7 +1301,19 @@ sub LeseQuellDaten {
                         };
 
                         $title    =~ s/://g;
-                        if ($title eq '') { $title = '-~-'};
+                        if ($title eq '') {
+                            # wg. eines fehlers in unserem SQL mit dem wir in
+                            # der UB Mannheim die Datensätze abfragen bleiben
+                            # gelöschte Titel in der Ergebnismenge
+                            # diese sind an dem leeren Verfasser und Titelfeld
+                            # erkennbar
+                            # diese Titel können kommentarlos aus der
+                            # Liste entfernt werden
+                            $title = '-~-';
+                            $lWgFehlerDelete         = $wahr;
+                            $lWgFehlerDeleteReport   = $falsch;
+
+                        };
 
                         ${$MedienDaten}{$aktAlephID}->{title} = $title;
 
@@ -2033,19 +2046,30 @@ sub LeseQuellDaten {
             }
 
             if ($nIndex > 1) {
-                # wenn Titel leer ist (also -~-) dann diesen Wert aus der Liste
-                #   entfernen sonst wird die Anzahl der Gesamttitel falsch
-                #   berechnet!
-                if (${$MedienDaten}{$aktAlephID}->{title} eq '-~-') {
-                    delete(${$MedienDaten}{$aktAlephID});
-                }
+                # stillgelegt weil dieser Spezialfall jetzt auf die gleiche Art
+                # wie andere Fehler behandelt wird
+                ## wenn Titel leer ist (also -~-) dann diesen Wert aus der Liste
+                ##   entfernen sonst wird die Anzahl der Gesamttitel falsch
+                ##   berechnet!
+                #if (${$MedienDaten}{$aktAlephID}->{title} eq '-~-') {
+                #    delete(${$MedienDaten}{$aktAlephID});
+                #}
+
 
                 if ($lWgFehlerDelete) {
 
-                    # Protokollieren des Fehlers damit der Datensatz korrigiert werden kann
-                    open( CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error schreiben $!\n";
-                    print CSVERRORLOG "Fehler in: " . $aktZeile . "\n";
-                    close CSVERRORLOG;
+                    # bei bekannten Fehlern in der CSV-Datei soll keine
+                    # Info in der Fehlerliste erscheinen
+                    # Bekannte Fälle sind u.a.:
+                    # - Titel leer (bei gelöschten Sätzen der Fall)
+                    # - Signatur fehlt
+                    # - bei ebooks: link zum ebook fehlt
+                    if ($lWgFehlerDeleteReport) {
+                        # Protokollieren des Fehlers damit der Datensatz korrigiert werden kann
+                        open( CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error schreiben $!\n";
+                        print CSVERRORLOG "Fehler in: " . $aktZeile . "\n";
+                        close CSVERRORLOG;
+                    };
 
                     # bei bestimmten Fehlern Datensatz nicht aufnehmen!
                     delete(${$MedienDaten}{$aktAlephID});
