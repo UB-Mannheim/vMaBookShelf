@@ -39,7 +39,7 @@ See [INSTALL.md](INSTALL.md) for details.
 ## Bug reports
 
 
-Please file your bug reports to https://github.com/UB-Mannheim/vMaBookShelf/issues.
+Please send your bug reports to https://github.com/UB-Mannheim/vMaBookShelf/issues.
 Make sure that you are using the latest version of the software
 before sending a report.
 
