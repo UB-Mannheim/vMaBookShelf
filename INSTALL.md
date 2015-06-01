@@ -65,6 +65,9 @@ rename
 and adapt the example to your needs
 here you put the path and name of the jar file to the variable "yuicomp"
 
+#### Install YUICompressor
+
+see https://github.com/yui/yuicompressor/blob/master/README.md
 
 ### Perl
 
