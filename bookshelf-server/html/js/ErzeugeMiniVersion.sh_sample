@@ -26,7 +26,7 @@ javaprog=java
 #:: Hier den Pfad zum YUICompressor eintragen
 #:: Enter the path to the YUICompressor installation here
 #::---------------------------------------------------------
-yuicomp=/usr/bin/vMaBookShelf/yuicompressor/build/yuicompressor-2.4.8.jar
+yuicomp=/usr/local/bin/vMaBookShelf/yuicompressor/build/yuicompressor-2.4.8.jar
 
 [ -f jquery.lazyload.js ] &&  $javaprog -jar $yuicomp --charset utf-8  -o jquery.lazyload.min.js jquery.lazyload.js
 [ -f ../css/booklist_erz.css ] && $javaprog -jar $yuicomp --charset utf-8  -o ../css/booklist_erz.min.css ../css/booklist_erz.css
