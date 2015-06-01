@@ -52,22 +52,28 @@ there you have to insert the path into the variable "yuicomp"
 https://github.com/yui/yuicompressor/releases
 and download the actual jar file.
 
+#### Install YUICompressor
+
+see https://github.com/yui/yuicompressor/blob/master/README.md
+
+#### Rename Scripts to use YUICompressor
+Rename and adapt the example to your needs
+in this file you put the path and name of the jar file to the variable "yuicomp"
+
+
+##### Linux
 rename
   * bookshelf-server/html/js/ErzeugeMiniVersionen.sh_sample to
   * bookshelf-server/html/js/ErzeugeMiniVersionen.sh
 
-or
+make the file executable
+  * chmod u+x bookshelf-server/html/js/ErzeugeMiniVersionen.sh
 
+##### Windows
 rename
   * bookshelf-server/html/js/ErzeugeMiniVersionen.cmd_sample to
-  * bookshelf-server/html/js/ErzeugeMiniVersionen.sh
+  * bookshelf-server/html/js/ErzeugeMiniVersionen.cmd
 
-and adapt the example to your needs
-here you put the path and name of the jar file to the variable "yuicomp"
-
-#### Install YUICompressor
-
-see https://github.com/yui/yuicompressor/blob/master/README.md
 
 ### Perl
 
