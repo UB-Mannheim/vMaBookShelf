@@ -118,6 +118,9 @@ with
 cd bookshelf-server/html/js/
 - ./ErzeugeMiniVersion.sh   (for Linux)
 - ErzeugeMiniVersion.cmd    (for Windows)
+ 
+### RufeExterneURL.config.php
+copy RufeExterneURL.config.php_tmpl to RufeExterneURL.config.php and adapt the example to your needs
 
 ### Link html path to /var/www/**YourProjectName**
 create a symbolic link
