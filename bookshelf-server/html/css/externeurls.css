@@ -1,0 +1,161 @@
+/**
+ * externeurls.css
+ *
+ * @creator     Bernd Fallert, UB Mannheim
+ * @file        externeurls.css
+ * Stand:       2014-03-13, 11:08:01
+ *
+ */
+
+html, body, form
+{
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+/*
+.schliessbutton {
+    background-color: #993333;
+    border: 1px solid #008000;
+    box-shadow: 6px 5px 6px rgba(0, 0, 0, 0.8);
+    color: #FFFFFF;
+    display: block;
+    font-family: arial;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 20px;
+    margin-top: 13px;
+    padding: 10px;
+    text-align: center;
+    width: 98%;
+}
+*/
+
+
+.schliessbutton_neu {
+    background-color: #F0F0F0;
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: 6px 5px 6px;
+    color: #000000;
+    float: right;
+    font-family: Arial,verdana;
+    height: 96.8%;
+    margin-bottom: 20px;
+    margin-right: 13px;
+    margin-top: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
+    text-align: center;
+    width: 73px;
+}
+
+
+#unten,
+#oben,
+#mitte {
+    position: fixed;
+}
+
+#unten {
+    bottom: 29px;
+}
+
+#oben {
+    top: 29px;
+}
+
+
+#mitte {
+    right: 19px;
+    top: 50%;
+}
+
+
+
+#oben,
+#unten {
+    background-color: #FF0000;
+    border: 1px solid #808080;
+    color: #FFFFFF;
+    font-size: 33px;
+    padding: 4px;
+    position: fixed;
+    right: 36px;
+}
+
+
+
+/* Version links */
+.schliessbutton_neu_links {
+    background-color: #F0F0F0;
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: 6px 5px 6px;
+    color: #000000;
+    float: left;
+    font-family: Arial,verdana;
+    height: 96.8%;
+    margin: 10px 21px 20px 3px;
+    padding-right: 3px;
+    text-align: center;
+    width: 73px;
+
+    margin-left: 8px;
+    margin-right: 21px;
+}
+
+.schliessbutton_neu_links #oben,
+.schliessbutton_neu_links #unten
+{
+    left: 27px;
+    width: 33px;
+}
+
+.schliessbutton_neu_links #mitte {
+    left: 12px;
+    top: 50%;
+    width: auto;
+    right: inherit;
+}
+
+
+/* wenn Adroid-Zurueck-Button */
+.schliessbutton_neu_links #oben,
+.schliessbutton_neu_links #unten {
+    background-color: #F0F0F0;
+    border: 0 none;
+    left: 18px;
+    width: 33px;
+}
+
+
+#iframe-extern-wrapper{
+    height: 100%;
+    left: 0px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    background-color: #000000;
+    opacity: 0.75;
+    display: inline;
+    z-index: 1000;
+}
+
+
+#lightBox {
+    position:fixed;
+    top: 26%;
+    left: 33%;
+    z-index:1001;
+    width:auto;
+    height:auto;
+    text-align:center;
+    opacity: 1;
+    padding: 30px;
+    background: rgba(255,255,255,1);
+    border-radius: 9px;
+    box-shadow: 3px 3px 5px #222;
+}
+
