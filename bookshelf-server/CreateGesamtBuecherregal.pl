@@ -1077,8 +1077,8 @@ sub LeseQuellDaten {
                     # wenn Datei als binaer uebertragen wurde
                     # bleibt LFCR ansonsten erhalten
 
-        # Fals Datei binaer uebertragen wurde Zeilenende entfernen
-        $_ =~ s/\r\n\z//;
+        # Falls Datei binaer uebertragen wurde Zeilenende entfernen
+        $_ =~ s/(\n|\r|\x0d)//g;
 
         my $aktZeile    = $_;
         $lPrintEbook    = $falsch;
