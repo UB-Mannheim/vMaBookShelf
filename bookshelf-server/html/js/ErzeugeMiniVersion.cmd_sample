@@ -27,14 +27,22 @@ set javaprog="C:\Program Files\Java\jdk1.7.0_21\bin\java"
 set yuicomp="C:\Prog\yuicompressor-2.4.7\build\yuicompressor-2.4.7.jar"
 
 IF EXIST jquery.lazyload.js     (%javaprog% -jar %yuicomp% --charset utf-8  -o jquery.lazyload.min.js jquery.lazyload.js)
+IF EXIST jquery.lazyload.min.js echo jquery.lazyload.min.js existiert
 
-::IF EXIST ../css/booklist.css    (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/booklist.min.css ../css/booklist.css)
-IF EXIST ../css/booklist_erz.css    (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/booklist_erz.min.css ../css/booklist_erz.css)
-IF EXIST ../css/substitute.css  (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/substitute.min.css ../css/substitute.css)
-IF EXIST ../css/gesten.css  (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/gesten.min.css ../css/gesten.css)
-IF EXIST ../css/externeurls.css  (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/externeurls.min.css ../css/externeurls.css)
+IF EXIST ../css/booklist_erz.css        (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/booklist_erz.min.css ../css/booklist_erz.css)
+IF EXIST ../css/booklist_erz.min.css    echo ../css/booklist_erz.min.css existiert
 
-IF EXIST ../css/font-awesome/css/font-awesome.css  (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/font-awesome/css/font-awesome.min.css ../css/font-awesome/css/font-awesome.css)
+IF EXIST ../css/substitute.css      (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/substitute.min.css ../css/substitute.css)
+IF EXIST ../css/substitute.min.css  echo ../css/substitute.min.css existiert
+
+IF EXIST ../css/gesten.css      (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/gesten.min.css ../css/gesten.css)
+IF EXIST ../css/gesten.min.css  echo ../css/gesten.min.css existiert
+
+IF EXIST ../css/externeurls.css     (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/externeurls.min.css ../css/externeurls.css)
+IF EXIST ../css/externeurls.min.css echo ../css/externeurls.min.css existiert
+
+IF EXIST ../css/font-awesome/css/font-awesome.css       (%javaprog% -jar %yuicomp% --charset utf-8  -o ../css/font-awesome/css/font-awesome.min.css ../css/font-awesome/css/font-awesome.css)
+IF EXIST ../css/font-awesome/css/font-awesome.min.css   echo ../css/font-awesome/css/font-awesome.min.css existiert
 
 
 pause
