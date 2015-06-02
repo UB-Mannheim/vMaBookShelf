@@ -1073,7 +1073,13 @@ sub LeseQuellDaten {
 
     while(<$fh>) {
         $nIndex++;
-        chomp;
+        chomp;      # entfernt Platformspezifische CRLF
+                    # wenn Datei als binaer uebertragen wurde
+                    # bleibt LFCR ansonsten erhalten
+
+        # Fals Datei binaer uebertragen wurde Zeilenende entfernen
+        $_ =~ s/\r\n\z//;
+
         my $aktZeile    = $_;
         $lPrintEbook    = $falsch;
 
