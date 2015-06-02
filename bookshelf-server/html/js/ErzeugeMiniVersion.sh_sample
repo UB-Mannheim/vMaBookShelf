@@ -3,12 +3,14 @@
 #::=============================================================================
 #::Function: Merge the steps for generating the reduced versions
 #:: UB Mannheim
-#::  Status: 2014-03-14, 14:05:25
+#::  Status: 2015-06-02, 12:38:41
 #::   Autor: Bernd Fallert, UB Mannheim
 #::=============================================================================
 #:: History:
 #:: 2014-03-14, 14:05:18
 #::  new css/font-awesome/css/font-awesome.css
+#:: 2015-06-02, 12:33:40
+#::  Add Checks and Feedbacks whats going on and error messages
 #::=============================================================================
 
 #:: Doku for YUI compressor http://yui.github.io/yuicompressor/
@@ -28,11 +30,50 @@ javaprog=java
 #::---------------------------------------------------------
 yuicomp=/usr/local/bin/vMaBookShelf/yuicompressor/build/yuicompressor-2.4.8.jar
 
-[ -f jquery.lazyload.js ] &&  $javaprog -jar $yuicomp --charset utf-8  -o jquery.lazyload.min.js jquery.lazyload.js
-[ -f ../css/booklist_erz.css ] && $javaprog -jar $yuicomp --charset utf-8  -o ../css/booklist_erz.min.css ../css/booklist_erz.css
-[ -f ../css/substitute.css ]  && $javaprog -jar $yuicomp --charset utf-8  -o ../css/substitute.min.css ../css/substitute.css
-[ -f ../css/gesten.css ] && $javaprog -jar $yuicomp --charset utf-8  -o ../css/gesten.min.css ../css/gesten.css
-[ -f ../css/externeurls.css ] && $javaprog -jar $yuicomp --charset utf-8  -o ../css/externeurls.min.css ../css/externeurls.css
+function run () {
 
-[ -f ../css/font-awesome/css/font-awesome.css ] && $javaprog -jar $yuicomp --charset utf-8  -o ../css/font-awesome/css/font-awesome.min.css ../css/font-awesome/css/font-awesome.css
+    FileOri=$1
+    FileMin=$2
 
+    if [ -f $FileOri ]
+    then
+        echo
+        echo ==================================================================
+        echo Create $FileMin from $FileOri
+        echo ==================================================================
+        $javaprog -jar $yuicomp --charset utf-8 -o $FileMin $FileOri
+
+        if [ -f $FileMin ]
+        then
+            if [ $FileOri -ot $FileMin ]
+            then
+                echo $FileMin exists and is newer then $FileOri (OK!)
+            else
+                echo
+                echo -------------------------------------------------------------------
+                echo ERROR: Target $FileMin failed to update
+                echo -------------------------------------------------------------------
+                echo
+            fi
+        else
+            echo
+            echo -------------------------------------------------------------------
+            echo ERROR: Target $FileMin could not be generated
+            echo -------------------------------------------------------------------
+            echo
+        fi
+    else
+        echo
+        echo -------------------------------------------------------------------
+        echo ERROR: SOURCE $FileOri does not exist!
+        echo -------------------------------------------------------------------
+        echo
+    fi
+}
+
+run jquery.lazyload.js jquery.lazyload.min.js
+run ../css/booklist_erz.css ../css/booklist_erz.min.css
+run ../css/substitute.css ../css/substitute.min.css
+run ../css/gesten.css ../css/gesten.min.css
+run ../css/externeurls.css ../css/externeurls.min.css
+run ../css/font-awesome/css/font-awesome.css ../css/font-awesome/css/font-awesome.min.css
