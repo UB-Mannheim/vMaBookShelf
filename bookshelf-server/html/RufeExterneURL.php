@@ -39,7 +39,7 @@
 <html>
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-    <link href="css/externeurls.css?Stand=20140317_1656" rel="stylesheet" type="text/css">
+    <link href="css/externeurls.min.css?Stand=<?php echo trim(date("Ymd_His", filemtime( dirname(__FILE__) . '/css/externeurls.min.css' ))) ?>" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 function MaxScreen() {
     var difx, dify;
