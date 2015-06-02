@@ -4,16 +4,16 @@
 
 ### After download:
 
-- Rename bookshelf-server/config/booklist.ini_tmpl to bookshelf-server/config/booklist.ini
+- Rename **bookshelf-server/config/booklist.ini_tmpl** to **bookshelf-server/config/booklist.ini**
   and adapt the configuration to your needs. See bookshelf-server/config/readme.md for details.
-- Rename bookshelf-server/template/buecherregal_header.tmpl_sample to
-         bookshelf-server/template/buecherregal_header.tmpl
+- Rename **bookshelf-server/template/buecherregal_header.tmpl_sample** to
+         **bookshelf-server/template/buecherregal_header.tmpl**
   and adapt the example to your normal webpage header
-- Rename proxy-server/ds/config.php_tmpl to
-         proxy-server/ds/config.php
+- Rename **proxy-server/ds/config.php_tmpl** to
+         **proxy-server/ds/config.php**
   and adapt the example to your needs
-- Rename bookshelf-server/RufeExterneURL.config.php_tmpl to
-         bookshelf-server/RufeExterneURL.config.php
+- Rename **bookshelf-server/RufeExterneURL.config.php_tmpl** to
+         **bookshelf-server/RufeExterneURL.config.php**
   and adapt the example to your needs
 
 - for QR codes is a proxy-script needed which redirects to primo,
@@ -114,13 +114,16 @@ Infos from the perlscripts CreateQRCodeFuerBuecherregal.pl and CreateGesamtBuech
 
 
 ### Create minimized versions of js and css files
+This step is in linux now integrated in the bookshelf-server/createFiles.sh (see above)
+
+#### Manuel
 with
 cd bookshelf-server/html/js/
 - ./ErzeugeMiniVersion.sh   (for Linux)
 - ErzeugeMiniVersion.cmd    (for Windows)
  
 ### RufeExterneURL.config.php
-copy RufeExterneURL.config.php_tmpl to RufeExterneURL.config.php and adapt the example to your needs
+copy **RufeExterneURL.config.php_tmpl** to **RufeExterneURL.config.php** and adapt the example to your needs
 
 ### Link html path to /var/www/**YourProjectName**
 create a symbolic link
