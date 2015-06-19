@@ -83,7 +83,8 @@ pageMod.PageMod({
                 "\nanzahlElemente: elementContent: " +
                 elementContent + " " + "%".repeat(12) +
                 "\n");
-            for each (var window in windows.browserWindows) {
+            for (var prop in windows.browserWindows) {
+              var window = windows.browserWindows[prop];
               console.log("Titel: (window.title):" + window.title);
             };
             console.log("Anzahl: (windows.browserWindows.length): " +
