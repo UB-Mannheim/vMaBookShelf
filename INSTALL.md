@@ -5,20 +5,21 @@
 ### After download:
 
 - Rename **bookshelf-server/config/booklist.ini_tmpl** to **bookshelf-server/config/booklist.ini**
-  and adapt the configuration to your needs. See bookshelf-server/config/readme.md for details.
+  and adapt the configuration to your needs.
+  See [bookshelf-server/config/README](bookshelf-server/config/README) for details.
 - Rename **bookshelf-server/template/buecherregal_header.tmpl_sample** to
          **bookshelf-server/template/buecherregal_header.tmpl**
-  and adapt the example to your normal webpage header
+  and adapt the example to your normal webpage header.
 - Rename **proxy-server/ds/config.php_tmpl** to
          **proxy-server/ds/config.php**
-  and adapt the example to your needs
+  and adapt the example to your needs.
 - Rename **bookshelf-server/RufeExterneURL.config.php_tmpl** to
          **bookshelf-server/RufeExterneURL.config.php**
-  and adapt the example to your needs
+  and adapt the example to your needs.
 
-- for QR codes is a proxy-script needed which redirects to primo,
-  you can use this script on another server or install on the same server.
-  You must configure the URL to the proxy script, which is encoded in
+- For QR codes a proxy-script is needed which redirects to Primo,
+  you can use this script on another server or install it on the same server.
+  You must configure the URL to the proxy script, which gets encoded in
   the QR code.
   In bookshelf-server/config/booklist.ini,
   [URL] section,
@@ -28,24 +29,23 @@
 
 ### Java
 
-a local Version of java is needed to minimize the js and css files.
+A local version of Java is needed to minimize the js and css files.
 See
-  * bookshelf-server/html/js/ErzeugeMiniVersion.sh_sample (for Linux)
-  * bookshelf-server/html/js/ErzeugeMiniVersion.cmd_sample (for Windows)
+  * [bookshelf-server/html/js/ErzeugeMiniVersion.sh_sample](bookshelf-server/html/js/ErzeugeMiniVersion.sh_sample) (for Linux)
+  * [bookshelf-server/html/js/ErzeugeMiniVersion.cmd_sample](bookshelf-server/html/js/ErzeugeMiniVersion.cmd_sample) (for Windows)
 
-there you have to insert the path into the variable "javaprog"
+There you have to insert the path into the variable "javaprog".
 
 apt-get install openjdk-7-jdk
 
 
 ### YUICompressor
-need for minimizing js and css files.
-see
+It is needed for minimizing js and css files.
+See
   * bookshelf-server/html/js/ErzeugeMiniVersion.sh_sample (for Linux)
   * bookshelf-server/html/js/ErzeugeMiniVersion.cmd_sample (for Windows)
 
-there you have to insert the path into the variable "yuicomp"
-
+There you have to insert the path into the variable "yuicomp".
 
 #### Download YUICompressor
 
@@ -54,7 +54,7 @@ and download the actual jar file.
 
 #### Install YUICompressor
 
-see https://github.com/yui/yuicompressor/blob/master/README.md
+See https://github.com/yui/yuicompressor/blob/master/README.md
 
 #### Rename Scripts to use YUICompressor
 Rename and adapt the example to your needs
@@ -62,7 +62,7 @@ in this file you put the path and name of the jar file to the variable "yuicomp"
 
 
 ##### Linux
-rename
+Rename
   * bookshelf-server/html/js/ErzeugeMiniVersionen.sh_sample to
   * bookshelf-server/html/js/ErzeugeMiniVersionen.sh
 
@@ -70,14 +70,14 @@ make the file executable
   * chmod u+x bookshelf-server/html/js/ErzeugeMiniVersionen.sh
 
 ##### Windows
-rename
+Rename
   * bookshelf-server/html/js/ErzeugeMiniVersionen.cmd_sample to
   * bookshelf-server/html/js/ErzeugeMiniVersionen.cmd
 
 
 ### Perl
 
-For lokal tests in Windows i use http://strawberryperl.com/
+For local tests in Windows I use http://strawberryperl.com/
 
 The scripts used the following perl modules. You can download them from cpan.
 
@@ -102,9 +102,10 @@ Now you can create the html files, with
 cd bookshelf-server
 - ./createFiles.sh (for Linux)
 - createFiles.cmd  (for Windows)
- 
+
 #### Log-Files / Error-Log-Files
-Infos from the perlscripts CreateQRCodeFuerBuecherregal.pl and CreateGesamtBuecherregal.pl are stored in
+Infos from the perlscripts CreateQRCodeFuerBuecherregal.pl and
+CreateGesamtBuecherregal.pl are stored in
 
 - CreateQRCodeFuerBuecherregal.pl stored in
   - CreateQRCodeFuerBuecherregal.pl.log (Normal Infos and Errors)
@@ -114,16 +115,18 @@ Infos from the perlscripts CreateQRCodeFuerBuecherregal.pl and CreateGesamtBuech
 
 
 ### Create minimized versions of js and css files
-This step is in linux now integrated in the bookshelf-server/createFiles.sh (see above)
+For Linux, this step is now integrated in the
+bookshelf-server/createFiles.sh (see above).
 
 #### Manuel
 with
 cd bookshelf-server/html/js/
 - ./ErzeugeMiniVersion.sh   (for Linux)
 - ErzeugeMiniVersion.cmd    (for Windows)
- 
+
 ### RufeExterneURL.config.php
-copy **RufeExterneURL.config.php_tmpl** to **RufeExterneURL.config.php** and adapt the example to your needs
+Copy **RufeExterneURL.config.php_tmpl** to **RufeExterneURL.config.php**
+and adapt the example to your needs.
 
 ### Link html path to /var/www/**YourProjectName**
 create a symbolic link
@@ -136,8 +139,7 @@ create a symbolic link
   * to:   /var/www/ds, or copy the script to a different server
 
 
-
-## Client where you like two show the Webside
+## Client where you like two show the Website
 
 ### Firefox
 
