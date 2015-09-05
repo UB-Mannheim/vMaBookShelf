@@ -21,7 +21,7 @@
     //          In diesem Verzeichnis werden die Statistik-CSV-Dateien
     //          gespeichert
     //      - In der Variable "$url" muss der Pfad zu Primo und die Werte der
-    //          Paramter:
+    //          Parameter:
     //              - institution
     //              - vid
     //              - search_scope
