@@ -16,14 +16,14 @@ vMaBookShelf creates a virtual bookshelf:
 - download covers from Amazon
 - creates qr-codes with link to a proxy-server
   (reason: shorten the links in the qr-code), this proxy-server can call
-  your lokal Primo / Opac
-- includes a proxy script for connect to other webpages (eBooks ...)
-- includes a Firefox Add-on "vMaBookShelfHelper" for
-  - wrap the content of other websides in a iframe and
-  - establish two timers.
-    - Timer one shows a random part of the subjects-html-files and
-    - timer two close all websides (ebook or opac) and show the
-      virtual bookshelf again.
+  your local Primo / Opac
+- includes a proxy script for connections to other web pages (eBooks ...)
+- includes a Firefox Add-on "vMaBookShelfHelper" for these tasks:
+  - wrap the content of other web pages in an iframe
+  - create two timers:
+    - timer one shows a random part of the subjects-html-files and
+    - timer two closes all web pages (ebook or opac) and shows the
+      virtual bookshelf again
 
 
 ## Installation
