@@ -1,8 +1,6 @@
 copy booklist.ini_tmpl to your local file booklist.ini.
 
 
-
-
 config/booklist.ini_tmpl
 --------------------------
 
@@ -64,10 +62,10 @@ host=aleph.bib.uni-mannheim.de
 
 #--------------------------------------------------------------------------------
 # This Variable points to a php script that opens external URLs (including Primo)
-# The script adds at the beginning of these variables the following: 
-# 'http://' + 
-# section '[URL]' variable 'host' + 
-# section '[PATH]' variable 'html_web_path' + 
+# The script adds at the beginning of these variables the following:
+# 'http://' +
+# section '[URL]' variable 'host' +
+# section '[PATH]' variable 'html_web_path' +
 # section '[URL]' variable 'openExterneURL_base'
 #--------------------------------------------------------------------------------
 # result: openExterneURL_base=http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
@@ -105,7 +103,7 @@ html_gestensteuerung=index_g.html
 [STORE]
 # cache file if you didn't find a cover for this book
 # if a id is in this file the script will skip thes id if it has to check amazon
-# relative path with file name and perhaps extention
+# relative path with file name and perhaps extension
 kein_treffer_cache_file=DatenCache/keinTreffer.dat
 
 
