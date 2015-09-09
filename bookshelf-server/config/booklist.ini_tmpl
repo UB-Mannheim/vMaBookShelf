@@ -102,7 +102,7 @@ html_gestensteuerung=index_g.html
 [STORE]
 # cache file if you didn't find a cover for this book
 # if a id is in this file the script will skip thes id if it has to check amazon
-# relative path with file name and perhaps extention
+# relative path with file name and perhaps extension
 kein_treffer_cache_file=DatenCache/keinTreffer.dat
 
 
