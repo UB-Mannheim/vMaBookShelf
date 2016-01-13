@@ -79,7 +79,7 @@ rename
 
 For lokal tests in Windows i use http://strawberryperl.com/
 
-The scripts used the folowing perl modules. You can download them from cpan.
+The scripts used the following perl modules. You can download them from cpan.
 
 - CGI
 - CGI::Carp
@@ -133,7 +133,7 @@ create a symbolic link
 ### Link proxy-server/ds/ path to /var/www/ds
 create a symbolic link
   * from: /usr/local/bin/vMaBookShelf/proxy-server/ds
-  * to:   /var/www/ds, or copy the script to a diffrent server
+  * to:   /var/www/ds, or copy the script to a different server
 
 
 
