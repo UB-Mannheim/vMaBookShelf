@@ -11,7 +11,7 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    width="680"
    height="93"
    sodipodi:docname="android_back.svg"
@@ -26,7 +26,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -42,16 +42,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1920"
-     inkscape:window-height="1058"
+     inkscape:window-height="1028"
      id="namedview4"
      showgrid="false"
      inkscape:zoom="11.313709"
-     inkscape:cx="65.097216"
+     inkscape:cx="74.635243"
      inkscape:cy="43.778975"
-     inkscape:window-x="1912"
+     inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g3774" />
+     inkscape:current-layer="g4831" />
   <g
      inkscape:groupmode="layer"
      id="layer3"
@@ -148,14 +148,14 @@
          height="32.942486"
          width="62.287418"
          id="rect4159"
-         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:2.62442422;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+         style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:2.62442422;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <g
          id="g4182">
         <path
            inkscape:connector-curvature="0"
            id="path4069"
            d="m 110.55381,54.497714 c 0,5.532975 -4.22442,10.018336 -9.43552,10.018336 -5.211098,0 -9.435525,-4.485361 -9.435525,-10.018336 0,-5.532974 4.224427,-10.018335 9.435525,-10.018335 5.2111,0 9.43552,4.485361 9.43552,10.018335 z"
-           style="fill:none;stroke:#000000;stroke-width:3.02846694;stroke-miterlimit:4;stroke-opacity:1;display:inline"
+           style="display:inline;fill:none;stroke:#000000;stroke-width:3.02846694;stroke-miterlimit:4;stroke-opacity:1"
            inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png"
            inkscape:export-xdpi="32.514698"
            inkscape:export-ydpi="32.514698" />
@@ -163,7 +163,7 @@
            inkscape:connector-curvature="0"
            id="path4067"
            d="m 88.833366,42.66592 11.086574,0 0,22.400284 -11.086574,0 z"
-           style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3.22294044;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline"
+           style="display:inline;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:3.22294044;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
            inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png"
            inkscape:export-xdpi="32.514698"
            inkscape:export-ydpi="32.514698" />
@@ -175,11 +175,11 @@
            inkscape:connector-curvature="0"
            id="path4116"
            d="M 100.0571,44.487834 52.528537,44.468074"
-           style="fill:none;stroke:#000000;stroke-width:3.03999996;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;display:inline" />
+           style="display:inline;fill:none;stroke:#000000;stroke-width:3.03999996;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none" />
         <path
            inkscape:connector-curvature="0"
            id="path4114"
-           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none"
+           style="fill:none;stroke:#000000;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
            d="M 59.372832,55.138 49.375,43.489173 m 10.000917,-9.671264 -9.997832,11.648827" />
         <path
            inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png"
@@ -189,7 +189,7 @@
            inkscape:connector-curvature="0"
            id="path4118"
            d="M 100.06857,64.516102 78.401549,64.473418"
-           style="fill:none;stroke:#000000;stroke-width:3.01689935;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;display:inline" />
+           style="display:inline;fill:none;stroke:#000000;stroke-width:3.01689935;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none" />
       </g>
     </g>
   </g>
@@ -199,7 +199,7 @@
      inkscape:label="Farbebene"
      style="display:none">
     <rect
-       style="fill:#990000;fill-opacity:1;stroke:#ffffff;stroke-width:3.03999996;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       style="fill:#990000;fill-opacity:1;stroke:#ffffff;stroke-width:3.03999996;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect3004"
        width="221.32442"
        height="112.60675"
@@ -207,14 +207,14 @@
        y="-4.7575116" />
   </g>
   <g
-     style="display:inline"
+     style="display:none"
      inkscape:label="Zusammenfassung Weiss"
      id="g3774"
      inkscape:groupmode="layer">
     <g
        id="g3811">
       <rect
-         style="fill:#990000;fill-opacity:1;stroke:#990000;stroke-width:2.62442421999999990;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+         style="fill:#990000;fill-opacity:1;stroke:#990000;stroke-width:2.62442422;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          id="rect3778"
          width="62.287418"
          height="32.942486"
@@ -226,7 +226,7 @@
            inkscape:export-ydpi="32.514698"
            inkscape:export-xdpi="32.514698"
            inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png"
-           style="fill:none;stroke:#ffffff;stroke-width:3.02846693999999990;stroke-miterlimit:4;stroke-opacity:1;display:inline"
+           style="display:inline;fill:none;stroke:#ffffff;stroke-width:3.02846694;stroke-miterlimit:4;stroke-opacity:1"
            d="m 110.55381,54.497714 c 0,5.532975 -4.22442,10.018336 -9.43552,10.018336 -5.211098,0 -9.435525,-4.485361 -9.435525,-10.018336 0,-5.532974 4.224427,-10.018335 9.435525,-10.018335 5.2111,0 9.43552,4.485361 9.43552,10.018335 z"
            id="path3782"
            inkscape:connector-curvature="0" />
@@ -234,12 +234,12 @@
            inkscape:export-ydpi="32.514698"
            inkscape:export-xdpi="32.514698"
            inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png"
-           style="fill:#990000;fill-opacity:1;stroke:#990000;stroke-width:3.22294044;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;display:inline"
+           style="display:inline;fill:#990000;fill-opacity:1;stroke:#990000;stroke-width:3.22294044;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
            d="m 88.73347,42.666246 11.086574,0 0,22.400284 -11.086574,0 z"
            id="path3784"
            inkscape:connector-curvature="0" />
         <path
-           style="fill:none;stroke:#ffffff;stroke-width:3.03999995999999980;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;display:inline"
+           style="display:inline;fill:none;stroke:#ffffff;stroke-width:3.03999996;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
            d="M 100.0571,44.487834 52.528537,44.468074"
            id="path3786"
            inkscape:connector-curvature="0"
@@ -249,11 +249,11 @@
            inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png" />
         <path
            d="M 59.372832,55.138 49.375,43.489173 m 10.000917,-9.671264 -9.997832,11.648827"
-           style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none"
+           style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
            id="path3788"
            inkscape:connector-curvature="0" />
         <path
-           style="fill:none;stroke:#ffffff;stroke-width:3.01689935000000010;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-start:none;display:inline"
+           style="display:inline;fill:none;stroke:#ffffff;stroke-width:3.01689935;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
            d="M 100.06857,64.516102 78.401549,64.473418"
            id="path3790"
            inkscape:connector-curvature="0"
@@ -261,6 +261,65 @@
            inkscape:export-xdpi="32.514698"
            inkscape:export-ydpi="32.514698"
            inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png" />
+      </g>
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="g4829"
+     inkscape:label="Add-on Icon"
+     style="display:inline">
+    <g
+       id="g4831">
+      <rect
+         y="27.004045"
+         x="57.570953"
+         height="45.371323"
+         width="45.371323"
+         id="rect4833"
+         style="fill:#990000;fill-opacity:1;stroke:#990000;stroke-width:2.62867641;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <g
+         id="g4835"
+         transform="matrix(0.72841887,0,0,1.377289,21.79618,-18.747392)">
+        <path
+           inkscape:connector-curvature="0"
+           id="path4837"
+           d="m 110.55381,54.497714 c 0,5.532975 -4.22442,10.018336 -9.43552,10.018336 -5.211098,0 -9.435525,-4.485361 -9.435525,-10.018336 0,-5.532974 4.224427,-10.018335 9.435525,-10.018335 5.2111,0 9.43552,4.485361 9.43552,10.018335 z"
+           style="display:inline;fill:none;stroke:#ffffff;stroke-width:3.02846694;stroke-miterlimit:4;stroke-opacity:1"
+           inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png"
+           inkscape:export-xdpi="32.514698"
+           inkscape:export-ydpi="32.514698" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path4839"
+           d="m 88.73347,42.666246 11.086574,0 0,22.400284 -11.086574,0 z"
+           style="display:inline;fill:#990000;fill-opacity:1;stroke:#990000;stroke-width:3.22294044;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
+           inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png"
+           inkscape:export-xdpi="32.514698"
+           inkscape:export-ydpi="32.514698" />
+        <path
+           inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png"
+           inkscape:export-ydpi="32.514698"
+           inkscape:export-xdpi="32.514698"
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path4841"
+           d="M 100.0571,44.487834 52.528537,44.468074"
+           style="display:inline;fill:none;stroke:#ffffff;stroke-width:3.03999996;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none" />
+        <path
+           inkscape:connector-curvature="0"
+           id="path4843"
+           style="fill:none;stroke:#ffffff;stroke-width:3;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none"
+           d="M 59.372832,55.138 49.375,43.489173 m 10.000917,-9.671264 -9.997832,11.648827" />
+        <path
+           inkscape:export-filename="D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtuelles_buchregal_erzeugen\images\Android_rueck.png"
+           inkscape:export-ydpi="32.514698"
+           inkscape:export-xdpi="32.514698"
+           sodipodi:nodetypes="cc"
+           inkscape:connector-curvature="0"
+           id="path4845"
+           d="M 100.06857,64.516102 78.401549,64.473418"
+           style="display:inline;fill:none;stroke:#ffffff;stroke-width:3.01689935;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:none" />
       </g>
     </g>
   </g>

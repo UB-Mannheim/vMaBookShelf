@@ -1,4 +1,5 @@
-var tag = "ul";
+// Testvariable
+//var tag = "ul";
 
 var vMaBookShelfHelper = vMaBookShelfHelper || {};
 vMaBookShelfHelper.settings = vMaBookShelfHelper.settings || {};
@@ -17,8 +18,8 @@ vMaBookShelfHelper.settings.HomeUrl = prefs.prefs['HomeUrl'];
 
 // define a generic prefs change callback
 function onPrefChange(prefName) {
-    console.log("The " + prefName +
-        " preference changed, current value is: " +
+    console.log("'" + prefName +
+        "' preference geaendert, current value is: " +
         prefs.prefs[prefName]
     );
     if (prefName == 'HomeUrl') {
@@ -61,14 +62,29 @@ pageMod.PageMod({
     contentScriptWhen: "ready",
     onAttach: function(worker) {
         console.log( "\n" + "=".repeat(80) + "\njetzt in onAttach" + "\n" + "=".repeat(80));
-        console.log( "tag: " + tag );
+        //console.log( "tag: " + tag );
         //worker.port.emit("getElements", tag);
-        worker.port.emit("getAnzahl", tag);
+
+        for (let window of windows.browserWindows) {
+          console.log("title: " + window.title);
+        }
+
+        console.log("Anzahl: " + windows.browserWindows.length);
+
+
+        // Hiermit kann eine Funktion aufgerufen werden
+        //worker.port.emit("getAnzahl", tag);
+
+        // Hiermit werden funktionen definiert
         worker.port.on("gotElement", function(elementContent) {
             console.log( "worker.port.on 'gotElement' " + "+".repeat(68) );
             console.log(elementContent);
         });
         worker.port.on("giveUrlBack", function(data) {
+            console.log( "\n" + "=".repeat(80) + "\n" +
+                "worker.port.on 'giveURLBack rufe aktURL' " +
+                vMaBookShelfHelper.settings.HomeUrl + "\n" +
+                "=".repeat(80));
             worker.port.emit("aktURL", vMaBookShelfHelper.settings.HomeUrl);
         });
         worker.port.on("anzahlElemente", function(elementContent) {
@@ -118,5 +134,6 @@ pageMod.PageMod({
                 "worker.port.on 'ENDE von empfangeUnterfensterAktiv' " +
                 "\n" + "=".repeat(80));
         });
+        console.log( "\n" + "=".repeat(80) + "\njetzt ENDE von onAttach" + "\n" + "=".repeat(80));
     }
 });

@@ -1,20 +1,30 @@
 //   Name: erzeuge-close-button.js
-//  Stand: 2015-03-11, 13:47:17
+//  Stand: 2016-01-18, 12:00:36
 // Author: Bernd Fallert, UB Mannheim
 
 // ToDo: Timer des Hauptfensters ausschalten wenn unterfenster aufgerufen wird
 //          und wieder einschalten wenn unterfenster aus irgendeinem Grunde
 //          geschlossen wird
 
-var vMaBookShelfHelper = vMaBookShelfHelper || {};
-vMaBookShelfHelper.settings = vMaBookShelfHelper.settings || {};
+if (typeof vMaBookShelfHelper === "undefined") {
+    console.log( "1---------->vMaBookShelfHelper" );
 
-var d                       = document;
-var host                    = d.location.host;
+    var vMaBookShelfHelper          = vMaBookShelfHelper || {};
+    console.log( "1---------->vMaBookShelfHelper" );
+    vMaBookShelfHelper.settings     = vMaBookShelfHelper.settings || {};
+} else {
+    console.log( "2---------->vMaBookShelfHelper" );
 
+    var vMaBookShelfHelper          = vMaBookShelfHelper || {};
+    console.log( "2---------->vMaBookShelfHelper" );
+    vMaBookShelfHelper.settings     = vMaBookShelfHelper.settings || {};
+}
 
-var cFileType               = $( "#vMaBookShelfHelper_type" ).text();
-var lInfoBlockVorhanden     = false;
+var d                           = document;
+var host                        = d.location.host;
+
+var cFileType                   = $( "#vMaBookShelfHelper_type" ).text();
+var lInfoBlockVorhanden         = false;
 if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
     lInfoBlockVorhanden = true;
 
@@ -23,28 +33,30 @@ if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
 //------------------------------------------------------------------------------
 // Fuer Pruefung auf RufeExterneURL.php und UB3D
 //------------------------------------------------------------------------------
-var ScriptName              = d.location.pathname;
+var ScriptName                  = d.location.pathname;
 
-var lZeigeButton            = false;
-var lIframe                 = false;
-var lFlag                   = false;
-var TimerID                 = 0;
+var lZeigeButton                = false;
+var lIframe                     = false;
+var lFlag                       = false;
+var TimerID                     = 0;
 
-var lFehlersuche            = false;
-//var lFehlersuche            = true;
+var lFehlersuche                = false;
+var lFehlersuche                = true;
 
-var nMinutenExternFenster   = 10;
-var nMinutenHauptFenster    = 30;
+var nMinutenExternFenster       = 10;
+var nMinutenHauptFenster        = 30;
+var nZeitSchalteHauptFensterUm  = 10000;
 
-var lHauptFenster           = false;
-var lUnterFenster           = false;
+var lHauptFenster               = false;
+var lUnterFenster               = false;
 
 console.log( "START" );
 
 if (lFehlersuche) {
     // Fuer Fehlersuche verkuerzte Wartezeiten bis Timer zuschlaegt
-    nMinutenExternFenster   = 1;
-    nMinutenHauptFenster    = 1;
+    nMinutenExternFenster       = 1;
+    nMinutenHauptFenster        = 1;
+    nZeitSchalteHauptFensterUm  = 1000;
 }
 
 
@@ -93,9 +105,11 @@ if (lInfoBlockVorhanden) {
 //} else if ((host === "aleph.bib.uni-mannheim.de") &&
 //    (ScriptName.substr(0, 9) != '/cgi-bin/' ) ||
 //    (host === "onlinelesen.ciando.com")) {
+} else if (host === "localhost") {
+    // Keine Aktion bei localhost
+    console.log( "----------CHECK 2 else if localhost ------------------\n" );
 } else if (host === "onlinelesen.ciando.com") {
-
-    console.log( "----------CHECK 2 else if onlinelesen.ciando.com ---------------" );
+    console.log( "----------CHECK 3 else if onlinelesen.ciando.com ---------------" );
 
     // In diesem Fall kann ich eine alternative Technik versuchen
     // die bei JumpHomeMa verwendet habe!
@@ -143,24 +157,34 @@ if (lInfoBlockVorhanden) {
 
 
 } else {
-    console.log( "----------CHECK 3 else ---------------" );
+    console.log( "----------CHECK 4 else ---------------" );
 
     //alert( "Kontext verlassen" + "\n" + window.location );
     var aktLocation = window.location;
+    var isInIFrame = false;
     lZeigeButton    = true;
+
 
     //---------------------------------
     // Pruefen ob im IFrame enthalten
     //---------------------------------
-    var isInIFrame = (window.location != window.parent.location);
+    //var isInIFrame = (window.location != window.parent.location);
+    //http://stackoverflow.com/questions/326069/how-to-identify-if-a-webpage-is-being-loaded-inside-an-iframe-or-directly-into-t
+    if (window.frameElement) {
+        console.log( "----------in iFrame ---------------" );
+        var isInIFrame = true;
+    } else {
+        console.log( "----------NICHT in iFrame ---------------" );
+        var isInIFrame = false;
+    }
+
     if(isInIFrame == true){
         // iframe
         lZeigeButton    = false;
         lIframe         = true;
 
         //alert( "im IFrame" + "\n" + window.location );
-    }
-    else {
+    } else {
         // no iframe
         // Script ist aus iframe ausgebrochen
         // nochmaliger Aufruf um es wieder einzufangen!
@@ -186,6 +210,8 @@ if (lInfoBlockVorhanden) {
             console.log( "A".repeat(50) + "\n" );
             console.log( "in aktURL cUrl: " + cUrl );
             console.log( "A".repeat(50) + "\n" );
+            console.log( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
+                                      aktLocation );
 
             // Setze location abhängig von Einstellungen neu
             document.location.replace( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
@@ -201,7 +227,7 @@ if (lInfoBlockVorhanden) {
 }
 
 
-console.log( "\n\n\n\n" + "lZeigeButton: ______________________" + "\n\n\n\n");
+console.log( "\n" + "--------------------------------------------\n" + "vor lZeigeButton: '" + lZeigeButton + "'\n--------------------------------------------\n" + "\n\n");
 if (lZeigeButton) {
     var div = document.createElement("div");
     div.innerHTML = "<a href='javascript:window.close();' " +
@@ -240,14 +266,16 @@ if (lZeigeButton) {
     //--------------------------------------------------------------------------
     if (lHauptFenster) {
         window.TimerIDHauptFenster = window.setTimeout(SchalteHauptFensterUm,
-            10000);
+            nZeitSchalteHauptFensterUm );
     }
 
     if (lFehlersuche) {
         // Jetzt testweise alle Elemente mit class fachnavi durchgehen
+        console.log( "fehlersuche: alle Elemente mit class fachnavi durchgehen");
         $( '.fachnavi' ).each(function(index) {
             console.log( "index: " + index + " " + $(this).data('id'));
         });
+        console.log( "ENDE: fehlersuche: alle Elemente mit class fachnavi durchgehen");
     };
 }
 
@@ -427,11 +455,12 @@ function BehandleClickUndTouchHauptFenster() {
 function SchalteHauptFensterUm () {
 
     console.log("SchalteHauptFensterUm");
+    console.log("nZeitSchalteHauptFensterUm:" + nZeitSchalteHauptFensterUm);
 
     // Timer für Schliesen des Fensters mit Touch oder Click zurücksetzen
 
     console.log( "-----------------------------\n" +
-        "         Setze jetzt die Events" );
+        "                               Setze jetzt die Events" );
 
 
     console.log("vor istUnterfensterAktiv" + "=".repeat(30));

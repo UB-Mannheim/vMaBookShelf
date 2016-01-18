@@ -40,6 +40,8 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 
 ## Historie
 
+* 0.9.1 2016-01-18, 11:17:00
+                           Add-on Erstellung von cfx auf jpm umgestellt
 * 0.9 2015-03-16, 12:57:32 Adresse für Rück-Button wenn iFrame verlassen werden konnte
                             wird jetzt aus einem Konfigurationsdialog ausgelesen
 * 0.8 2014-07-15, 10:03:45 Adresse fuer zufaelligen Sprungs auf andere Faecher

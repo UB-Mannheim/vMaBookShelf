@@ -6,6 +6,7 @@ self.port.on("getElements", function(tag) {
 });
 
 self.port.on("getAnzahl", function(tag) {
-  var elements = document.getElementsByTagName(tag);
-  self.port.emit("anzahlElemente", elements.length);
+    console.log( "element-getter.js self.port.on getAnzahl" + " tag: " + tag );
+    var elements = document.getElementsByTagName(tag);
+    self.port.emit("anzahlElemente", elements.length);
 });
