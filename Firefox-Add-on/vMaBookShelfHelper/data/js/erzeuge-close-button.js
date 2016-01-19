@@ -7,16 +7,12 @@
 //          geschlossen wird
 
 if (typeof vMaBookShelfHelper === "undefined") {
-    console.log( "1---------->vMaBookShelfHelper" );
-
+    console.log( "1---------->vMaBookShelfHelper setzen" );
     var vMaBookShelfHelper          = vMaBookShelfHelper || {};
-    console.log( "1---------->vMaBookShelfHelper" );
     vMaBookShelfHelper.settings     = vMaBookShelfHelper.settings || {};
 } else {
-    console.log( "2---------->vMaBookShelfHelper" );
-
+    console.log( "2---------->vMaBookShelfHelper schon definiert" );
     var vMaBookShelfHelper          = vMaBookShelfHelper || {};
-    console.log( "2---------->vMaBookShelfHelper" );
     vMaBookShelfHelper.settings     = vMaBookShelfHelper.settings || {};
 }
 
@@ -41,7 +37,7 @@ var lFlag                       = false;
 var TimerID                     = 0;
 
 var lFehlersuche                = false;
-var lFehlersuche                = true;
+//lFehlersuche                    = true;
 
 var nMinutenExternFenster       = 10;
 var nMinutenHauptFenster        = 30;
@@ -56,7 +52,7 @@ if (lFehlersuche) {
     // Fuer Fehlersuche verkuerzte Wartezeiten bis Timer zuschlaegt
     nMinutenExternFenster       = 1;
     nMinutenHauptFenster        = 1;
-    nZeitSchalteHauptFensterUm  = 1000;
+    nZeitSchalteHauptFensterUm  = 5000;
 }
 
 
@@ -77,11 +73,39 @@ var counter = function() {
     };
 };
 
+
+//------------------------------------------------------------------------------
+// Mit verschiedenen Events
+// - Mouseklick
+// - keydown
+// - mousemove
+// - touchstart
+// timer für umschalten auf andere Dokument zurückgesetzt
+//------------------------------------------------------------------------------
+document.addEventListener('mousedown', function(event) {
+    nBooklistTimerIndex.reset();
+}, false);
+document.addEventListener('keydown', function(event) {
+    nBooklistTimerIndex.reset();
+}, false);
+document.addEventListener('mousemove', function(event) {
+    nBooklistTimerIndex.reset();
+}, false);
+document.addEventListener('touchstart', function(event) {
+    nBooklistTimerIndex.reset();
+}, false);
+//------------------------------------------------------------------------------
+// Ende Timer zurückgesetzt
+//------------------------------------------------------------------------------
+
+
+
 var nBooklistTimerIndex = new counter();
 
 
-console.log("\n\n\n\n\n\n" + "#".repeat(80) + "\n" + "ScriptName: '" +
-    ScriptName + "' ----------substr 10> " + ScriptName.substr(0, 10));
+console.log("\n\n\n\n\n\n" + "#".repeat(80) + "\n" +
+"ScriptName: '" + ScriptName + "'\n" +
+" substr 10: '" + ScriptName.substr(0, 10) + "'");
 
 
 if (lInfoBlockVorhanden) {
@@ -91,10 +115,13 @@ if (lInfoBlockVorhanden) {
 
     if (cFileType === 'html') {
         // normale html-Seiten des BookShelfs
+        console.log( "normale html-Seiten des BookShelfs" );
+
         lZeigeButton    = false;
         lHauptFenster   = true;
         lUnterFenster   = false;
     } else {
+        console.log( "seiten auf denen der Button angezeigt werden soll" );
         // seiten auf denen der Button angezeigt werden soll
         // hier ist cFileType nicht 'html'!
         lZeigeButton    = true;
@@ -102,12 +129,12 @@ if (lInfoBlockVorhanden) {
         lUnterFenster   = true;
     };
 
-//} else if ((host === "aleph.bib.uni-mannheim.de") &&
-//    (ScriptName.substr(0, 9) != '/cgi-bin/' ) ||
-//    (host === "onlinelesen.ciando.com")) {
 } else if (host === "localhost") {
     // Keine Aktion bei localhost
     console.log( "----------CHECK 2 else if localhost ------------------\n" );
+//} else if ((host === "aleph.bib.uni-mannheim.de") &&
+//    (ScriptName.substr(0, 9) != '/cgi-bin/' ) ||
+//    (host === "onlinelesen.ciando.com")) {
 } else if (host === "onlinelesen.ciando.com") {
     console.log( "----------CHECK 3 else if onlinelesen.ciando.com ---------------" );
 
@@ -161,29 +188,28 @@ if (lInfoBlockVorhanden) {
 
     //alert( "Kontext verlassen" + "\n" + window.location );
     var aktLocation = window.location;
-    var isInIFrame = false;
+    var isInIFrame  = false;
     lZeigeButton    = true;
 
 
     //---------------------------------
     // Pruefen ob im IFrame enthalten
     //---------------------------------
-    //var isInIFrame = (window.location != window.parent.location);
+    var isInIFrame = (window.location != window.parent.location);
     //http://stackoverflow.com/questions/326069/how-to-identify-if-a-webpage-is-being-loaded-inside-an-iframe-or-directly-into-t
-    if (window.frameElement) {
-        console.log( "----------in iFrame ---------------" );
-        var isInIFrame = true;
-    } else {
-        console.log( "----------NICHT in iFrame ---------------" );
-        var isInIFrame = false;
-    }
+    //if (window.frameElement) {
+    //    console.log( "----------in iFrame ---------------" );
+    //    isInIFrame = true;
+    //    isInIFrame = (window.location != window.parent.location);
+    //} else {
+    //    console.log( "----------NICHT in iFrame ---------------" );
+    //    isInIFrame = false;
+    //}
 
     if(isInIFrame == true){
         // iframe
         lZeigeButton    = false;
         lIframe         = true;
-
-        //alert( "im IFrame" + "\n" + window.location );
     } else {
         // no iframe
         // Script ist aus iframe ausgebrochen
@@ -265,17 +291,21 @@ if (lZeigeButton) {
     // Timer zum umschalten des Hauptfensters
     //--------------------------------------------------------------------------
     if (lHauptFenster) {
+        // Clear Timeout, zur Sicherheit!
+        //https://wiki.selfhtml.org/wiki/JavaScript/Objekte/window/setTimeout
+        clearTimeout(window.TimerIDHauptFenster);
+
         window.TimerIDHauptFenster = window.setTimeout(SchalteHauptFensterUm,
             nZeitSchalteHauptFensterUm );
     }
 
     if (lFehlersuche) {
         // Jetzt testweise alle Elemente mit class fachnavi durchgehen
-        console.log( "fehlersuche: alle Elemente mit class fachnavi durchgehen");
+        console.log( "fehlersuche: alle Elemente mit class fachnavi auflisten");
         $( '.fachnavi' ).each(function(index) {
             console.log( "index: " + index + " " + $(this).data('id'));
         });
-        console.log( "ENDE: fehlersuche: alle Elemente mit class fachnavi durchgehen");
+        console.log( "ENDE: fehlersuche: alle Elemente mit class fachnavi auflisten");
     };
 }
 
@@ -300,22 +330,28 @@ function WelchesFensterIstAktiv () {
     //#############################################
     // Timer für Schliesen des Fensters mit Touch oder Click zurücksetzen
 
+    console.log( "-----------------------------\n" + "Alter Timer window.TimerID: " + window.TimerID + "\n-----------------------------\n" );
+
     console.log( "-----------------------------\n" +
-        "         Setze jetzt die Events" );
+        "         Setze jetzt die Events (1)" );
 
 
-    if (typeof( window.ClickId ) !== 'undefined' ) {
-        document.body.detachEvent('click', window.ClickId);
-        console.log( "detachEvent möglich, ClickId ist:" + window.ClickId);
-    } else {
-        console.log( "detachEvent nicht möglich, ClickId ist nicht definiert!");
-    };
-    if (typeof( window.TouchId ) !== 'undefined' ) {
-        document.body.detachEvent('touchstart', window.TouchId);
-        console.log( "detachEvent möglich, TouchId ist:" + window.TouchId);
-    } else {
-        console.log( "detachEvent nicht möglich, TouchId ist nicht definiert!");
-    };
+    document.body.removeEventListener('click', BehandleClickUndTouch, false);
+    document.body.removeEventListener('touchstart', BehandleClickUndTouch, false);
+
+
+    //if (typeof( window.ClickId ) !== 'undefined' ) {
+    //    document.body.detachEvent('click', window.ClickId);
+    //    console.log( "detachEvent möglich, ClickId ist:" + window.ClickId);
+    //} else {
+    //    console.log( "detachEvent nicht möglich, ClickId ist nicht definiert!");
+    //};
+    //if (typeof( window.TouchId ) !== 'undefined' ) {
+    //    document.body.detachEvent('touchstart', window.TouchId);
+    //    console.log( "detachEvent möglich, TouchId ist:" + window.TouchId);
+    //} else {
+    //    console.log( "detachEvent nicht möglich, TouchId ist nicht definiert!");
+    //};
 
 
     //BehandleClickUndTouch
@@ -359,8 +395,9 @@ function WelchesFensterIstAktiv () {
     }
 
     if (!lClose) {
+        console.log( "2-----------------------------\n" + "Alter Timer window.TimerID: " + window.TimerID + "\n2-----------------------------\n" );
         window.TimerID = window.setTimeout(WelchesFensterIstAktiv, 10000);
-        console.log( "neuen Timer wurde setzen: " + window.TimerID);
+        console.log( "neuer Timer wurde gesetzt: " + window.TimerID);
     };
 }
 
@@ -454,16 +491,16 @@ function BehandleClickUndTouchHauptFenster() {
 
 function SchalteHauptFensterUm () {
 
-    console.log("SchalteHauptFensterUm");
+    console.log("function: SchalteHauptFensterUm");
     console.log("nZeitSchalteHauptFensterUm:" + nZeitSchalteHauptFensterUm);
 
     // Timer für Schliesen des Fensters mit Touch oder Click zurücksetzen
 
     console.log( "-----------------------------\n" +
-        "                               Setze jetzt die Events" );
+        "                                  Setze jetzt die Events (2)" );
 
 
-    console.log("vor istUnterfensterAktiv" + "=".repeat(30));
+    console.log("\n" + "=".repeat(40) + "\n(1) vor istUnterfensterAktiv\n" + "=".repeat(40));
     self.port.on("istUnterfensterAktiv", function(tag) {
         console.log( "Alt: " + nBooklistTimerIndex.getCount());
         nBooklistTimerIndex.reset();
@@ -479,7 +516,7 @@ function SchalteHauptFensterUm () {
                 "\n\nUnterfenster ist NICHT aktiv (in SchalteHauptFensterUm)\n");
         }
     });
-    console.log("nach istUnterfensterAktiv" + "=".repeat(40));
+    console.log("\n" + "=".repeat(40) + "\n(1) nach istUnterfensterAktiv\n" + "=".repeat(40));
 
 
     //BehandleClickUndTouch
@@ -489,53 +526,55 @@ function SchalteHauptFensterUm () {
         addEventListener('touchstart', BehandleClickUndTouchHauptFenster, false);
 
     //#############################################
+    // Aktuellen Stand Counter ausgeben
     //#############################################
-
-console.log("\n\n\n\n=================================================");
-console.log(nBooklistTimerIndex.getCount());
-console.log("\n=================================================\n\n\n\n\n\n\n");
+    console.log("\n\n\n" + "=".repeat(60) + "\nnBooklistTimerIndex.getCount(): '" + (nBooklistTimerIndex.getCount()+1) + "'\n" + "=".repeat(60) + "\n\n");
 
     if (nBooklistTimerIndex.getCount() < (6 * nMinutenHauptFenster)) {
         //----------------------------------------------------------------------
         // Nr. hochzählen
         // solange kleiner als hier passiert ausser dem hochzählen nichts
         //----------------------------------------------------------------------
+        console.log("Wartezeit Hauptfenster " + (nBooklistTimerIndex.getCount()+1) + " von " + (6 * nMinutenHauptFenster));
         nBooklistTimerIndex.inc();
-        console.log(nBooklistTimerIndex.getCount());
-        console.log("Warte auf Hauptfenster umschalten");
-        console.log("window.TimerID: " + window.TimerIDHauptFenster);
+        //console.log(nBooklistTimerIndex.getCount());
+        console.log("window.TimerIDHauptFenster: " + window.TimerIDHauptFenster);
 
-        //WaehleZufaelligesFach();
-        console.log("vor istUnterfensterAktiv" + "=".repeat(30));
+        console.log("\n" + "=".repeat(40) + "\n(2) vor istUnterfensterAktiv\n" + "=".repeat(40));
         self.port.on("istUnterfensterAktiv", function(tag) {
             nBooklistTimerIndex.reset();
             console.log( "\n\n" + "?".repeat(20) +
                 "\n\nUnterfenster ist noch aktiv (in SchalteHauptFensterUm)\n");
         });
-        console.log("nach istUnterfensterAktiv" + "=".repeat(52));
+        console.log("\n" + "=".repeat(40) + "\n(2) nach istUnterfensterAktiv\n" + "=".repeat(40));
 
     } else if (nBooklistTimerIndex.getCount() < (1000 * nMinutenHauptFenster)) {
-        // wenn es groesser als das erste Zahl ist dann wird das overlay
-        // angezeigt und ein zweiter Timer läuft an der nach 1 Minut das
-        // Fenster beendet
+        //----------------------------------------------------------------------
+        // Wartezeit abgelaufen
+        // Umschalten auf andere URL
+        //----------------------------------------------------------------------
+        console.log("Wartezeit Hauptfenster abgelaufen " + (nBooklistTimerIndex.getCount() + 1) + " von " + (6 * nMinutenHauptFenster) + "\n".repeat(2));
         nBooklistTimerIndex.inc();
-        console.log(nBooklistTimerIndex.getCount());
+        //console.log(nBooklistTimerIndex.getCount());
 
         // umschalten auf andere url
         WaehleZufaelligesFach();
 
-        console.log("2".repeat(10) + " Scriptname (kurz): " +
+        console.log("Scriptname (kurz): " +
             ScriptName.substr(0,10));
-        console.log("2".repeat(10) + " Scriptname:(voll): " +
+        console.log("Scriptname:(voll): " +
             ScriptName);
-        console.log("2".repeat(10) + " window.TimerIDHauptFenster: " +
+        console.log("window.TimerIDHauptFenster: " +
             window.TimerIDHauptFenster);
 
     }
 
-    window.TimerIDHauptFenster =
-        window.setTimeout(SchalteHauptFensterUm, 10000);
-    console.log( "neuen TimerHauptFenster wurde setzen: " +
+    // Clear Timeout, zur Sicherheit!
+    //https://wiki.selfhtml.org/wiki/JavaScript/Objekte/window/setTimeout
+    clearTimeout(window.TimerIDHauptFenster);
+
+    window.TimerIDHauptFenster = window.setTimeout(SchalteHauptFensterUm, 10000);
+    console.log( "neuer TimerHauptFenster wurde gesetzt: " +
         window.TimerIDHauptFenster);
 
 }
@@ -565,9 +604,10 @@ function WaehleZufaelligesFach() {
     // und id extrahieren zur Ermittlung der zufaelligen
     // Sprungadresse
     //--------------------------------------------------------------------------
+    console.log("\nlese Elemente mit Class 'fachnavi' zur Ermittlung des nächsten zufälligen Fachs\n");
     $( '.fachnavi' ).each(function(index) {
         var nID = $(this).data('id');
-        console.log( "index: " + index + " " + nID );
+        console.log( "index: '" + index + "' nID: '" + nID + "'");
         aHtmlFaecherListe.push(nID);
     });
 
@@ -575,8 +615,8 @@ function WaehleZufaelligesFach() {
     // Zufaellige Sprungadresse ermitteln
     //--------------------------------------------------------------------------
     var aktIndex = getRandomInt( 1, aHtmlFaecherListe.length );
-    console.log("=======>WaehleZufaelligesFach  Element=>aktIndex: " +
-        aktIndex + " aHtmlFaecherListe.length: " + aHtmlFaecherListe.length);
+    console.log("\n".repeat(2) + "=".repeat(30) + "\nWaehleZufaelligesFach\nElement=>aktIndex: " +
+        (aktIndex - 1) + "\nFach: " + aHtmlFaecherListe[ aktIndex - 1 ] + "\nAnzahl Fächer (aHtmlFaecherListe.length): " + aHtmlFaecherListe.length);
 
     //--------------------------------------------------------------------------
     // Feststellen welche Version, d.h. Normal oder g dann Gestensteuerungs-PC
@@ -593,20 +633,20 @@ function WaehleZufaelligesFach() {
 
     var d                       = document;
     var host                    = d.location.host;
-    var ccscriptpath            = $( "#vMaBookShelfHelper_scriptpath" ).text();
+    var cScriptPath             = $( "#vMaBookShelfHelper_scriptpath" ).text();
     var cFileType               = $( "#vMaBookShelfHelper_type" ).text();
     var lInfoBlockVorhanden     = false;
 
     if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
         lInfoBlockVorhanden = true;
     }
-    console.log( "\n\n\n===================================\nhost: " + host + "\nccscriptpath: " + ccscriptpath + "\n===================================\n" );
+    console.log( "\n\n\n===================================\nhost: " + host + "\ncScriptPath: " + cScriptPath + "\n===================================\n" );
 
 
     // An die URL wird random angehaengt, damit koennen diese Aufrufe separat
     // gezaehlt werden
     document.location.replace("http://" + host +
-                              ccscriptpath +
+                              cScriptPath +
                               aHtmlFaecherListe[ aktIndex - 1 ] +
                               cOptGesten + ".html?random");
 }
