@@ -41,7 +41,11 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 ## Historie
 
 * 0.9.1 2016-01-18, 11:17:00
-                           Add-on Erstellung von cfx auf jpm umgestellt
+                           - Add-on Erstellung von cfx auf jpm umgestellt.
+                           - Icon für das Add-on hinzugefügt.
+                           - Debug-Meldungen verbessert.
+                           - Timer des Hauptfensters wird bei einigen Events
+                             zurückgesetzt (Mousebewegungen, Touchstart, Keypressed...)
 * 0.9 2015-03-16, 12:57:32 Adresse für Rück-Button wenn iFrame verlassen werden konnte
                             wird jetzt aus einem Konfigurationsdialog ausgelesen
 * 0.8 2014-07-15, 10:03:45 Adresse fuer zufaelligen Sprungs auf andere Faecher
