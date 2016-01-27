@@ -1,3 +1,4 @@
 # ignore any zip or xpi files
 *.zip
 *.xpi
+.jpmignore
