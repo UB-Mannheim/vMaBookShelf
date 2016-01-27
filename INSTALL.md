@@ -139,6 +139,53 @@ create a symbolic link
   * to:   /var/www/ds, or copy the script to a different server
 
 
+## Client where you like two test the Website
+
+#### Download Node.js
+- https://nodejs.org/en/
+
+#### Install Node.js
+execute the downloaded version of nodeXXXXXX.msi
+
+#### jpm
+The jpm tool is a Node-based replacement for cfx.
+It enables you to test, run, and package add-ons.
+
+#### Install Node.js
+After you have npm installed and node on your PATH, install jpm just as you would
+any other npm package.
+
+###Installing jpm globally
+Depending on your setup, you might need to run this as an administrator!
+
+- open a "node.js command prompt" as Administrator
+- npm install jpm --global
+
+### Documentation for jqm
+- https://developer.mozilla.org/en-US/Add-ons/SDK/Tools/jpm
+
+
+#### Firefox Add-On "vMaBookShelfHelper"
+
+ - in Firefox-Add-on\vMaBookShelfHelper\data\js\erzeuge-close-button.js
+   you have to change some strings:
+   host: aleph.bib.uni-mannheim.de
+   scriptname: /booklist/RufeExterneURL.php
+   scriptpath: /booklist/
+   cgi-script-path: /cgi-bin/
+
+   i working on that problem to make the Add-on more flexibel, with a config dialog,
+   or something like that.
+
+   if you have changed these strings you have to recreate the xpi file
+
+   - open a "node.js command prompt"
+   - change the directory to the "Firefox-Add-on\vMaBookShelfHelper"-directory
+   - jpm run (Launch an instance of Firefox with the add-on installed)
+   - jpm xpi (Package the add-on as an XPI file, which is the install file format for Firefox add-ons.)
+
+
+
 ## Client where you like two show the Website
 
 ### Firefox
@@ -157,15 +204,5 @@ create a symbolic link
 
 #### Firefox Add-On "vMaBookShelfHelper"
 
- - in Firefox-Add-on\vMaBookShelfHelper\data\js\erzeuge-close-button.js you have to change some strings
-   host: aleph.bib.uni-mannheim.de
-   scriptname: /booklist/RufeExterneURL.php
-   scriptpath: /booklist/
-   cgi-script-path: /cgi-bin/
-
-   if you have changed these strings you have to recreate the xpi file
-
-   i working on that problem to make the Add-on more flexibel, with a config dialog, or something like that.
-
  - install the Firefox Add-On "vMaBookShelfHelper"
-   from "Firefox-Add-on/vMaBookShelfHelper/vmabookshelfhelper.xpi"
+   from "Firefox-Add-on/vMaBookShelfHelper/vMaBookShelfHelper@bib.uni-mannheim.de-X.X.X.xpi"
