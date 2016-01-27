@@ -285,7 +285,7 @@ if (lZeigeButton) {
 
     document.body.insertBefore(div, document.body.firstChild);
     console.log("Scriptname: " + ScriptName.substr(0,10));
-    window.TimerID = window.setTimeout(WelchesFensterIstAktiv, 10000);
+    window.TimerID = window.setTimeout(function(){WelchesFensterIstAktiv();}, 10000);
 } else {
     //--------------------------------------------------------------------------
     // Timer zum umschalten des Hauptfensters
@@ -295,7 +295,7 @@ if (lZeigeButton) {
         //https://wiki.selfhtml.org/wiki/JavaScript/Objekte/window/setTimeout
         clearTimeout(window.TimerIDHauptFenster);
 
-        window.TimerIDHauptFenster = window.setTimeout(SchalteHauptFensterUm,
+        window.TimerIDHauptFenster = window.setTimeout(function(){SchalteHauptFensterUm();},
             nZeitSchalteHauptFensterUm );
     }
 
