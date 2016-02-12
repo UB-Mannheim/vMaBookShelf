@@ -6,12 +6,14 @@
 //          und wieder einschalten wenn unterfenster aus irgendeinem Grunde
 //          geschlossen wird
 
+var debug = false;
+
 if (typeof vMaBookShelfHelper === "undefined") {
-    console.log( "1---------->vMaBookShelfHelper setzen" );
+    apiLog( "1---------->vMaBookShelfHelper setzen", 'n', 0 );
     var vMaBookShelfHelper          = vMaBookShelfHelper || {};
     vMaBookShelfHelper.settings     = vMaBookShelfHelper.settings || {};
 } else {
-    console.log( "2---------->vMaBookShelfHelper schon definiert" );
+    apiLog( "2---------->vMaBookShelfHelper schon definiert", 'n', 0 );
     var vMaBookShelfHelper          = vMaBookShelfHelper || {};
     vMaBookShelfHelper.settings     = vMaBookShelfHelper.settings || {};
 }
@@ -24,7 +26,7 @@ var lInfoBlockVorhanden         = false;
 if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
     lInfoBlockVorhanden = true;
 
-    console.log( "----> Aus Webseite ausgelesen: cFileType: " + cFileType );
+    apiLog( "----> Aus Webseite ausgelesen: cFileType: " + cFileType, "n", 0 );
 }
 //------------------------------------------------------------------------------
 // Fuer Pruefung auf RufeExterneURL.php und UB3D
@@ -46,7 +48,7 @@ var nZeitSchalteHauptFensterUm  = 10000;
 var lHauptFenster               = false;
 var lUnterFenster               = false;
 
-console.log( "START" );
+apiLog( "START", "n", 0 );
 
 if (lFehlersuche) {
     // Fuer Fehlersuche verkuerzte Wartezeiten bis Timer zuschlaegt
@@ -102,26 +104,26 @@ document.addEventListener('touchstart', function(event) {
 
 var nBooklistTimerIndex = new counter();
 
-
-console.log("\n\n\n\n\n\n" + "#".repeat(80) + "\n" +
-"ScriptName: '" + ScriptName + "'\n" +
-" substr 10: '" + ScriptName.substr(0, 10) + "'");
+apiLog( "\n\n\n\n\n\n" + "#".repeat(80) + "\n" +
+        "ScriptName: '" + ScriptName + "'\n" +
+        " substr 10: '" + ScriptName.substr(0, 10) + "'", "n", 0);
 
 
 if (lInfoBlockVorhanden) {
 
-    console.log( "----------CHECK 1------------------" );
-    console.log( "cFileType: " + cFileType );
+    apiLog( "----------CHECK 1------------------", "n", 0 );
+    apiLog( "cFileType: " + cFileType, "n", 0 );
 
     if (cFileType === 'html') {
         // normale html-Seiten des BookShelfs
-        console.log( "normale html-Seiten des BookShelfs" );
+        apiLog( "normale html-Seiten des BookShelfs", "n", 0 );
 
         lZeigeButton    = false;
         lHauptFenster   = true;
         lUnterFenster   = false;
     } else {
-        console.log( "seiten auf denen der Button angezeigt werden soll" );
+        apiLog( "seiten auf denen der Button angezeigt werden soll", "n", 0 );
+
         // seiten auf denen der Button angezeigt werden soll
         // hier ist cFileType nicht 'html'!
         lZeigeButton    = true;
@@ -131,12 +133,13 @@ if (lInfoBlockVorhanden) {
 
 } else if (host === "localhost") {
     // Keine Aktion bei localhost
-    console.log( "----------CHECK 2 else if localhost ------------------\n" );
+    apiLog( "----------CHECK 2 else if localhost ------------------\n", "n", 0 );
+
 //} else if ((host === "aleph.bib.uni-mannheim.de") &&
 //    (ScriptName.substr(0, 9) != '/cgi-bin/' ) ||
 //    (host === "onlinelesen.ciando.com")) {
 } else if (host === "onlinelesen.ciando.com") {
-    console.log( "----------CHECK 3 else if onlinelesen.ciando.com ---------------" );
+    apiLog( "----------CHECK 3 else if onlinelesen.ciando.com ---------------", "n", 0 );
 
     // In diesem Fall kann ich eine alternative Technik versuchen
     // die bei JumpHomeMa verwendet habe!
@@ -184,7 +187,7 @@ if (lInfoBlockVorhanden) {
 
 
 } else {
-    console.log( "----------CHECK 4 else ---------------" );
+    apiLog( "----------CHECK 4 else ---------------", "n", 0 );
 
     //alert( "Kontext verlassen" + "\n" + window.location );
     var aktLocation = window.location;
@@ -217,11 +220,11 @@ if (lInfoBlockVorhanden) {
         lZeigeButton    = true;
         lIframe         = false;
 
-        console.log( "kein IFrame: Kontext verlassen daher\n" +
-            "rufe ich neu auf: " +
-            "http://aleph.bib.uni-mannheim.de/booklist/" +
-            "RufeExterneURL.php?url=" +
-            aktLocation );
+        apiLog( "kein IFrame: Kontext verlassen daher\n" +
+                "rufe ich neu auf: " +
+                "http://aleph.bib.uni-mannheim.de/booklist/" +
+                "RufeExterneURL.php?url=" +
+                aktLocation, "n", 0 );
         //----------------------------------------------------------------------
         // Seite nochmals über das Script RufeExterneURL.php aufrufen,
         // damit Seite wieder in IFrame gefangen wird
@@ -233,11 +236,11 @@ if (lInfoBlockVorhanden) {
         self.port.on("aktURL", function holeurl(cUrl) {
             vMaBookShelfHelper.settings.HomeUrl = cUrl;
 
-            console.log( "A".repeat(50) + "\n" );
-            console.log( "in aktURL cUrl: " + cUrl );
-            console.log( "A".repeat(50) + "\n" );
-            console.log( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
-                                      aktLocation );
+            apiLog( "A".repeat(50) + "\n", "n", 0 );
+            apiLog( "in aktURL cUrl: " + cUrl, "n", 0 );
+            apiLog( "A".repeat(50) + "\n", "n", 0 );
+            apiLog( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
+                                      aktLocation, "n", 0 );
 
             // Setze location abhängig von Einstellungen neu
             document.location.replace( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
@@ -253,7 +256,11 @@ if (lInfoBlockVorhanden) {
 }
 
 
-console.log( "\n" + "--------------------------------------------\n" + "vor lZeigeButton: '" + lZeigeButton + "'\n--------------------------------------------\n" + "\n\n");
+apiLog( "\n" + 
+    "--------------------------------------------\n" + 
+    "vor lZeigeButton: '" + lZeigeButton + 
+    "'\n--------------------------------------------\n" + "\n\n", "n", 0);
+
 if (lZeigeButton) {
     var div = document.createElement("div");
     div.innerHTML = "<a href='javascript:window.close();' " +
@@ -284,7 +291,7 @@ if (lZeigeButton) {
     div.setAttribute("class", "UBMaSchliess");
 
     document.body.insertBefore(div, document.body.firstChild);
-    console.log("Scriptname: " + ScriptName.substr(0,10));
+    apiLog( "Scriptname: " + ScriptName.substr(0,10), "n", 0);
     window.TimerID = window.setTimeout(function(){WelchesFensterIstAktiv();}, 10000);
 } else {
     //--------------------------------------------------------------------------
@@ -300,12 +307,14 @@ if (lZeigeButton) {
     }
 
     if (lFehlersuche) {
-        // Jetzt testweise alle Elemente mit class fachnavi durchgehen
-        console.log( "fehlersuche: alle Elemente mit class fachnavi auflisten");
-        $( '.fachnavi' ).each(function(index) {
-            console.log( "index: " + index + " " + $(this).data('id'));
-        });
-        console.log( "ENDE: fehlersuche: alle Elemente mit class fachnavi auflisten");
+        if (debug) {
+            // Jetzt testweise alle Elemente mit class fachnavi durchgehen
+            apiLog( "fehlersuche: alle Elemente mit class fachnavi auflisten", "n", 0);
+            $( '.fachnavi' ).each(function(index) {
+                apiLog( "index: " + index + " " + $(this).data('id'), "n", 0);
+            });
+            apiLog( "ENDE: fehlersuche: alle Elemente mit class fachnavi auflisten", "n", 0);
+        };
     };
 }
 
@@ -330,11 +339,12 @@ function WelchesFensterIstAktiv () {
     //#############################################
     // Timer für Schliesen des Fensters mit Touch oder Click zurücksetzen
 
-    console.log( "-----------------------------\n" + "Alter Timer window.TimerID: " + window.TimerID + "\n-----------------------------\n" );
+    apiLog( "-----------------------------\n" + 
+        "Alter Timer window.TimerID: " + 
+        window.TimerID + "\n-----------------------------\n", "n", 0 );
 
-    console.log( "-----------------------------\n" +
-        "         Setze jetzt die Events (1)" );
-
+    apiLog( "-----------------------------\n" +
+            "         Setze jetzt die Events (1)", "n", 0 );
 
     document.body.removeEventListener('click', BehandleClickUndTouch, false);
     document.body.removeEventListener('touchstart', BehandleClickUndTouch, false);
@@ -370,10 +380,10 @@ function WelchesFensterIstAktiv () {
         // solange kleiner als hier passiert ausser dem hochzählen nichts
         //----------------------------------------------------------------------
         nBooklistTimerIndex.inc();
-        console.log(nBooklistTimerIndex.getCount());
-        console.log("Scriptname (kurz): " + ScriptName.substr(0,10));
-        console.log("Scriptname:(voll): " + ScriptName);
-        console.log("window.TimerID: " + window.TimerID);
+        apiLog( nBooklistTimerIndex.getCount(), "n", 0);
+        apiLog( "Scriptname (kurz): " + ScriptName.substr(0,10), "n", 0);
+        apiLog( "Scriptname:(voll): " + ScriptName, "n", 0);
+        apiLog( "window.TimerID: " + window.TimerID, "n", 0);
 
         self.port.emit("empfangeUnterfensterAktiv", true);
 
@@ -382,22 +392,23 @@ function WelchesFensterIstAktiv () {
         // angezeigt und ein zweiter Timer läuft an der nach 1 Minut
         // das Fenster beendet
         nBooklistTimerIndex.inc();
-        console.log(nBooklistTimerIndex.getCount());
+        apiLog( nBooklistTimerIndex.getCount(), "n", 0);
 
         // Overlay anzeigen mit der Frage ob noch jemand lebt
         overlay('display');
 
-        console.log("2".repeat(10) + " Scriptname (kurz): " +
-            ScriptName.substr(0,10));
-        console.log("2".repeat(10) + " Scriptname:(voll): " + ScriptName);
-        console.log("2".repeat(10) + " window.TimerID: " + window.TimerID);
-
+        apiLog( "2".repeat(10) + " Scriptname (kurz): " +
+            ScriptName.substr(0,10), "n", 0);
+        apiLog( "2".repeat(10) + " Scriptname:(voll): " + ScriptName, "n", 0);
+        apiLog( "2".repeat(10) + " window.TimerID: " + window.TimerID, "n", 0);
     }
 
     if (!lClose) {
-        console.log( "2-----------------------------\n" + "Alter Timer window.TimerID: " + window.TimerID + "\n2-----------------------------\n" );
+        apiLog( "2-----------------------------\n" + 
+            "Alter Timer window.TimerID: " + 
+            window.TimerID + "\n2-----------------------------\n", "n", 0 );
         window.TimerID = window.setTimeout(WelchesFensterIstAktiv, 10000);
-        console.log( "neuer Timer wurde gesetzt: " + window.TimerID);
+        apiLog( "neuer Timer wurde gesetzt: " + window.TimerID, "n", 0);
     };
 }
 
@@ -449,19 +460,19 @@ function overlay(mode) {
 
 function liestNochJemand() {
     self.port.emit("empfangeUnterfensterAktiv", false);
-    console.log("\n\n-----------------------------\n" +
-        "wurde beendet durch liestNochJemand\n\n");
+    apiLog( "\n\n-----------------------------\n" +
+            "wurde beendet durch liestNochJemand\n\n", "n", 0);
     window.close();
 };
 
 
 function BehandleClickUndTouch() {
-    console.log("-----------------------------\n" +
-        "Es wurde geklickt: " + nBooklistTimerIndex.getCount());
+    apiLog( "-----------------------------\n" +
+            "Es wurde geklickt: " + nBooklistTimerIndex.getCount(), "n", 0);
     // Zähler reseten, damit ist der Counter und damit der Timer zurückgesetzt
     nBooklistTimerIndex.reset();
 
-    console.log("in BehandleClickUndTouch: " + nBooklistTimerIndex.getCount());
+    apiLog( "in BehandleClickUndTouch: " + nBooklistTimerIndex.getCount(), "n", 0);
 
     // Overlay wieder entfernen wenn es vorhanden ist
     overlay('hide');
@@ -469,21 +480,21 @@ function BehandleClickUndTouch() {
     // Timer für Lebt noch jemand abbrechen
     if (typeof( window.LiestNochJemandTimerID ) !== 'undefined') {
         clearTimeout(window.LiestNochJemandTimerID);
-        console.log( "Stopp window.LiestNochJemandTimerID: " +
-            window.LiestNochJemandTimerID);
+        apiLog( "Stopp window.LiestNochJemandTimerID: " +
+                window.LiestNochJemandTimerID, "n", 0);
     };
 
 }
 
 
 function BehandleClickUndTouchHauptFenster() {
-    console.log("-----------------------------\n" +
-        "Es wurde geklickt: " + nBooklistTimerIndex.getCount());
+    apiLog( "-----------------------------\n" +
+            "Es wurde geklickt: " + nBooklistTimerIndex.getCount(), "n", 0);
     // Zähler reseten, damit ist der Counter und damit der Timer zurückgesetzt
     nBooklistTimerIndex.reset();
 
-    console.log("in BehandleClickUndTouchHauptFenster: " +
-        nBooklistTimerIndex.getCount());
+    apiLog( "in BehandleClickUndTouchHauptFenster: " +
+            nBooklistTimerIndex.getCount(), "n", 0);
 }
 
 
@@ -491,32 +502,36 @@ function BehandleClickUndTouchHauptFenster() {
 
 function SchalteHauptFensterUm () {
 
-    console.log("function: SchalteHauptFensterUm");
-    console.log("nZeitSchalteHauptFensterUm:" + nZeitSchalteHauptFensterUm);
+    apiLog( "function: SchalteHauptFensterUm");
+    apiLog( "nZeitSchalteHauptFensterUm:" + nZeitSchalteHauptFensterUm, "n", 0);
 
     // Timer für Schliesen des Fensters mit Touch oder Click zurücksetzen
 
-    console.log( "-----------------------------\n" +
-        "                                  Setze jetzt die Events (2)" );
+    apiLog( "-----------------------------\n" +
+            "                                  Setze jetzt die Events (2)", "n", 0);
 
 
-    console.log("\n" + "=".repeat(40) + "\n(1) vor istUnterfensterAktiv\n" + "=".repeat(40));
+    apiLog( "\n" + "=".repeat(40) + "\n(1) vor istUnterfensterAktiv\n" + "=".repeat(40), "n", 0);
+
     self.port.on("istUnterfensterAktiv", function(tag) {
-        console.log( "Alt: " + nBooklistTimerIndex.getCount());
+        apiLog( "Alt: " + nBooklistTimerIndex.getCount(), "n", 0);
         nBooklistTimerIndex.reset();
-        console.log( "neu: " + nBooklistTimerIndex.getCount());
+        apiLog( "neu: " + nBooklistTimerIndex.getCount(), "n", 0);
+
         if (tag) {
-            console.log( "\n\n" + "?".repeat(32) +
-                "\n\nUnterfenster ist NOCH aktiv (in SchalteHauptFensterUm)\n");
-        console.log( "Alt: " + nBooklistTimerIndex.getCount());
-        nBooklistTimerIndex.reset();
-        console.log( "neu: " + nBooklistTimerIndex.getCount());
+            apiLog( "\n\n" + "?".repeat(32) +
+                    "\n\nUnterfenster ist NOCH aktiv (in SchalteHauptFensterUm)\n", "n", 0);
+            apiLog( "Alt: " + nBooklistTimerIndex.getCount(), "n", 0);
+
+            nBooklistTimerIndex.reset();
+            apiLog( "neu: " + nBooklistTimerIndex.getCount(), "n", 0);
         } else {
-            console.log( "\n\n" + "?".repeat(32) +
-                "\n\nUnterfenster ist NICHT aktiv (in SchalteHauptFensterUm)\n");
-        }
+            apiLog( "\n\n" + "?".repeat(32) +
+                    "\n\nUnterfenster ist NICHT aktiv (in SchalteHauptFensterUm)\n", "n", 0);
+        };
     });
-    console.log("\n" + "=".repeat(40) + "\n(1) nach istUnterfensterAktiv\n" + "=".repeat(40));
+    apiLog( "\n" + "=".repeat(40) + 
+        "\n(1) nach istUnterfensterAktiv\n" + "=".repeat(40), "n", 0);
 
 
     //BehandleClickUndTouch
@@ -528,45 +543,52 @@ function SchalteHauptFensterUm () {
     //#############################################
     // Aktuellen Stand Counter ausgeben
     //#############################################
-    console.log("\n\n\n" + "=".repeat(60) + "\nnBooklistTimerIndex.getCount(): '" + (nBooklistTimerIndex.getCount()+1) + "'\n" + "=".repeat(60) + "\n\n");
+    apiLog( "\n\n\n" + "=".repeat(60) + "\nnBooklistTimerIndex.getCount(): '" + 
+        (nBooklistTimerIndex.getCount()+1) + "'\n" + "=".repeat(60) + "\n\n", "n", 0);
 
     if (nBooklistTimerIndex.getCount() < (6 * nMinutenHauptFenster)) {
         //----------------------------------------------------------------------
         // Nr. hochzählen
         // solange kleiner als hier passiert ausser dem hochzählen nichts
         //----------------------------------------------------------------------
-        console.log("Wartezeit Hauptfenster " + (nBooklistTimerIndex.getCount()+1) + " von " + (6 * nMinutenHauptFenster));
-        nBooklistTimerIndex.inc();
-        //console.log(nBooklistTimerIndex.getCount());
-        console.log("window.TimerIDHauptFenster: " + window.TimerIDHauptFenster);
+        apiLog( "Wartezeit Hauptfenster " + 
+            (nBooklistTimerIndex.getCount()+1) + 
+            " von " + (6 * nMinutenHauptFenster), "n", 0);
 
-        console.log("\n" + "=".repeat(40) + "\n(2) vor istUnterfensterAktiv\n" + "=".repeat(40));
+        nBooklistTimerIndex.inc();
+        //apiLog( nBooklistTimerIndex.getCount(), "n", 0);
+        apiLog( "window.TimerIDHauptFenster: " + window.TimerIDHauptFenster, "n", 0);
+
+        apiLog( "\n" + "=".repeat(40) + "\n(2) vor istUnterfensterAktiv\n" + "=".repeat(40), "n", 0);
+
         self.port.on("istUnterfensterAktiv", function(tag) {
             nBooklistTimerIndex.reset();
-            console.log( "\n\n" + "?".repeat(20) +
-                "\n\nUnterfenster ist noch aktiv (in SchalteHauptFensterUm)\n");
+            apiLog( "\n\n" + "?".repeat(20) +
+                "\n\nUnterfenster ist noch aktiv (in SchalteHauptFensterUm)\n", "n", 0);
         });
-        console.log("\n" + "=".repeat(40) + "\n(2) nach istUnterfensterAktiv\n" + "=".repeat(40));
+        apiLog( "\n" + "=".repeat(40) + "\n(2) nach istUnterfensterAktiv\n" + "=".repeat(40), "n", 0);
 
     } else if (nBooklistTimerIndex.getCount() < (1000 * nMinutenHauptFenster)) {
         //----------------------------------------------------------------------
         // Wartezeit abgelaufen
         // Umschalten auf andere URL
         //----------------------------------------------------------------------
-        console.log("Wartezeit Hauptfenster abgelaufen " + (nBooklistTimerIndex.getCount() + 1) + " von " + (6 * nMinutenHauptFenster) + "\n".repeat(2));
+        apiLog( "Wartezeit Hauptfenster abgelaufen " + 
+            (nBooklistTimerIndex.getCount() + 1) + 
+            " von " + (6 * nMinutenHauptFenster) + "\n".repeat(2), "n", 0);
+
         nBooklistTimerIndex.inc();
         //console.log(nBooklistTimerIndex.getCount());
 
         // umschalten auf andere url
         WaehleZufaelligesFach();
 
-        console.log("Scriptname (kurz): " +
-            ScriptName.substr(0,10));
-        console.log("Scriptname:(voll): " +
-            ScriptName);
-        console.log("window.TimerIDHauptFenster: " +
-            window.TimerIDHauptFenster);
-
+        apiLog( "Scriptname (kurz): " +
+            ScriptName.substr(0,10), "n", 0);
+        apiLog( "Scriptname:(voll): " +
+            ScriptName, "n", 0);
+        apiLog( "window.TimerIDHauptFenster: " +
+            window.TimerIDHauptFenster, "n", 0);
     }
 
     // Clear Timeout, zur Sicherheit!
@@ -574,9 +596,8 @@ function SchalteHauptFensterUm () {
     clearTimeout(window.TimerIDHauptFenster);
 
     window.TimerIDHauptFenster = window.setTimeout(SchalteHauptFensterUm, 10000);
-    console.log( "neuer TimerHauptFenster wurde gesetzt: " +
-        window.TimerIDHauptFenster);
-
+    apiLog( "neuer TimerHauptFenster wurde gesetzt: " +
+            window.TimerIDHauptFenster, "n", 0);
 }
 
 
@@ -604,10 +625,12 @@ function WaehleZufaelligesFach() {
     // und id extrahieren zur Ermittlung der zufaelligen
     // Sprungadresse
     //--------------------------------------------------------------------------
-    console.log("\nlese Elemente mit Class 'fachnavi' zur Ermittlung des nächsten zufälligen Fachs\n");
+    apiLog( "\nlese Elemente mit Class 'fachnavi' zur Ermittlung des "+
+            "nächsten zufälligen Fachs\n", "n", 0);
+
     $( '.fachnavi' ).each(function(index) {
         var nID = $(this).data('id');
-        console.log( "index: '" + index + "' nID: '" + nID + "'");
+        apiLog( "index: '" + index + "' nID: '" + nID + "'", "n", 0);
         aHtmlFaecherListe.push(nID);
     });
 
@@ -615,8 +638,11 @@ function WaehleZufaelligesFach() {
     // Zufaellige Sprungadresse ermitteln
     //--------------------------------------------------------------------------
     var aktIndex = getRandomInt( 1, aHtmlFaecherListe.length );
-    console.log("\n".repeat(2) + "=".repeat(30) + "\nWaehleZufaelligesFach\nElement=>aktIndex: " +
-        (aktIndex - 1) + "\nFach: " + aHtmlFaecherListe[ aktIndex - 1 ] + "\nAnzahl Fächer (aHtmlFaecherListe.length): " + aHtmlFaecherListe.length);
+    apiLog( "\n".repeat(2) + "=".repeat(30) +
+            "\nWaehleZufaelligesFach\nElement=>aktIndex: " +
+            (aktIndex - 1) + "\nFach: " + aHtmlFaecherListe[ aktIndex - 1 ] +
+            "\nAnzahl Fächer (aHtmlFaecherListe.length): " +
+            aHtmlFaecherListe.length, "n", 0);
 
     //--------------------------------------------------------------------------
     // Feststellen welche Version, d.h. Normal oder g dann Gestensteuerungs-PC
@@ -640,7 +666,9 @@ function WaehleZufaelligesFach() {
     if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
         lInfoBlockVorhanden = true;
     }
-    console.log( "\n\n\n===================================\nhost: " + host + "\ncScriptPath: " + cScriptPath + "\n===================================\n" );
+    apiLog( "\n\n\n===================================" +
+            "\nhost: " + host + "\ncScriptPath: " + cScriptPath +
+            "\n===================================\n", "n", 0);
 
 
     // An die URL wird random angehaengt, damit koennen diese Aufrufe separat
@@ -649,4 +677,59 @@ function WaehleZufaelligesFach() {
                               cScriptPath +
                               aHtmlFaecherListe[ aktIndex - 1 ] +
                               cOptGesten + ".html?random");
+}
+
+
+
+//==============================================================================
+//      Name: apiLog
+//   Aufgabe: Debugging-Meldungen in der Firebug-Konsole oder auf einem
+//              anderen Weg ausgeben
+// Parameter: pText
+//                  => der auszugebende Text
+//            pType
+//                  => Typ der Ausgabe
+//                      n  / normal
+//                      i / info
+//                      g / group / gruppiere
+//                      ge / groupEnd / gruppiereEnde
+//                      e / /error / f / fehler
+//            pDebugLevel
+//                  =>  0 am wenigsten Meldungen
+//                      1
+//                      2
+//==============================================================================
+function apiLog( pText, pType, pDebugLevel ) {
+    // Ausnahmsweise nicht ausgeben, sonst wird alles etwas unuebersichtlich!
+    //        apiLog( " ---------------------------------------------------------------------", 'info', 0);
+    //        apiLog( " this.apiLog", 'info', 0);
+    //        apiLog( " ---------------------------------------------------------------------", 'info', 0);
+
+    if (debug)     {
+        if ( pDebugLevel <= debug_level ) {
+            if (pType == '' || pType == 'n' || pType == 'normal') {
+                console.log( pText );
+            } else if (pType == 'info' || pType == 'i' ) {
+                console.info( pText );
+            } else if (pType == 'group' || pType == 'g' || pType == 'gruppiere'  ) {
+                if ($.browser.msie) {
+                    console.log( "=========GROUP===============================================================" );
+                    console.log( pText );
+                    console.log( "=========GROUP===============================================================" );
+                } else {
+                    console.group( pText );
+                }
+
+            } else if (pType == 'groupEnd' || pType == 'ge' || pType == 'gruppiereEnde'  ) {
+                //console.groupEnd();
+                if ($.browser.msie) {
+                    console.log( "=========GROUP END============================================================" );
+                } else {
+                    console.groupEnd();
+                }
+            } else if (pType == 'error' || pType == 'e' || pType == 'f'  || pType == 'fehler'  ) {
+                console.error( pText );
+            }
+        }
+    }
 }

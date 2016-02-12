@@ -40,6 +40,9 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 
 ## Historie
 
+* 0.9.2 2016-02-12, 11:49:04
+                           - jQuery von 2.1.0 auf 2.2.0 (Download-Version)
+                           - console.log Meldungen in Produktionsversion stillgelegt
 * 0.9.1 2016-01-18, 11:17:00
                            - Add-on Erstellung von cfx auf jpm umgestellt.
                            - Icon für das Add-on hinzugefügt.
