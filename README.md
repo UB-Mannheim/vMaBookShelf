@@ -12,6 +12,8 @@ GNU General Public License (GPL). See [LICENSE](LICENSE) for details.
 
 vMaBookShelf creates a virtual bookshelf:
 
+![virtual booksholf in action](http://www.bib.uni-mannheim.de/fileadmin/_migrated/pics/lbs.jpg)
+
 - creates static websites
 - download covers from Amazon
 - creates qr-codes with link to a proxy-server
