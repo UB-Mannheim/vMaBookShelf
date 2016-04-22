@@ -276,3 +276,7 @@ erzeuge=no
 # the gesture control software will send only one key if you wipe to left or right
 # with this parameter you can repeat X times this key
 tastendruckmultiplikator=15
+
+[ALMA]
+collection=99999999999999999
+apiKey=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
