@@ -1,3 +1,3 @@
 perl CreateQRCodeFuerBuecherregal.pl
-perl -d CreateGesamtBuecherregal.pl
+perl CreateGesamtBuecherregal.pl
 pause

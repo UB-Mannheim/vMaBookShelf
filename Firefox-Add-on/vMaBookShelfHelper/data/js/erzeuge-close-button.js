@@ -1,5 +1,5 @@
 //   Name: erzeuge-close-button.js
-//  Stand: 2016-01-18, 12:00:36
+//  Stand: 2016-02-16, 07:57:24
 // Author: Bernd Fallert, UB Mannheim
 
 // ToDo: Timer des Hauptfensters ausschalten wenn unterfenster aufgerufen wird
@@ -7,6 +7,11 @@
 //          geschlossen wird
 
 var debug = false;
+var debug       = true;
+var debug_level = 3;
+// Wird für Fehlersuche benötigt
+var lSlow       = false;
+//var lSlow       = true;
 
 if (typeof vMaBookShelfHelper === "undefined") {
     apiLog( "1---------->vMaBookShelfHelper setzen", 'n', 0 );
@@ -34,6 +39,7 @@ if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
 var ScriptName                  = d.location.pathname;
 
 var lZeigeButton                = false;
+var lZeigeOverlayButton         = false;
 var lIframe                     = false;
 var lFlag                       = false;
 var TimerID                     = 0;
@@ -135,55 +141,35 @@ if (lInfoBlockVorhanden) {
     // Keine Aktion bei localhost
     apiLog( "----------CHECK 2 else if localhost ------------------\n", "n", 0 );
 
-//} else if ((host === "aleph.bib.uni-mannheim.de") &&
-//    (ScriptName.substr(0, 9) != '/cgi-bin/' ) ||
-//    (host === "onlinelesen.ciando.com")) {
 } else if (host === "onlinelesen.ciando.com") {
+    //--------------------------------------------------------------------------
+    // In diesem Fall wird eine alternative Technik benutzt,
+    // die bei JumpHomeMa verwendet wurde!
+    // Der Button wird nicht in einem IFrame, sondern als halbtransparenter
+    // Button links unten einblenden
+    //--------------------------------------------------------------------------
     apiLog( "----------CHECK 3 else if onlinelesen.ciando.com ---------------", "n", 0 );
 
-    // In diesem Fall kann ich eine alternative Technik versuchen
-    // die bei JumpHomeMa verwendet habe!
-    // und zwar den Button nicht in einem IFrame sondern als halbtransparenter
+    var isInIFrame      = false;
+    lZeigeButton        = false;
+    // hierdurch wird Overlaybutton angezeigt
+    lZeigeOverlayButton = true;
+
+
+} else if (host === "primo.bib.uni-mannheim.de") {
+    //--------------------------------------------------------------------------
+    // In diesem Fall wird eine alternative Technik benutzt,
+    // die bei JumpHomeMa verwendet wurde!
+    // Der Button wird nicht in einem IFrame, sondern als halbtransparenter
     // Button links unten einblenden
+    //--------------------------------------------------------------------------
+    apiLog( "----------CHECK 3 else if primo.bib.uni-mannheim.de ---------------", "n", 0 );
 
-    /*
-    if ( ScriptName === '/booklist/RufeExterneURL.php') {
-        lZeigeButton    = true;
-        lHauptFenster   = false;
-        lUnterFenster   = true;
+    var isInIFrame      = false;
+    lZeigeButton        = false;
+    // hierdurch wird Overlaybutton angezeigt
+    lZeigeOverlayButton = true;
 
-    //-------------------------------------------------
-    // prüfen ob in weiterem Kontext wie z.B.
-    //-------------------------------------------------
-    } else if (ScriptName.substr(0,9) === '/cgi-bin/') {
-        // Sonst kann UB3D aus dem Frame ausbrechen
-        lZeigeButton    = true;
-        lHauptFenster   = false;
-        lUnterFenster   = true;
-
-    } else if (ScriptName.substr(0,10) === '/booklist/') {
-        lZeigeButton    = false;
-        lHauptFenster   = true;
-        lUnterFenster   = false;
-    }
-
-    //-------------------------------------------------
-    if (lZeigeButton) {
-        console.log( "lZeigeButton wahr" );
-    } else {
-        console.log( "lZeigeButton falsch" );
-    }
-    if (lHauptFenster) {
-        console.log( "Hauptfenster wahr" );
-    } else {
-        console.log( "Hauptfenster falsch" );
-    }
-    if (lUnterFenster) {
-        console.log( "UnterFenster wahr" );
-    } else {
-        console.log( "UnterFenster falsch" );
-    }
-*/
 
 
 } else {
@@ -256,9 +242,9 @@ if (lInfoBlockVorhanden) {
 }
 
 
-apiLog( "\n" + 
-    "--------------------------------------------\n" + 
-    "vor lZeigeButton: '" + lZeigeButton + 
+apiLog( "\n" +
+    "--------------------------------------------\n" +
+    "vor lZeigeButton: '" + lZeigeButton +
     "'\n--------------------------------------------\n" + "\n\n", "n", 0);
 
 if (lZeigeButton) {
@@ -292,7 +278,42 @@ if (lZeigeButton) {
 
     document.body.insertBefore(div, document.body.firstChild);
     apiLog( "Scriptname: " + ScriptName.substr(0,10), "n", 0);
-    window.TimerID = window.setTimeout(function(){WelchesFensterIstAktiv();}, 10000);
+    if (!lSlow) {
+        window.TimerID = window.setTimeout(function(){WelchesFensterIstAktiv();}, 10000);
+    } else {
+        window.TimerID = window.setTimeout(function(){WelchesFensterIstAktiv();}, 100000);
+    }
+
+} else if (lZeigeOverlayButton) {
+
+    apiLog( "----------CHECK 3 else if onlinelesen.ciando.com lZeigeOverlayButton", "n", 0 );
+
+    var div = document.createElement("div");
+    //var AktInfoTerminalStartseiteAufrufenWebadresse = vMaBookShelfHelper.settings.HomeUrl;
+    // Der Button soll nur das aktive Fenster schliessen
+    div.innerHTML = "<a id='info-terminal-home-button' " +
+                    "data-ajax='false' href='javascript:window.close();' " +
+                    "class='schliessbutton_neu_links_ohne_frame' title='Home'>" +
+                    "</a>";
+    div.style.color = "white";
+    div.setAttribute("class", "UBMaSchliess_ohne_frame");
+
+    apiLog( "\n" +
+        '------in iframe?-------------------------------------------' +
+        "\n", "n", 0 );
+
+    var isInIframe = (window.location != window.parent.location) ? true : false;
+
+    apiLog( "----------CHECK 3 else if onlinelesen.ciando.com TEST ob in Frame", "n", 0 );
+    apiLog( isInIframe, "n", 0 );
+
+    if (!isInIframe) {
+        apiLog( "----------CHECK 3a else if onlinelesen.ciando.com !isInIframe", "n", 0 );
+        document.body.insertBefore(div, document.body.firstChild);
+    } else {
+        apiLog( "----------CHECK 3b else if onlinelesen.ciando.com isInIframe", "n", 0 );
+    }
+
 } else {
     //--------------------------------------------------------------------------
     // Timer zum umschalten des Hauptfensters
@@ -339,8 +360,8 @@ function WelchesFensterIstAktiv () {
     //#############################################
     // Timer für Schliesen des Fensters mit Touch oder Click zurücksetzen
 
-    apiLog( "-----------------------------\n" + 
-        "Alter Timer window.TimerID: " + 
+    apiLog( "-----------------------------\n" +
+        "Alter Timer window.TimerID: " +
         window.TimerID + "\n-----------------------------\n", "n", 0 );
 
     apiLog( "-----------------------------\n" +
@@ -404,10 +425,14 @@ function WelchesFensterIstAktiv () {
     }
 
     if (!lClose) {
-        apiLog( "2-----------------------------\n" + 
-            "Alter Timer window.TimerID: " + 
+        apiLog( "2-----------------------------\n" +
+            "Alter Timer window.TimerID: " +
             window.TimerID + "\n2-----------------------------\n", "n", 0 );
-        window.TimerID = window.setTimeout(WelchesFensterIstAktiv, 10000);
+        if (!lSlow) {
+            window.TimerID = window.setTimeout(WelchesFensterIstAktiv, 10000);
+        } else {
+            window.TimerID = window.setTimeout(WelchesFensterIstAktiv, 100000);
+        }
         apiLog( "neuer Timer wurde gesetzt: " + window.TimerID, "n", 0);
     };
 }
@@ -530,7 +555,7 @@ function SchalteHauptFensterUm () {
                     "\n\nUnterfenster ist NICHT aktiv (in SchalteHauptFensterUm)\n", "n", 0);
         };
     });
-    apiLog( "\n" + "=".repeat(40) + 
+    apiLog( "\n" + "=".repeat(40) +
         "\n(1) nach istUnterfensterAktiv\n" + "=".repeat(40), "n", 0);
 
 
@@ -543,7 +568,7 @@ function SchalteHauptFensterUm () {
     //#############################################
     // Aktuellen Stand Counter ausgeben
     //#############################################
-    apiLog( "\n\n\n" + "=".repeat(60) + "\nnBooklistTimerIndex.getCount(): '" + 
+    apiLog( "\n\n\n" + "=".repeat(60) + "\nnBooklistTimerIndex.getCount(): '" +
         (nBooklistTimerIndex.getCount()+1) + "'\n" + "=".repeat(60) + "\n\n", "n", 0);
 
     if (nBooklistTimerIndex.getCount() < (6 * nMinutenHauptFenster)) {
@@ -551,8 +576,8 @@ function SchalteHauptFensterUm () {
         // Nr. hochzählen
         // solange kleiner als hier passiert ausser dem hochzählen nichts
         //----------------------------------------------------------------------
-        apiLog( "Wartezeit Hauptfenster " + 
-            (nBooklistTimerIndex.getCount()+1) + 
+        apiLog( "Wartezeit Hauptfenster " +
+            (nBooklistTimerIndex.getCount()+1) +
             " von " + (6 * nMinutenHauptFenster), "n", 0);
 
         nBooklistTimerIndex.inc();
@@ -573,8 +598,8 @@ function SchalteHauptFensterUm () {
         // Wartezeit abgelaufen
         // Umschalten auf andere URL
         //----------------------------------------------------------------------
-        apiLog( "Wartezeit Hauptfenster abgelaufen " + 
-            (nBooklistTimerIndex.getCount() + 1) + 
+        apiLog( "Wartezeit Hauptfenster abgelaufen " +
+            (nBooklistTimerIndex.getCount() + 1) +
             " von " + (6 * nMinutenHauptFenster) + "\n".repeat(2), "n", 0);
 
         nBooklistTimerIndex.inc();
@@ -594,8 +619,11 @@ function SchalteHauptFensterUm () {
     // Clear Timeout, zur Sicherheit!
     //https://wiki.selfhtml.org/wiki/JavaScript/Objekte/window/setTimeout
     clearTimeout(window.TimerIDHauptFenster);
-
-    window.TimerIDHauptFenster = window.setTimeout(SchalteHauptFensterUm, 10000);
+    if (!lSlow) {
+        window.TimerIDHauptFenster = window.setTimeout(SchalteHauptFensterUm, 10000);
+    } else {
+        window.TimerIDHauptFenster = window.setTimeout(SchalteHauptFensterUm, 100000);
+    }
     apiLog( "neuer TimerHauptFenster wurde gesetzt: " +
             window.TimerIDHauptFenster, "n", 0);
 }
@@ -705,7 +733,7 @@ function apiLog( pText, pType, pDebugLevel ) {
     //        apiLog( " this.apiLog", 'info', 0);
     //        apiLog( " ---------------------------------------------------------------------", 'info', 0);
 
-    if (debug)     {
+    if (debug) {
         if ( pDebugLevel <= debug_level ) {
             if (pType == '' || pType == 'n' || pType == 'normal') {
                 console.log( pText );

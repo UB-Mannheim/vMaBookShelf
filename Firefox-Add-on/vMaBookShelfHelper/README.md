@@ -41,6 +41,11 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 
 ## Historie
 
+* 0.9.4 2016-04-22, 15:26:00
+                           - Fehler bei Primo umgangen, Button wird jetzt als overlay angezeigt
+* 0.9.3 2016-04-22, 14:47:00
+                           - remove sdk/window/utils
+                           - Fehler bei onlinelesen.ciando.com umgangen, Button wird jetzt als overlay angezeigt
 * 0.9.2 2016-02-12, 11:49:04
                            - jQuery von 2.1.0 auf 2.2.0 (Download-Version)
                            - console.log Meldungen in Produktionsversion stillgelegt

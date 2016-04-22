@@ -3,7 +3,7 @@
  *
  * @creator     Bernd Fallert, UB Mannheim
  * @file        externe.css
- * Stand:       02.03.2015, 09:06:47 
+ * Stand:       2016-02-16, 07:54:14
  * Version für Add-On
  *
  */
@@ -116,3 +116,51 @@ html, body, form
     width: 110px;
     border: 1px solid green;
 }
+
+
+/*-------------------------------------------------*/
+/* Abschnitt für Verkleinerten Back-Button         */
+/* wenn kein iFrame möglich ist                    */
+/* background-image wird in lib/main.js festgelegt */
+/*-------------------------------------------------*/
+.schliessbutton_neu_links_ohne_frame {
+    background-color: #990000;
+    border: 1px solid #2E2E2E;
+    border-radius: 5px;
+    box-shadow: 6px 5px 6px #000000;
+    color: #ffffff;
+    float: left;
+    font-family: Arial,verdana;
+    height: 96.8%;
+    margin: 10px 21px 20px 3px;
+    padding-right: 3px;
+    text-align: center;
+    width: 73px;
+
+    margin-left: 8px;
+    margin-right: 21px;
+    position: fixed;
+    bottom: 10px;
+    height: 5%;
+    opacity: 0.69;
+    z-index: 100001;
+}
+
+
+body .UBMaSchliess_ohne_frame {
+    bottom: 10px;
+    float: left;
+    height: 5%;
+    position: fixed;
+    width: 110px;
+    padding-bottom: 3px;
+    z-index: 100000;
+    font-size: 16px;
+    line-height: 18px;
+}
+
+.UBMaSchliess_ohne_frame,
+.UBMaSchliess_ohne_frame #info-terminal-home-button {
+    box-sizing: unset !important;
+}
+

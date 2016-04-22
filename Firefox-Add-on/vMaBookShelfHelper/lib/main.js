@@ -7,12 +7,13 @@ vMaBookShelfHelper.settings = vMaBookShelfHelper.settings || {};
 var data = require("sdk/self").data;
 var pageMod = require("sdk/page-mod");
 //var bookListTimer = require("sdk/timers");
-var utils = require('sdk/window/utils');
+//var utils = require('sdk/window/utils');
 var windows = require("sdk/windows");
 
 var prefs = require("sdk/simple-prefs");
 //var debug = false;
-//var debug = true;
+var debug = true;
+var debug_level = 3;
 
 vMaBookShelfHelper.settings.HomeUrl = prefs.prefs['HomeUrl'];
 
@@ -54,13 +55,23 @@ pageMod.PageMod({
                     "height: 23px; " +
                     "width: 57px; " +
                     "}",
-                    "div.UBMaSchliess a.schliessbutton_neu_links {" +
+                    "div.UBMaSchliess a.schliessbutton_neu_links," +
+                    "div.UBMaSchliess_ohne_frame a.schliessbutton_neu_links_ohne_frame {" +
                     "text-decoration: none; " +
                     "}",
                     "div.UBMaSchliess a.schliessbutton_neu_links span#mitte { " +
                     "color: #ffffff;" +
                     "}",
-                    "body {height: 100%; }"
+                    "body {height: 100%; } " +
+                    ".schliessbutton_neu_links_ohne_frame { " +
+                    "background-image: url(" +
+                    data.url("images/android_back_weiss.gif") + ");" +
+                    "background-repeat: no-repeat; " +
+                    "background-size: 40%; " +
+                    "background-position: center; " +
+                    "height: 30px; " +
+                    "width: 57px; " +
+                    "}",
                    ],
     contentScriptWhen: "ready",
     onAttach: function(worker) {
@@ -140,3 +151,57 @@ pageMod.PageMod({
         apiLog( "\n" + "=".repeat(80) + "\njetzt ENDE von onAttach" + "\n" + "=".repeat(80), "n", 0);
     }
 });
+
+
+//==============================================================================
+//      Name: apiLog
+//   Aufgabe: Debugging-Meldungen in der Firebug-Konsole oder auf einem
+//              anderen Weg ausgeben
+// Parameter: pText
+//                  => der auszugebende Text
+//            pType
+//                  => Typ der Ausgabe
+//                      n  / normal
+//                      i / info
+//                      g / group / gruppiere
+//                      ge / groupEnd / gruppiereEnde
+//                      e / /error / f / fehler
+//            pDebugLevel
+//                  =>  0 am wenigsten Meldungen
+//                      1
+//                      2
+//==============================================================================
+function apiLog( pText, pType, pDebugLevel ) {
+    // Ausnahmsweise nicht ausgeben, sonst wird alles etwas unuebersichtlich!
+    //        apiLog( " ---------------------------------------------------------------------", 'info', 0);
+    //        apiLog( " this.apiLog", 'info', 0);
+    //        apiLog( " ---------------------------------------------------------------------", 'info', 0);
+
+    if (debug) {
+        if ( pDebugLevel <= debug_level ) {
+            if (pType == '' || pType == 'n' || pType == 'normal') {
+                console.log( pText );
+            } else if (pType == 'info' || pType == 'i' ) {
+                console.info( pText );
+            } else if (pType == 'group' || pType == 'g' || pType == 'gruppiere'  ) {
+                if ($.browser.msie) {
+                    console.log( "=========GROUP===============================================================" );
+                    console.log( pText );
+                    console.log( "=========GROUP===============================================================" );
+                } else {
+                    console.group( pText );
+                }
+
+            } else if (pType == 'groupEnd' || pType == 'ge' || pType == 'gruppiereEnde'  ) {
+                //console.groupEnd();
+                if ($.browser.msie) {
+                    console.log( "=========GROUP END============================================================" );
+                } else {
+                    console.groupEnd();
+                }
+            } else if (pType == 'error' || pType == 'e' || pType == 'f'  || pType == 'fehler'  ) {
+                console.error( pText );
+            }
+        }
+    }
+}
