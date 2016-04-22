@@ -27,6 +27,7 @@ vMaBookShelfHelper ist ein Add-on für Firefox.
   "niemals anlegen" ausgewählt wurde. Alternativ kann "nach
   benutzerdefinierten Einstellungen anlegen" ausgewählt und ein Haken bei
   "Die Chronik löschen, wenn Firefox geschlossen wird" gesetzt werden.
+- Aktuell funktioniert das Add-on nur bis FF 42, zwischen FF 43 und 46 kann die Warnung durch ein Parameter ausgeschaltet werden, vergleiche hierzu (https://wiki.mozilla.org/Addons/Extension_Signing#Timeline) ''(xpinstall.signatures.required in about:config)''. Ich arbeite an einer vollständigen Freigabe des Add-ons.
 
 ## Licence  ![en](http://bib.uni-mannheim.de/fileadmin/scripts/flag_en.jpeg)
 
