@@ -4,3 +4,5 @@
 !.gitignore
 *.log
 *.csv
+bookshelf-server/template/buecherregal_header.tmpl
+
