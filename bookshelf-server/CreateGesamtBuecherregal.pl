@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+﻿#!/usr/bin/perl -w
 #-------------------------------------------------------------------------------
 # Copyright (C) 2014 Universitätsbibliothek Mannheim
 # Name:
@@ -125,7 +125,8 @@ my $html_g                  = $cfg->val( 'INDEX', 'html_gestensteuerung' );
 my $cKeinTrefferCacheFile   = TransformWinPathToPerl($cfg->val( 'STORE', 'kein_treffer_cache_file' ));
 
 #'quelldaten';                  # ohne abschliesendes '/'
-my $sourceDir               = TransformWinPathToPerl($cfg->val( 'PATH', 'cvs' ));
+#my $sourceDir               = TransformWinPathToPerl($cfg->val( 'PATH', 'cvs' ));
+my $sourceDir               = TransformWinPathToPerl($cfg->val( 'PATH', 'csv' ));
 if ($sourceDir =~ m/^(.*?)\/$/) {
     $sourceDir = $1;
 }
@@ -2323,7 +2324,7 @@ sub FarbWertDark
 #sub zerlegeRVKSignatur
 # eine RVK-Signatur in ihre Bestandteile zerlegen und diese getrennt
 # zurückmelden
-#   Parameter:
+#   Paramter:
 #       $cSig                   Die zu pruefende Signatur
 #-----------------------------------------------------------------------
 sub zerlegeRVKSignatur

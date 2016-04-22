@@ -1,7 +1,7 @@
 [PATH]
 # csv files with book data
 # relative path
-cvs=csv
+csv=csv
 
 # path for QR-Code files, the script will generate the QR-Code files
 # in these path. The path should be accessible via web browser
@@ -102,7 +102,7 @@ html_gestensteuerung=index_g.html
 [STORE]
 # cache file if you didn't find a cover for this book
 # if a id is in this file the script will skip thes id if it has to check amazon
-# relative path with file name and perhaps extension
+# relative path with file name and perhaps extention
 kein_treffer_cache_file=DatenCache/keinTreffer.dat
 
 
