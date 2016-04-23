@@ -284,3 +284,9 @@ collection=99999999999999999
 # you can create in ALMA a search api.
 # with the indiducal apiKey you get the data as xml
 apiKey=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+# in Alma subtitles a part of the title field
+skipSubtitles=yes
+
+# pattern to separate title from subtitle
+SkipStartWith=:
