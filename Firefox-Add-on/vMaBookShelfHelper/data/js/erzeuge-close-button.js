@@ -249,34 +249,32 @@ apiLog( "\n" +
 
 if (lZeigeButton) {
     var div = document.createElement("div");
-    div.innerHTML = "<a href='javascript:window.close();' " +
+    div.innerHTML = "<a id='closediv' " +
                     "class='schliessbutton_neu_links'>" +
                     "<span id='oben' " +
                         "width='67px' " +
-                        "style='width: 57px; '" +
-                        "onclick='javascript:window.close();'" +
-                        "ontouchstart='javascript:window.close();'" +
-                        "ontouched='javascript:window.close();'" +
+                        "style='width: 57px;' " +
                         ">" +
                     "</span>" +
                     "<span id='mitte'" +
-                        "onclick='javascript:window.close();'" +
-                        "ontouchstart='javascript:window.close();'" +
-                        "ontouched='javascript:window.close();'" +
                     ">" +
                         "Schließen<br>/<br>Close" +
                         "</span>" +
                     "<span id='unten' " +
-                       "style='width: 57px; '" +
-                        "onclick='javascript:window.close();'" +
-                        "ontouchstart='javascript:window.close();'" +
-                        "ontouched='javascript:window.close();'" +
+                       "style='width: 57px;' " +
                     "></span>" +
                     "</a>";
     div.style.color = "white";
     div.setAttribute("class", "UBMaSchliess");
 
     document.body.insertBefore(div, document.body.firstChild);
+
+    // Schliessen zuordnen
+    var el = document.getElementById("closediv");
+    el.addEventListener("click", function(){closeWin()}, false );
+    el.addEventListener("touchstart", function(){closeWin()}, false );
+    el.addEventListener("touched", function(){closeWin()}, false );
+
     apiLog( "Scriptname: " + ScriptName.substr(0,10), "n", 0);
     if (!lSlow) {
         window.TimerID = window.setTimeout(function(){WelchesFensterIstAktiv();}, 10000);
@@ -292,7 +290,7 @@ if (lZeigeButton) {
     //var AktInfoTerminalStartseiteAufrufenWebadresse = vMaBookShelfHelper.settings.HomeUrl;
     // Der Button soll nur das aktive Fenster schliessen
     div.innerHTML = "<a id='info-terminal-home-button' " +
-                    "data-ajax='false' href='javascript:window.close();' " +
+                    "data-ajax='false' " +
                     "class='schliessbutton_neu_links_ohne_frame' title='Home'>" +
                     "</a>";
     div.style.color = "white";
@@ -310,6 +308,14 @@ if (lZeigeButton) {
     if (!isInIframe) {
         apiLog( "----------CHECK 3a else if onlinelesen.ciando.com !isInIframe", "n", 0 );
         document.body.insertBefore(div, document.body.firstChild);
+
+        apiLog( "----------CHECK 3 ordne addEnventListener zu", "n", 0 );
+        var el = document.getElementById("info-terminal-home-button");
+        el.addEventListener("click", function(){closeWin()}, false );
+        el.addEventListener("touchstart", function(){closeWin()}, false );
+        el.addEventListener("touched", function(){closeWin()}, false );
+
+
     } else {
         apiLog( "----------CHECK 3b else if onlinelesen.ciando.com isInIframe", "n", 0 );
     }
@@ -708,6 +714,10 @@ function WaehleZufaelligesFach() {
 }
 
 
+function closeWin() {
+    apiLog( "closeWin", "n", 0);
+    window.close();   // Closes the new window
+}
 
 //==============================================================================
 //      Name: apiLog

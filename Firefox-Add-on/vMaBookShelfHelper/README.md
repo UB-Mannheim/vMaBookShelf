@@ -41,6 +41,9 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 
 ## Historie
 
+* 0.9.5 2016-05-02, 14:14:00
+                           - href='javascript:window.close() durch addEventListener
+                             ersetzt, wg. Add-on Überprüfung
 * 0.9.4 2016-04-22, 15:26:00
                            - Fehler bei Primo umgangen, Button wird jetzt als overlay angezeigt
 * 0.9.3 2016-04-22, 14:47:00
