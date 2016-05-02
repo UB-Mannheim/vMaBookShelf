@@ -11,8 +11,8 @@ var pageMod = require("sdk/page-mod");
 var windows = require("sdk/windows");
 
 var prefs = require("sdk/simple-prefs");
-//var debug = false;
-var debug = true;
+var debug = false;
+//var debug = true;
 var debug_level = 3;
 
 vMaBookShelfHelper.settings.HomeUrl = prefs.prefs['HomeUrl'];

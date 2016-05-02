@@ -7,7 +7,7 @@
 //          geschlossen wird
 
 var debug = false;
-var debug       = true;
+//var debug       = true;
 var debug_level = 3;
 // Wird für Fehlersuche benötigt
 var lSlow       = false;

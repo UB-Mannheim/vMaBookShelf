@@ -41,6 +41,8 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 
 ## Historie
 
+* 0.9.6 2016-05-02, 20:28:00
+                           - console.log ausgeschaltet
 * 0.9.5 2016-05-02, 14:14:00
                            - href='javascript:window.close() durch addEventListener
                              ersetzt, wg. Add-on Überprüfung
