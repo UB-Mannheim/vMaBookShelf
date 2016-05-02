@@ -280,3 +280,6 @@ tastendruckmultiplikator=15
 [ALMA]
 collection=99999999999999999
 apiKey=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+skipSubtitles=yes
+SkipStartWith=:
