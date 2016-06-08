@@ -282,4 +282,11 @@ collection=99999999999999999
 apiKey=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 skipSubtitles=yes
-SkipStartWith=:
+SkipStartWith=:[SET]
+locationId=110
+siganfang=110
+
+[SET]
+#used for HoleCSV_von_alma.pl
+locationId=110
+siganfang=110

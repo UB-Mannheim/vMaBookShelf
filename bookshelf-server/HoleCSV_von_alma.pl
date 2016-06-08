@@ -13,6 +13,12 @@
 #       perl HoleCSV_von_alma.pl
 # Hinweis:
 # 	Funktioniert aktuell nur bei books für die vorher in Alma eine Sammlung eingetragen wurde
+# History:
+#   2016-06-08, 12:03:25
+#       verschiedene location_id abfragbar, bisher nur 110
+#       neu auch für WEST_EG
+#       zweiter Parameter dann zwingend $SigAnfang
+#       bei 110 ist das Deckungsgleich bei WEST_EG ist das 120
 #
 #-------------------------------------------------------------------------------
 # Feldreihenfolge bei den CSV-Dateien
@@ -71,9 +77,13 @@ my $INIFILE                 = 'config/booklist.ini';
 my $log_csv_error = __FILE__ . ".csv_error.log";
 open( my $CSVERRORLOG, ">$log_csv_error" ) or die "Kann nicht in $log_csv_error schreiben $!\n";
 
+my $Frage_location_id       = '';   # default siehe History: 2016-06-08, 12:03:25
+my $Frage_SigAnfang         = '';   # default siehe History: 2016-06-08, 12:03:25
 
 
 GetOptions(
+        "location_Id=s"                         => \$Frage_location_id,
+        "siganfang=s"                           => \$Frage_SigAnfang,
 		# Errolog beim Starten loeschen
 		"resetlog"                              => \$lresetlog,
         );
@@ -112,6 +122,10 @@ if (lc($cSkipSubTitle) eq 'yes' || lc($cSkipSubTitle) eq 'ja') {
 	$cStartSkipWith = $cfg->val( 'ALMA', 'SkipStartWith' );
 }
 
+if (($Frage_location_id eq '') or ($Frage_SigAnfang eq '')) {
+    $Frage_location_id  = $cfg->val( 'SET', 'locationId' );
+    $Frage_SigAnfang    = $cfg->val( 'SET', 'siganfang' );
+}
 
 my $sourceDir = TransformWinPathToPerl($cfg->val( 'PATH', 'csv' ));
 if ($sourceDir =~ m/^(.*?)\/$/) {
@@ -229,7 +243,7 @@ do {
 
 				foreach my $aktRecord (@{$holdings->{'holding'}}) {
 					my $thisRecordHolding = readRecordStufe2($aktRecord);
-					if ($thisRecordHolding->{'location_id'} eq '110') {
+					if ($thisRecordHolding->{'location_id'} eq $Frage_location_id) {
 						$AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} = $thisRecordHolding->{'call_number'};
 						$AddInfos{ $thisRecord->{'mms_id'} }->{'holding_id'} = $thisRecordHolding->{'holding_id'};
 						last;
@@ -380,7 +394,7 @@ do {
 							my $cTempSig = $AddInfos{$aktId}->{'call_number'};
 							my $lSigOk  = $falsch;
 							if ($cTempSig ne "") {
-								if ($cTempSig =~ m/^110 (.*?)$/) {
+								if ($cTempSig =~ m/^$Frage_SigAnfang (.*?)$/) {
 									$lSigOk = $wahr;
 								}
 							}
@@ -428,10 +442,10 @@ sub readRecordStufe1 {
     $data{'isbn'} = $record->{'isbn'}[0];
     $data{'author'} = $record->{'author'}[0];
     $data{'title'} = $record->{'title'}[0];
-    
+
     # title sometimes with ending '/'
     $data{'title'} =~ s/^(.*?)\s\/$/$1/;
-    
+
     if ($lSkipSubTitle) {
 	if ($data{'title'} =~ m/(.*?)$cStartSkipWith(.*?)/) {
 		$data{'title'} = $1;
@@ -464,7 +478,7 @@ sub readRecordStufe2 {
     # AlmaID
     $data{'call_number'} = $record->{'call_number'}[0];
     $data{'holding_id'} = $record->{'holding_id'}[0];
-    
+
     # Achtung location enthält manchmal kein weiteren Hash
     if (ref($record->{'location'}[0]) eq 'HASH') {
         if (exists($record->{'location'}[0]->{'desc'})) {
