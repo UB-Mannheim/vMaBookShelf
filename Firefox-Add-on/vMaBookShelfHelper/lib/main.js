@@ -4,13 +4,14 @@
 var vMaBookShelfHelper = vMaBookShelfHelper || {};
 vMaBookShelfHelper.settings = vMaBookShelfHelper.settings || {};
 
-var data = require("sdk/self").data;
-var pageMod = require("sdk/page-mod");
+var data = require("sdk/self").data; // High
+var pageMod = require("sdk/page-mod"); // High
 //var bookListTimer = require("sdk/timers");
 //var utils = require('sdk/window/utils');
-var windows = require("sdk/windows");
+// Ausgeschaltet da low level sdk/windows nicht mehr kompatibel
+//var windows = require("sdk/windows");  // low
 
-var prefs = require("sdk/simple-prefs");
+var prefs = require("sdk/simple-prefs"); // High
 var debug = false;
 //var debug = true;
 var debug_level = 3;
@@ -79,11 +80,12 @@ pageMod.PageMod({
             //console.log( "tag: " + tag );
             //worker.port.emit("getElements", tag);
 
-        for (let window of windows.browserWindows) {
-            apiLog( "title: " + window.title, "n", 0);
-        }
+        // Ausgeschaltet da low level sdk/windows nicht mehr kompatibel
+        //for (let window of windows.browserWindows) {
+        //    apiLog( "title: " + window.title, "n", 0);
+        //}
 
-        apiLog( "Anzahl: " + windows.browserWindows.length, "n", 0);
+        //apiLog( "Anzahl: " + windows.browserWindows.length, "n", 0);
 
         // Hiermit kann eine Funktion aufgerufen werden
         //worker.port.emit("getAnzahl", tag);
@@ -100,29 +102,30 @@ pageMod.PageMod({
                     "=".repeat(80), "n", 0);
             worker.port.emit("aktURL", vMaBookShelfHelper.settings.HomeUrl);
         });
-        worker.port.on("anzahlElemente", function(elementContent) {
-            //console.log( "worker.port.on 'anzahlElemente' " + "+".repeat(68) );
-            apiLog( "\n" + "=".repeat(80) + "\n" +
-                "worker.port.on 'BEGINN von anzahlElemente' " + "\n" +
-                "=".repeat(80), "n", 0);
+        // Ausgeschaltet da low level sdk/windows nicht mehr kompatibel
+        //worker.port.on("anzahlElemente", function(elementContent) {
+        //    //console.log( "worker.port.on 'anzahlElemente' " + "+".repeat(68) );
+        //    apiLog( "\n" + "=".repeat(80) + "\n" +
+        //        "worker.port.on 'BEGINN von anzahlElemente' " + "\n" +
+        //        "=".repeat(80), "n", 0);
 
-            apiLog( "\n" + "=".repeat(80) + "\n" +
-                "worker.port.on 'anzahlElemente' " + "\n" +
-                "=".repeat(80) +
-                "\nanzahlElemente: elementContent: " +
-                elementContent + " " + "%".repeat(12) +
-                "\n", "n", 0);
-
-            for (var prop in windows.browserWindows) {
-                var window = windows.browserWindows[prop];
-                apiLog( "Titel: (window.title):" + window.title, "n", 0);
-            };
-            apiLog( "Anzahl: (windows.browserWindows.length): " +
-                    windows.browserWindows.length, "n", 0);
-            apiLog( "\n" + "=".repeat(80) + "\n" +
-                    "worker.port.on 'ENDE von anzahlElemente' " + "\n" +
-                    "=".repeat(80), "n", 0);
-        });
+        //    apiLog( "\n" + "=".repeat(80) + "\n" +
+        //        "worker.port.on 'anzahlElemente' " + "\n" +
+        //        "=".repeat(80) +
+        //        "\nanzahlElemente: elementContent: " +
+        //        elementContent + " " + "%".repeat(12) +
+        //        "\n", "n", 0);
+        //
+        //    for (var prop in windows.browserWindows) {
+        //        var window = windows.browserWindows[prop];
+        //        apiLog( "Titel: (window.title):" + window.title, "n", 0);
+        //    };
+        //    apiLog( "Anzahl: (windows.browserWindows.length): " +
+        //            windows.browserWindows.length, "n", 0);
+        //    apiLog( "\n" + "=".repeat(80) + "\n" +
+        //            "worker.port.on 'ENDE von anzahlElemente' " + "\n" +
+        //            "=".repeat(80), "n", 0);
+        //});
         worker.port.on("empfangeUnterfensterAktiv", function(elementContent) {
             apiLog( "\n" + "=".repeat(80) + "\n" +
                     "worker.port.on 'BEGINN von empfangeUnterfensterAktiv' " + "\n" +

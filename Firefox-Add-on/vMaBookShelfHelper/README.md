@@ -41,6 +41,9 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 
 ## Historie
 
+* 0.9.8 2016-06-29, 16:33:00
+                           - wg. fehlender kombatibilität von sdk/windows: inzwischen
+                             nicht mehr notwendigen Code entfernt
 * 0.9.7 2016-06-29, 11:51:00
                            - Css angepasst da bei Primo innerhalb des "Standort / Bestellen"-
                              Tabs ein Formular falsch dargestellt wurde (zu grosser Abstand
