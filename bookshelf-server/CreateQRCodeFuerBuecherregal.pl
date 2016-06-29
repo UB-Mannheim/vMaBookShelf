@@ -80,7 +80,7 @@ my $cfg = new Config::IniFiles( -file => $INIFILE );
 $cfg->ReadConfig;
 
 #'quelldaten';                  # ohne abschliesendes /
-my $sourceDir               = TransformWinPathToPerl($cfg->val( 'PATH', 'cvs' ));
+my $sourceDir               = TransformWinPathToPerl($cfg->val( 'PATH', 'csv' ));
 if ($sourceDir =~ m/^(.*?)\/$/) {
     $sourceDir = $1;
 }

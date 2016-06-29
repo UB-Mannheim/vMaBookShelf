@@ -290,3 +290,17 @@ skipSubtitles=yes
 
 # pattern to separate title from subtitle
 SkipStartWith=:
+
+
+[SET]
+#used for HoleCSV_von_alma.pl
+
+# locationId in Alma 
+# 'WEST_EG' or '110' are used values in Mannheim
+locationId=110
+
+# in Mannheim we used RVK call numbers
+# the first 3 numbers are shown the location
+# '120' or '110' are used values in Mannheim
+# a possible call number is: 120 AH 11005 E36
+siganfang=110

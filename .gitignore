@@ -5,4 +5,7 @@
 *.log
 *.csv
 bookshelf-server/template/buecherregal_header.tmpl
-
+bookshelf-server/html/RufeExterneURL.config.php
+bookshelf-server/html/css/booklist_erz.css
+bookshelf-server/html/js/ErzeugeMiniVersion.sh
+yuicompressor/
