@@ -243,7 +243,7 @@ do {
 
 				foreach my $aktRecord (@{$holdings->{'holding'}}) {
 					my $thisRecordHolding = readRecordStufe2($aktRecord);
-					if ($thisRecordHolding->{'location_id'} eq $Frage_location_id) {
+					if ($thisRecordHolding->{'location_id'} eq $Frage_location_id ) {
 						$AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} = $thisRecordHolding->{'call_number'};
 						$AddInfos{ $thisRecord->{'mms_id'} }->{'holding_id'} = $thisRecordHolding->{'holding_id'};
 						last;
@@ -253,169 +253,173 @@ do {
 				$AddInfos{ $thisRecord->{'mms_id'} }->{'auflage'} = $holdings->{'bib_data'}[0]->{'complete_edition'}[0];
 
 
+				# wenn keine holding_id ermittelt werden konnte dann gibt es fuer dieses Medium
+				# keine Daten, daher muss hierfür nichts angefragt werden
+				if ($AddInfos{ $thisRecord->{'mms_id'} }->{'holding_id'}  ne '') {
 
-
-
-				#########################################
-				# Jetzt 3. Stufe anfangen
-				#########################################
-				#wie 2. Stufe nur andere Daten
-					# jetzt mit den Daten Weiterarbeiten und die dritte Stufe holen
-					# 3. Anfrage
-					# weitere Daten ermitteln
-				my $cAnfrage3 = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
-					$thisRecord->{'mms_id'} .
-					'/holdings/' .
-					$AddInfos{ $thisRecord->{'mms_id'} }->{'holding_id'} .
-					'/items/' .
-					'?apikey=' . $apiKey;
-
-				print ERRORLOG "------------- ANFRAGE 3 -----------------\n";
-				print ERRORLOG $cAnfrage3 . "\n";
-				print ERRORLOG "-----------------------------------------\n";
-				my $response3 = $ua3->request(
-					HTTP::Request->new(
-					GET => $cAnfrage3 ));
-
-				if ($response3->is_error()) {
-					printf "%s\n(3) " . $response3->status_line . "\n";
-					printf ERRORLOG "%s\n(3) " . $response3->status_line . "\n";
-					print ERRORLOG "\t" . $cAnfrage3 . "\n";
-
-				} else {
-
-					#https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/
-					#990011110250402561
-					#/holdings/
-					#22143340580002561
-					#/items/?apikey=
-
-					my $xml3 = $response3->content;
-
-
-					my $bookDetails = XMLin($xml3, ForceArray => 1);
-					print ERRORLOG "------------- STUFE 3 -----------------\n";
-					print ERRORLOG Dumper($bookDetails);
-
-					# Checken ob es einen Fehler gegeben hat
-					if (exists($bookDetails->{'errorsExist'}) and ($bookDetails->{'errorsExist'}[0] eq 'true')) {
-						print ERRORLOG __LINE__ . " Fehler in Anfrage\n";
-					} else {
-
-						my $thisRecordBookDetails = readRecordStufe3($bookDetails->{'item'}[0]->{'item_data'}[0]);
-
-						$AddInfos{ $thisRecord->{'mms_id'} }->{'type'} = $thisRecordBookDetails->{'type'};
-						$AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'} = $thisRecordBookDetails->{'statistik1'};
-						$AddInfos{ $thisRecord->{'mms_id'} }->{'pid'} = $thisRecordBookDetails->{'pid'};
-					}
-
-					#########################################
-					# Jetzt 3. Stufe enden
-					#########################################
-
-
-					#------------------------------
-					# Stufe 4
-					# Wie Stufe 3 aber mit angabe der pid des titel und mit angabe view=label
 					#########################################
 					# Jetzt 3. Stufe anfangen
 					#########################################
 					#wie 2. Stufe nur andere Daten
-					# jetzt mit den Daten Weiterarbeiten und die dritte Stufe holen
-					# 3. Anfrage
-					# weitere Daten ermitteln
-					my $cAnfrage4 = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
+						# jetzt mit den Daten Weiterarbeiten und die dritte Stufe holen
+						# 3. Anfrage
+						# weitere Daten ermitteln
+					my $cAnfrage3 = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
 						$thisRecord->{'mms_id'} .
 						'/holdings/' .
 						$AddInfos{ $thisRecord->{'mms_id'} }->{'holding_id'} .
 						'/items/' .
-						$AddInfos{ $thisRecord->{'mms_id'} }->{'pid'} .
-						'?apikey=' . $apiKey .
-						'&view=label';
+						'?apikey=' . $apiKey;
 
-					print ERRORLOG "------------- ANFRAGE 4 -----------------\n";
-					print ERRORLOG $cAnfrage4 . "\n";
+					print ERRORLOG "------------- ANFRAGE 3 -----------------\n";
+					print ERRORLOG $cAnfrage3 . "\n";
 					print ERRORLOG "-----------------------------------------\n";
-					my $response4 = $ua4->request(
+					my $response3 = $ua3->request(
 						HTTP::Request->new(
-						GET => $cAnfrage4 ));
+						GET => $cAnfrage3 ));
 
-					if ($response4->is_error()) {
-						printf "%s\n(4) " . $response4->status_line . "\n";
-						printf ERRORLOG "%s\n(4) " . $response4->status_line . "\n";
-						print ERRORLOG "\t" . $cAnfrage4 . "\n";
+					if ($response3->is_error()) {
+						printf "%s\n(3) " . $response3->status_line . "\n\tanfrage2: " .  $cAnfrage2 . "\n\tanfrage3: " . $cAnfrage3 . "\n";
+						printf ERRORLOG "%s\n(3) " . $response3->status_line . "\n";
+						print ERRORLOG "\tAnfrage2: " . $cAnfrage2 . "\n";
+						print ERRORLOG "\tAnfrage3: " . $cAnfrage3 . "\n";
 
 					} else {
 
+						#printf "%s\n(3ok) " . $response3->status_line . "\n\tanfrage2: " .  $cAnfrage2 . "\n\tanfrage3: " . $cAnfrage3 . "\n";
 						#https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/
 						#990011110250402561
 						#/holdings/
 						#22143340580002561
-						#/items/
-						#23143340540002561
-						#?apikey=
-						#&view=label
+						#/items/?apikey=
 
-						my $xml4 = $response4->content;
+						my $xml3 = $response3->content;
 
 
-						my $bookDetails2 = XMLin($xml4, ForceArray => 1);
-						print ERRORLOG "------------- STUFE 4 -----------------\n";
-						print ERRORLOG Dumper($bookDetails2);
+						my $bookDetails = XMLin($xml3, ForceArray => 1);
+						print ERRORLOG "------------- STUFE 3 -----------------\n";
+						print ERRORLOG Dumper($bookDetails);
 
 						# Checken ob es einen Fehler gegeben hat
-						if (exists($bookDetails2->{'errorsExist'}) and ($bookDetails2->{'errorsExist'}[0] eq 'true')) {
+						if (exists($bookDetails->{'errorsExist'}) and ($bookDetails->{'errorsExist'}[0] eq 'true')) {
 							print ERRORLOG __LINE__ . " Fehler in Anfrage\n";
 						} else {
 
-							my $thisRecordBookDetails = readRecordStufe4($bookDetails2->{'item_data'}[0]);
+							my $thisRecordBookDetails = readRecordStufe3($bookDetails->{'item'}[0]->{'item_data'}[0]);
 
-							$AddInfos{ $thisRecord->{'mms_id'} }->{'jahr'} = $thisRecordBookDetails->{'year'};
-							$AddInfos{ $thisRecord->{'mms_id'} }->{'sprache'} = $thisRecordBookDetails->{'language'};
+							$AddInfos{ $thisRecord->{'mms_id'} }->{'type'} = $thisRecordBookDetails->{'type'};
+							$AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'} = $thisRecordBookDetails->{'statistik1'};
+							$AddInfos{ $thisRecord->{'mms_id'} }->{'pid'} = $thisRecordBookDetails->{'pid'};
 						}
 
 						#########################################
-						# Jetzt 4. Stufe enden
+						# Jetzt 3. Stufe enden
 						#########################################
 
 
+						#------------------------------
+						# Stufe 4
+						# Wie Stufe 3 aber mit angabe der pid des titel und mit angabe view=label
+						#########################################
+						# Jetzt 3. Stufe anfangen
+						#########################################
+						#wie 2. Stufe nur andere Daten
+						# jetzt mit den Daten Weiterarbeiten und die dritte Stufe holen
+						# 3. Anfrage
+						# weitere Daten ermitteln
+						my $cAnfrage4 = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
+							$thisRecord->{'mms_id'} .
+							'/holdings/' .
+							$AddInfos{ $thisRecord->{'mms_id'} }->{'holding_id'} .
+							'/items/' .
+							$AddInfos{ $thisRecord->{'mms_id'} }->{'pid'} .
+							'?apikey=' . $apiKey .
+							'&view=label';
+
+						print ERRORLOG "------------- ANFRAGE 4 -----------------\n";
+						print ERRORLOG $cAnfrage4 . "\n";
+						print ERRORLOG "-----------------------------------------\n";
+						my $response4 = $ua4->request(
+							HTTP::Request->new(
+							GET => $cAnfrage4 ));
+
+						if ($response4->is_error()) {
+							printf "%s\n(4) " . $response4->status_line . "\n";
+							printf ERRORLOG "%s\n(4) " . $response4->status_line . "\n";
+							print ERRORLOG "\t" . $cAnfrage4 . "\n";
+
+						} else {
+
+							#https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/
+							#990011110250402561
+							#/holdings/
+							#22143340580002561
+							#/items/
+							#23143340540002561
+							#?apikey=
+							#&view=label
+
+							my $xml4 = $response4->content;
 
 
+							my $bookDetails2 = XMLin($xml4, ForceArray => 1);
+							print ERRORLOG "------------- STUFE 4 -----------------\n";
+							print ERRORLOG Dumper($bookDetails2);
 
-						#-----------------------------------------------------------------------
-						# ermittelte Daten schreiben
-						#-----------------------------------------------------------------------
-						my $aktId = $thisRecord->{'mms_id'};
-
-						if ($AddInfos{$aktId}->{'type'} eq 'BOOK') {
-							# Bei bestimmten Kriterien nicht in Datei schreiben sondern
-							# in Fehlerdatei schreiben
-							#CSVERRORLOG
-							my $cTempSig = $AddInfos{$aktId}->{'call_number'};
-							my $lSigOk  = $falsch;
-							if ($cTempSig ne "") {
-								if ($cTempSig =~ m/^$Frage_SigAnfang (.*?)$/) {
-									$lSigOk = $wahr;
-								}
-							}
-
-							if ($AddInfos{$aktId}->{'call_number'} eq '') {
-								print_CSV( $CSVERRORLOG, \%AddInfos, $aktId, $wahr );
-							} elsif (!$lSigOk) {
-								print_CSV( $CSVERRORLOG, \%AddInfos, $aktId, $wahr );
-							} elsif ($AddInfos{$aktId}->{'statistik'} eq '') {
-								print_CSV( $CSVERRORLOG, \%AddInfos, $aktId, $wahr );
+							# Checken ob es einen Fehler gegeben hat
+							if (exists($bookDetails2->{'errorsExist'}) and ($bookDetails2->{'errorsExist'}[0] eq 'true')) {
+								print ERRORLOG __LINE__ . " Fehler in Anfrage\n";
 							} else {
 
+								my $thisRecordBookDetails = readRecordStufe4($bookDetails2->{'item_data'}[0]);
 
-								#print $out 'Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach' . "\n";
-
-								print_CSV( $out, \%AddInfos, $aktId, $falsch );
-
+								$AddInfos{ $thisRecord->{'mms_id'} }->{'jahr'} = $thisRecordBookDetails->{'year'};
+								$AddInfos{ $thisRecord->{'mms_id'} }->{'sprache'} = $thisRecordBookDetails->{'language'};
 							}
+
+							#########################################
+							# Jetzt 4. Stufe enden
+							#########################################
+
+
+
+
+
+							#-----------------------------------------------------------------------
+							# ermittelte Daten schreiben
+							#-----------------------------------------------------------------------
+							my $aktId = $thisRecord->{'mms_id'};
+
+							if ($AddInfos{$aktId}->{'type'} eq 'BOOK') {
+								# Bei bestimmten Kriterien nicht in Datei schreiben sondern
+								# in Fehlerdatei schreiben
+								#CSVERRORLOG
+								my $cTempSig = $AddInfos{$aktId}->{'call_number'};
+								my $lSigOk  = $falsch;
+								if ($cTempSig ne "") {
+									if ($cTempSig =~ m/^$Frage_SigAnfang (.*?)$/) {
+										$lSigOk = $wahr;
+									}
+								}
+
+								if ($AddInfos{$aktId}->{'call_number'} eq '') {
+									print_CSV( $CSVERRORLOG, \%AddInfos, $aktId, $wahr );
+								} elsif (!$lSigOk) {
+									print_CSV( $CSVERRORLOG, \%AddInfos, $aktId, $wahr );
+								} elsif ($AddInfos{$aktId}->{'statistik'} eq '') {
+									print_CSV( $CSVERRORLOG, \%AddInfos, $aktId, $wahr );
+								} else {
+
+
+									#print $out 'Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach' . "\n";
+
+									print_CSV( $out, \%AddInfos, $aktId, $falsch );
+
+								}
+							}
+							print $nBookNr . ": " . $aktId . " " . $AddInfos{$aktId}->{'type'} . " " . $AddInfos{$aktId}->{'holding_id'} . "\n";
+							$nBookNr++;
 						}
-						print $nBookNr . ": " . $aktId . " " . $AddInfos{$aktId}->{'type'} . " " . $AddInfos{$aktId}->{'holding_id'} . "\n";
-						$nBookNr++;
 					}
 				}
 			}
