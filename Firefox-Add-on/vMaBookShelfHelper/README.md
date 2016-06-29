@@ -41,6 +41,10 @@ GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Detail
 
 ## Historie
 
+* 0.9.7 2016-06-29, 11:51:00
+                           - Css angepasst da bei Primo innerhalb des "Standort / Bestellen"-
+                             Tabs ein Formular falsch dargestellt wurde (zu grosser Abstand
+                             nach oben), korrigiert
 * 0.9.6 2016-05-02, 20:28:00
                            - console.log ausgeschaltet
 * 0.9.5 2016-05-02, 14:14:00
