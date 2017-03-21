@@ -2324,7 +2324,7 @@ sub FarbWertDark
 #sub zerlegeRVKSignatur
 # eine RVK-Signatur in ihre Bestandteile zerlegen und diese getrennt
 # zurückmelden
-#   Paramter:
+#   Parameter:
 #       $cSig                   Die zu pruefende Signatur
 #-----------------------------------------------------------------------
 sub zerlegeRVKSignatur
