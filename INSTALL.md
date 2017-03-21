@@ -181,11 +181,11 @@ Depending on your setup, you might need to run this as an administrator!
 
    - open a "node.js command prompt"
    - change the directory to the "Firefox-Add-on\vMaBookShelfHelper"-directory
-   - jpm run (Launch an instance of Firefox with the add-on installed)
-     - IMPORTANT: jpm run does not work with the release version of Firefox 48, or later.
-       You need to install and use a different version of Firefox
+   - ~~jpm run~~ (Launch an instance of Firefox with the add-on installed)
+     - **IMPORTANT**: *jpm run does not work with the release version of Firefox 48, or later.
+       You need to install and use a different version of Firefox*
      - The simplest thing to do is to download Firefox Nightly: https://nightly.mozilla.org/ and start jpm using:
-       - jpm run -b nightly 
+       - > jpm run -b nightly 
    - jpm xpi (Package the add-on as an XPI file, which is the install file format for Firefox add-ons.)
 
 
