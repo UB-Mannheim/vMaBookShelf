@@ -9,6 +9,7 @@ var pageMod = require("sdk/page-mod"); // High
 //var bookListTimer = require("sdk/timers");
 //var utils = require('sdk/window/utils');
 // Ausgeschaltet da low level sdk/windows nicht mehr kompatibel
+// Comment out because low level sdk / windows is no longer compatible
 //var windows = require("sdk/windows");  // low
 
 var prefs = require("sdk/simple-prefs"); // High
@@ -81,6 +82,7 @@ pageMod.PageMod({
             //worker.port.emit("getElements", tag);
 
         // Ausgeschaltet da low level sdk/windows nicht mehr kompatibel
+        // Comment out because low level sdk / windows is no longer compatible
         //for (let window of windows.browserWindows) {
         //    apiLog( "title: " + window.title, "n", 0);
         //}
@@ -103,6 +105,7 @@ pageMod.PageMod({
             worker.port.emit("aktURL", vMaBookShelfHelper.settings.HomeUrl);
         });
         // Ausgeschaltet da low level sdk/windows nicht mehr kompatibel
+        // Comment out because low level sdk / windows is no longer compatible
         //worker.port.on("anzahlElemente", function(elementContent) {
         //    //console.log( "worker.port.on 'anzahlElemente' " + "+".repeat(68) );
         //    apiLog( "\n" + "=".repeat(80) + "\n" +
