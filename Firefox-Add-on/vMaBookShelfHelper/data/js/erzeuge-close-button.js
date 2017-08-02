@@ -1,5 +1,5 @@
 //   Name: erzeuge-close-button.js
-//  Stand: 2016-02-16, 07:57:24
+//  Stand: 2016-02-162017-07-12, 15:02:21
 // Author: Bernd Fallert, UB Mannheim
 
 // ToDo: Timer des Hauptfensters ausschalten wenn unterfenster aufgerufen wird
@@ -155,6 +155,19 @@ if (lInfoBlockVorhanden) {
     // hierdurch wird Overlaybutton angezeigt
     lZeigeOverlayButton = true;
 
+} else if (host === "elibrary.vahlen.de") {
+    //--------------------------------------------------------------------------
+    // In diesem Fall wird eine alternative Technik benutzt,
+    // die bei JumpHomeMa verwendet wurde!
+    // Der Button wird nicht in einem IFrame, sondern als halbtransparenter
+    // Button links unten einblenden
+    //--------------------------------------------------------------------------
+    apiLog( "----------CHECK 3 else if elibrary.vahlen.de ---------------", "n", 0 );
+
+    var isInIFrame      = false;
+    lZeigeButton        = false;
+    // hierdurch wird Overlaybutton angezeigt
+    lZeigeOverlayButton = true;
 
 } else if (host === "primo.bib.uni-mannheim.de") {
     //--------------------------------------------------------------------------
@@ -284,7 +297,7 @@ if (lZeigeButton) {
 
 } else if (lZeigeOverlayButton) {
 
-    apiLog( "----------CHECK 3 else if onlinelesen.ciando.com lZeigeOverlayButton", "n", 0 );
+    apiLog( "----------CHECK 3 else if onlinelesen.ciando.com u.a. lZeigeOverlayButton", "n", 0 );
 
     var div = document.createElement("div");
     //var AktInfoTerminalStartseiteAufrufenWebadresse = vMaBookShelfHelper.settings.HomeUrl;
@@ -302,11 +315,11 @@ if (lZeigeButton) {
 
     var isInIframe = (window.location != window.parent.location) ? true : false;
 
-    apiLog( "----------CHECK 3 else if onlinelesen.ciando.com TEST ob in Frame", "n", 0 );
+    apiLog( "----------CHECK 3 else if onlinelesen.ciando.com u.a. TEST ob in Frame", "n", 0 );
     apiLog( isInIframe, "n", 0 );
 
     if (!isInIframe) {
-        apiLog( "----------CHECK 3a else if onlinelesen.ciando.com !isInIframe", "n", 0 );
+        apiLog( "----------CHECK 3a else if onlinelesen.ciando.com u.a. !isInIframe", "n", 0 );
         document.body.insertBefore(div, document.body.firstChild);
 
         apiLog( "----------CHECK 3 ordne addEnventListener zu", "n", 0 );
@@ -317,7 +330,7 @@ if (lZeigeButton) {
 
 
     } else {
-        apiLog( "----------CHECK 3b else if onlinelesen.ciando.com isInIframe", "n", 0 );
+        apiLog( "----------CHECK 3b else if onlinelesen.ciando.com u.a. isInIframe", "n", 0 );
     }
 
 } else {

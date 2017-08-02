@@ -40,6 +40,11 @@ Dies ist freie Software. Sie können sie unter den Bedingungen der
 GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Details.
 
 ## Historie
+* 0.9.10 2017-06-12, 15:23:00
+                           - Anpassung an elibrary.vahlen.de
+
+* 0.9.9 2017-03-21, 16:37:20
+                           - unnötige low-level api entfernt
 
 * 0.9.8 2016-06-29, 16:33:00
                            - wg. fehlender kombatibilität von sdk/windows: inzwischen
