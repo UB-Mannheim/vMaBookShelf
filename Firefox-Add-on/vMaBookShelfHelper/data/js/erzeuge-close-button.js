@@ -1,5 +1,5 @@
 //   Name: erzeuge-close-button.js
-//  Stand: 2016-02-162017-07-12, 15:02:21
+//  Stand: 2017-07-12, 15:02:21
 // Author: Bernd Fallert, UB Mannheim
 
 // ToDo: Timer des Hauptfensters ausschalten wenn unterfenster aufgerufen wird
