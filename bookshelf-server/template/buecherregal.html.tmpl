@@ -413,11 +413,11 @@ myarray: [% DurchlaufObjekte.0.nr %];
 [%-#----------------------------------------------- %]
 [%- END %]
 [%-#----------------------------------------------- %]
-    [%- IF Buch.amazon %]
+    [%- IF Buch.lcoverimage %]
         <div class="cover">
-    [%- ELSE # if Buch.amazon%]
+    [%- ELSE # if Buch.lcoverimage%]
         <div>
-    [%- END # if Buch.amazon%]
+    [%- END # if Buch.lcoverimage%]
     [%- IF Buch.dummy %]
     [%- ELSE # Buch.dummy %]
             [%- IF Buch.ebook %]
@@ -429,7 +429,7 @@ myarray: [% DurchlaufObjekte.0.nr %];
                 [%- # target="_blank" %]
             [%- END # IF Buch.ebook %]
 [%- IF mit_title %]                title="[% IF Buch.jahr != 0 %][% Buch.jahr %]: [% END # IF Buch.jahr != 0 %][% IF Buch.authors %][% Buch.authors %]: [% END # Buch.authors %][% Buch.title %][% IF Buch.subtitle %] : [% Buch.subtitle %][% END # Buch.subtitle %][% IF Buch.fach %] (Fach: [% Buch.fach %])[% END # Buch.fach %]" >[% END # mit_title %]
-            [%- IF Buch.amazon %]
+            [%- IF Buch.lcoverimage %]
                 [%- IF nBuchInRegal >= nBisBuchInRegal %]
                     [%- # auf Folge-Seiten Bilder spaeter laden %]
                 <img class="lazy[% nAktDurchlauf %] img_buchcover" data-original="[% IF Buch.lThumbnail %][% Buch.thumbnailgrafik_web %]?[% Buch.thumbnailtime %][% ELSE # IF Buch.lThumbnail %][% Buch.grafikname_web %]?[% Buch.grafiktime %][% END # IF Buch.lThumbnail %]" [% IF mit_alt %] alt="[% Buch.title %][% IF Buch.subtitle %] : [% Buch.subtitle %][% END # Buch.subtitle %]"[% END # IF mit_alt %]>
@@ -442,7 +442,7 @@ myarray: [% DurchlaufObjekte.0.nr %];
                 <img class="img_buchcover" src="[% IF Buch.lThumbnail %][% Buch.thumbnailgrafik_web %]?[% Buch.thumbnailtime %][% ELSE # IF Buch.lThumbnail %][% Buch.grafikname_web %]?[% Buch.grafiktime %][% END # IF Buch.lThumbnail %]" [% IF mit_alt %] alt="[% Buch.title %][% IF Buch.subtitle %] : [% Buch.subtitle %][% END # Buch.subtitle %]" [% END # IF mit_alt %]>
                 <img class="img_qr" src="QRCache/[% Buch.qrcode %]" [% IF mit_title %] title="[% Buch.qrcode %]" [% END # IF mit_title %]  [% IF mit_alt %] alt="[% Buch.qrcode %]" [% END # IF mit_alt %]>
                 [%- END # IF nBuchInRegal >= nBisBuchInRegal %]
-            [%- ELSE # if Buch.amazon%]
+            [%- ELSE # if Buch.lcoverimage%]
                 <div class="shelf-image-container">
                     <div style="background-color: rgb([% Buch.color %]); box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.3);" class="shelf-image-substitute">
                         <div class="shelf-image-bg" style="background-image: url('images/book200.png');"></div>
@@ -454,7 +454,7 @@ myarray: [% DurchlaufObjekte.0.nr %];
                         <img class="lazy[% nAktDurchlauf %] img_qr" data-original="QRCache/[% Buch.qrcode %]" [% IF mit_title %] title="[% Buch.qrcode %]"[% END # IF mit_title %]  [% IF mit_alt %] alt="[% Buch.qrcode %]" [% END # IF mit_alt %]>
                     </div>
                 </div>
-            [%- END # if Buch.amazon%]</a>
+            [%- END # if Buch.lcoverimage%]</a>
     [%- END # if Buch.dummy%]
         </div>
         [%- IF Buch.signatur %]

@@ -9,6 +9,8 @@
 #       booklist
 # Aufgabe:
 #       erzeugen aller HTML-Dateien
+#       holen der cover images von Open Library
+#       wenn nicht gefunden, holen der cover images von amazon
 # Aufruf:
 #       perl CreateGesamtBuecherregal.pl --print=LBS_gesamt.csv --ebook=ebooks.csv
 #       da vor diesem Script zusätzlich CreateQRCodeFuerBuecherregal.pl
@@ -265,9 +267,9 @@ my $cStatistikFile                          = 'log/' . "statistik.log";
 
 
 open( SOURCEPRINT, "<$SourceFilePrint" ) or die
-    "Kann SOURCE-PRINT $SourceFilePrint nicht oeffnen $!\n";
+    __LINE__ . " Kann SOURCE-PRINT $SourceFilePrint nicht oeffnen $!\n";
 open( SOURCEEBOOK, "<$SourceFileEbook" ) or die
-    "Kann SOURCE-EBOOK $SourceFileEbook nicht oeffnen $!\n";
+    __LINE__ . " Kann SOURCE-EBOOK $SourceFileEbook nicht oeffnen $!\n";
 
 
 if (-e $cKeinTrefferCacheFile) {
@@ -583,14 +585,14 @@ foreach my $akt (sort {
 
     };
 
-    my $lAmazon     = $wahr;
+    my $lCover      = $wahr;
     if (!defined($MedienDaten{$akt}->{isbn}) or
         ($MedienDaten{$akt}->{isbn} eq "")) {
         #-------------------------------------------------------
-        # keine pruefung auf Cover bei Amazon wenn isbn leer
-        # oder nicht definiert ist
+        # keine pruefung auf Cover bei Amazon oder Open Library
+        # wenn isbn leer oder nicht definiert ist
         #-------------------------------------------------------
-        $lAmazon     = $falsch;
+        $lCover         = $falsch;
     }
 
     my $lGrafik                 = $wahr;
@@ -607,6 +609,7 @@ foreach my $akt (sort {
         ($MedienDaten{$akt}->{grafik} eq "")) {
 
         $lGrafik        = $falsch;
+        $lCover         = $falsch;
 
     } else {
 
@@ -676,7 +679,7 @@ foreach my $akt (sort {
         alephid             => $MedienDaten{$akt}->{alephid},
         jahr                => $MedienDaten{$akt}->{jahr},
         fach                => $aktFaecher,
-        amazon              => $lAmazon,
+        lcoverimage         => $lCover,
         authors             => $Authors,
         color               => $MedienDaten{$akt}->{color},
         grafikname          => $cGrafikName,
@@ -706,13 +709,13 @@ foreach my $akt (sort {
 
 
 
-    if ($lAmazon) {
+    if ($lCover) {
         push( @BuchObjekteOhneSubstitution, {
                     title       => encode_utf8($MedienDaten{$akt}->{title}),
                     subtitle    => $SubTitle,
                     isbn        => $MedienDaten{$akt}->{isbn},
                     alephid     => $MedienDaten{$akt}->{alephid},
-                    amazon      => $lAmazon,
+                    lcoverimage => $lCover,
                     authors     => $Authors,
                     color       => $MedienDaten{$akt}->{color},
                 } );
@@ -937,7 +940,7 @@ sub call_templateHtml {
                     alephid         => 0,
                     jahr            => 0,
                     fach            => [0],
-                    amazon          => $falsch,
+                    openlibrary     => $falsch,
                     authors         => "leer",
                     color           => '0, 0, 0',
                     grafikname      => "",
@@ -1070,6 +1073,7 @@ sub LeseQuellDaten {
     # wenn ja dann diese Variable auf true setzen
     my $lPrintEbook         = $falsch;
     my $nAnzahlMaxSpalten   = 0;
+    my $cAktCoverTyp        = '';
 
 
     while(<$fh>) {
@@ -1201,14 +1205,17 @@ sub LeseQuellDaten {
                         # aber verschiedene Daten abgleichen
                         # aktuell das Fach
                         #-------------------------------------------------------
-                        if ($AlephIds{ $aktAlephID } < 2)
-                        {
+                        if ($AlephIds{ $aktAlephID } < 2) {
                             # Index der Bücher hochzählen, z.B. wg. Mengentest
                             $nBuchIndex++;
+                            my $DebugAktLine = '';
+                            if ($debug) {
+                                $DebugAktLine = __LINE__ . " ";
+                            }
                             if (!$lEbook) {
-                                print "print: ";
+                                print $DebugAktLine . "print: ";
                             } else {
-                                print "ebook: ";
+                                print $DebugAktLine . "ebook: ";
                             };
 
                             print $nBuchIndex . "\t";
@@ -1258,9 +1265,8 @@ sub LeseQuellDaten {
                             # ab jetzt soll weiteres Fach gespeichert werden
                             #last;
                         }
-                    }
                     #-----------------------------------------------------------
-                    elsif (     ($SpaltenName{ $nSpalte } eq 'Autor')
+                    } elsif (     ($SpaltenName{ $nSpalte } eq 'Autor')
                             and ($AlephIds{ $aktAlephID } < 2)){
                         if ($akt ne '') {
 
@@ -1282,9 +1288,8 @@ sub LeseQuellDaten {
                         #else {
                         #    print "AUTHOR ist leer\n";
                         #}
-                    }
                     #-----------------------------------------------------------
-                    elsif (     ($SpaltenName{ $nSpalte } eq 'Titel')
+                    } elsif (     ($SpaltenName{ $nSpalte } eq 'Titel')
                             and ($AlephIds{ $aktAlephID } < 2)){
 
                         my $title       = decode_utf8($akt);
@@ -1357,17 +1362,15 @@ sub LeseQuellDaten {
                         # hierzu einige Daten speichern und vergleichen
                         # da jetzt auch das Jahr einbezogen werden soll wird
                         # dieser Teil verschoben
-                    }
-                    #elsif ($SpaltenName{ $nSpalte } eq 'Aufl.') {
+                    #} elsif ($SpaltenName{ $nSpalte } eq 'Aufl.') {
                     #    if ($akt ne '') {
                     #        print $akt . "\n";
                     #    }
                     #    else {
                     #        print "AUFLAGE ist leer\n";
                     #    }
-                    #}
                     #-----------------------------------------------------------
-                    elsif (     ($SpaltenName{ $nSpalte } eq 'ISBN')
+                    } elsif (     ($SpaltenName{ $nSpalte } eq 'ISBN')
                             and ($AlephIds{ $aktAlephID } < 2)){
                         my $cIsbnOri    = $akt;
                         # ISBN - entfernen
@@ -1385,73 +1388,141 @@ sub LeseQuellDaten {
                         my $cThumbnailImageName;
                         my $cThumbnailImageNameWeb;
                         my $ThumbnailMtime;
+                        my $cISBN13;
 
                         # Länge der ISBN pruefen
                         # bei der aktuellen Amazon-Schnittstelle sind wohl
                         # nur 10-stellige ISBNs moeglich
                         # daher ggf. ISBN in 10 Stellige umwandeln
 
+                        print __LINE__ . " \$cIsbnOri: $cIsbnOri\n" if ($debug);
                         if (length($cIsbn) > 10) {
                             # 13 digit ISBNs
                             my $isbn13  = Business::ISBN->new($cIsbnOri);
                             my $isbn10  = $isbn13->as_isbn10;   # Convert
                             $cIsbn      = $isbn10->isbn;
+                            $cISBN13    = $isbn13->isbn;
                             print ERRORLOG __LINE__ . " Konvertiere $cIsbnOri zu $cIsbn\n";
+                        } elsif (length($cIsbn) > 0) {
+                            my $isbn13  = Business::ISBN->new($cIsbnOri);
+                            my $isbn10  = $isbn13->as_isbn10;   # Convert
+                            $cIsbn      = $isbn10->isbn;
+                            $cISBN13    = '';
+                        } else {
+                            $cIsbn      = '';
+                            $cISBN13    = '';
                         };
 
 
-                        # bei Amazon prüfen ob ein Cover heruntergeholt
+
+                        # bei OpenLibrary prüfen ob ein Cover heruntergeholt
                         # werden kann
                         # 1. Liegt das Cover schon vor (gecached)
                         # 2. Wurde das Cover schon einmal geprüft
                         # 3. Ist das Cover abrufbar
                         # wenn nicht 1 oder 2 dann keine ISBN ausgeben,
-                        # ev. als irgendwas damit Suche in Aleph möglich ist
-                        if (!exists($KeineTrefferCache{$cIsbn})) {
-                            # Prüfe auf die eigene isbn
-                            ($lCover,
-                                $cGrafikName,
-                                $cGrafikNameWeb,
-                                $lCache,
-                                $ImageMtime,
-                                $lThumbnail,
-                                $cThumbnailImageName,
-                                $cThumbnailImageNameWeb,
-                                $ThumbnailMtime)  =
-                                PruefeCover( $cIsbn, $pCoverHeight, $htmlpath );
+                        if ($cISBN13 ne '') {
+                            if (!exists($KeineTrefferCache{$cISBN13})) {
+                                # Prüfe auf die eigene isbn
+                                ($lCover,
+                                    $cGrafikName,
+                                    $cGrafikNameWeb,
+                                    $lCache,
+                                    $ImageMtime,
+                                    $lThumbnail,
+                                    $cThumbnailImageName,
+                                    $cThumbnailImageNameWeb,
+                                    $ThumbnailMtime)  =
+                                    PruefeCover('openlibrary', $cISBN13, $pCoverHeight, $htmlpath );
+                                    if ($lCover) {
+                                        $cIsbn = $cISBN13;
+                                        $cAktCoverTyp = 'openlibrary';
+                                    }
+                            };
+                        };
+                        if (!$lCover) {
+                            if (($cIsbn ne $cISBN13) and ($cIsbn ne '')) {
+                                if (!exists($KeineTrefferCache{$cIsbn})) {
+                                    # Prüfe auf die eigene isbn
+                                    ($lCover,
+                                        $cGrafikName,
+                                        $cGrafikNameWeb,
+                                        $lCache,
+                                        $ImageMtime,
+                                        $lThumbnail,
+                                        $cThumbnailImageName,
+                                        $cThumbnailImageNameWeb,
+                                        $ThumbnailMtime)  =
+                                        PruefeCover('openlibrary', $cIsbn, $pCoverHeight, $htmlpath );
+                                        if ($lCover) {
+                                            $cAktCoverTyp = 'openlibrary';
+                                        }
+                                };
+                            };
+
+                        }
 
 
-                            if ($lCover) {
-                                ${$MedienDaten}{$aktAlephID}->{isbn} = $cIsbn;
-                                ${$MedienDaten}{$aktAlephID}->{grafik} =
-                                    $cGrafikName;
-                                ${$MedienDaten}{$aktAlephID}->{grafik_web} =
-                                    $cGrafikNameWeb;
-                                ${$MedienDaten}{$aktAlephID}->{grafiktime} =
-                                    $ImageMtime;
-                                if ($lCache) {
-                                    print "gecached";
-                                }
-
-                                ${$MedienDaten}{$aktAlephID}->{thumbnail} =
-                                    $lThumbnail;
-                                if ($lThumbnail) {
-                                    ${$MedienDaten}{$aktAlephID}->{thumbnailgrafik} =
-                                        $cThumbnailImageName;
-                                    ${$MedienDaten}{$aktAlephID}->{thumbnailgrafik_web} =
-                                        $cThumbnailImageNameWeb;
-                                    ${$MedienDaten}{$aktAlephID}->{thumbnailtime} =
-                                        $ThumbnailMtime;
+                        if (!$lCover) {
+                            # bei Amazon prüfen ob ein Cover heruntergeholt
+                            # werden kann
+                            # 1. Liegt das Cover schon vor (gecached)
+                            # 2. Wurde das Cover schon einmal geprüft
+                            # 3. Ist das Cover abrufbar
+                            # wenn nicht 1 oder 2 dann keine ISBN ausgeben,
+                            # ev. als irgendwas damit Suche in Aleph möglich ist
+                            if ($cIsbn ne '') {
+                                if (!exists($KeineTrefferCache{$cIsbn})) {
+                                    # Prüfe auf die eigene isbn
+                                    ($lCover,
+                                    $cGrafikName,
+                                    $cGrafikNameWeb,
+                                    $lCache,
+                                    $ImageMtime,
+                                    $lThumbnail,
+                                    $cThumbnailImageName,
+                                    $cThumbnailImageNameWeb,
+                                    $ThumbnailMtime)  =
+                                    PruefeCover('amazon',  $cIsbn, $pCoverHeight, $htmlpath );
+                                    if ($lCover) {
+                                        $cAktCoverTyp = 'amazon';
+                                    }
                                 }
                             }
-                            else
-                            {
-                                print ERRORLOG '  ' . 'isbn ohne Grafik ' .
-                                    $cIsbn . "\n";
-                                print "kein IMAGE";
-                                $KeineTrefferCache{ $cIsbn } = $cIsbn;
-                            };
                         }
+
+                        if ($lCover) {
+                            ${$MedienDaten}{$aktAlephID}->{isbn} = $cIsbn;
+                            ${$MedienDaten}{$aktAlephID}->{grafik} =
+                                $cGrafikName;
+                            ${$MedienDaten}{$aktAlephID}->{grafik_web} =
+                                $cGrafikNameWeb;
+                            ${$MedienDaten}{$aktAlephID}->{grafiktime} =
+                                $ImageMtime;
+                            if ($lCover) {
+                                print "\t$cAktCoverTyp\t";
+                            }
+                            if ($lCache) {
+                                print "gecached";
+                            }
+
+                            ${$MedienDaten}{$aktAlephID}->{thumbnail} =
+                                $lThumbnail;
+                            if ($lThumbnail) {
+                                ${$MedienDaten}{$aktAlephID}->{thumbnailgrafik} =
+                                    $cThumbnailImageName;
+                                ${$MedienDaten}{$aktAlephID}->{thumbnailgrafik_web} =
+                                    $cThumbnailImageNameWeb;
+                                ${$MedienDaten}{$aktAlephID}->{thumbnailtime} =
+                                    $ThumbnailMtime;
+                            }
+                        } else {
+                            print ERRORLOG '  ' . 'isbn ohne Grafik ' .
+                                $cIsbn . "\n";
+                            print "kein IMAGE";
+                            $KeineTrefferCache{ $cIsbn } = $cIsbn;
+                        };
+                        #}
 
                         # gab es ein Cover
                         # wenn nein dann auch noch prüfen ob es ev. mit dem
@@ -1466,11 +1537,6 @@ sub LeseQuellDaten {
                                 if (exists(${$PrintTitel}{$cKeyPrintBook})) {
                                     my $PrintAlephId    =
                                         ${$PrintTitel}{$cKeyPrintBook}{'alephid'};
-
-                                    #if (!defined($PrintAlephId)) {
-                                    #    sleep(1);
-                                    #}
-
 
                                     if (exists(${$MedienDaten}{$PrintAlephId})) {
 
@@ -1492,10 +1558,6 @@ sub LeseQuellDaten {
                                                 # Jetzt prüfen ob eine Thumbnail für
                                                 # dieses Buch vorliegt
                                                 # dann dieses verwenden
-                                                #my $PrintColor      =
-                                                #    ${$MedienDaten}{$PrintAlephId}->{color};
-                                                #${$MedienDaten}{$aktAlephID}->{color} =
-                                                #    $PrintColor;
 
                                                 ($lCover,
                                                     $cGrafikName,
@@ -1506,13 +1568,25 @@ sub LeseQuellDaten {
                                                     $cThumbnailImageName,
                                                     $cThumbnailImageNameWeb,
                                                     $ThumbnailMtime)  =
-                                                    PruefeCover( ${$MedienDaten}{$PrintAlephId}->{isbn}, $pCoverHeight, $htmlpath );
+                                                    PruefeCover( 'openlibrary', ${$MedienDaten}{$PrintAlephId}->{isbn}, $pCoverHeight, $htmlpath );
+
+                                                if (!$lCover) {
+                                                    ($lCover,
+                                                        $cGrafikName,
+                                                        $cGrafikNameWeb,
+                                                        $lCache,
+                                                        $ImageMtime,
+                                                        $lThumbnail,
+                                                        $cThumbnailImageName,
+                                                        $cThumbnailImageNameWeb,
+                                                        $ThumbnailMtime)  =
+                                                        PruefeCover( 'amazon', ${$MedienDaten}{$PrintAlephId}->{isbn}, $pCoverHeight, $htmlpath );
+                                                };
+
                                                 if ($lCover) {
                                                     $lIsbnPrint = $wahr;
                                                     $cIsbn      = ${$MedienDaten}{$PrintAlephId}->{isbn};
-                                                }
 
-                                                if ($lCover) {
                                                     ${$MedienDaten}{$aktAlephID}->{isbn} = $cIsbn;
                                                     ${$MedienDaten}{$aktAlephID}->{grafik} =
                                                         $cGrafikName;
@@ -1534,9 +1608,7 @@ sub LeseQuellDaten {
                                                         ${$MedienDaten}{$aktAlephID}->{thumbnailtime} =
                                                             $ThumbnailMtime;
                                                     }
-                                                }
-                                                else
-                                                {
+                                                } else {
                                                     print ERRORLOG '  ' . 'isbn ohne Grafik ' .
                                                         $cIsbn . "\n";
                                                     print "kein IMAGE";
@@ -1575,12 +1647,11 @@ sub LeseQuellDaten {
                                 print "\n";
                             };
                         };
-                    }
                     #-----------------------------------------------------------
                     # In diesem Fall auch die weiteren Treffer untersuchen
                     # also nicht nur wenn and ($AlephIds{ $aktAlephID } < 2)
                     #-----------------------------------------------------------
-                    elsif ($SpaltenName{ $nSpalte } eq 'Fach') {
+                    } elsif ($SpaltenName{ $nSpalte } eq 'Fach') {
                         if ($akt ne '') {
 
                             my $fach = $akt;
@@ -1636,9 +1707,8 @@ sub LeseQuellDaten {
                             }
                             push(@{${$MedienDaten}{$aktAlephID}->{fach}}, $fach);
                         }
-                    }
                     #-----------------------------------------------------------
-                    elsif (     ($SpaltenName{ $nSpalte } eq 'Jahr')
+                    } elsif (     ($SpaltenName{ $nSpalte } eq 'Jahr')
                             and ($AlephIds{ $aktAlephID } < 2)){
                         if ($akt ne '') {
                             my $aktJahr = $akt;
@@ -1764,9 +1834,8 @@ sub LeseQuellDaten {
                             #---------------------------------------------------------------
                             #---------------------------------------------------------------
                         }
-                    }
                     #-----------------------------------------------------------
-                    elsif (     ($SpaltenName{ $nSpalte } eq 'URL')
+                    } elsif (     ($SpaltenName{ $nSpalte } eq 'URL')
                             and ($AlephIds{ $aktAlephID } < 2)){
                         if ($akt ne '') {
                             ${$MedienDaten}{$aktAlephID}->{URL} = $akt;
@@ -1779,9 +1848,8 @@ sub LeseQuellDaten {
                                 $lWgFehlerDelete    = $wahr;
                             }
                         }
-                    }
                     #-----------------------------------------------------------
-                    elsif (     ($SpaltenName{ $nSpalte } eq 'Signatur')
+                    } elsif (     ($SpaltenName{ $nSpalte } eq 'Signatur')
                             and ($AlephIds{ $aktAlephID } < 2)){
                         if ($akt ne '') {
                             my $usersignatur            = $akt;
@@ -2025,9 +2093,8 @@ sub LeseQuellDaten {
                             #---------------------------------------------------
                             $lWgFehlerDelete    = $wahr;
                         }
-                    }
                     #-----------------------------------------------------------
-                    elsif (     ($SpaltenName{ $nSpalte } eq 'SPRACHE')
+                    } elsif (     ($SpaltenName{ $nSpalte } eq 'SPRACHE')
                             and ($AlephIds{ $aktAlephID } < 2)){
                         if ($akt ne '') {
                             ${$MedienDaten}{$aktAlephID}->{sprache} = $akt;
@@ -2127,82 +2194,138 @@ sub LeseQuellDaten {
 }
 
 
-sub PruefeCover {
-    my $pISBN               = shift();
-    my $pHeight             = shift();
-    my $htmlpath            = shift(); # neu 2015-03-06, 14:42:13
 
-    my $URL                 = 'http://images.amazon.com/images/P/' .
-                                $pISBN .
-                                '.01._SCLZZZZZZZ_.jpg';
+
+
+sub PruefeCover {
+    my $cType               = shift();  # openlibrary / amazon
+    my $pISBN               = shift();
+
+    my $pHeight             = shift();
+    my $htmlpath            = shift();
+
+    my $URL                 = '';
+    my $cISBN               = '';
+
+    if ($pISBN ne '') {
+        $cISBN = $pISBN;
+    } else {
+        die __LINE__ . " leere ISBN nicht zulässig\n";
+    };
+
+    #---------------------------------------------------------------------------
+    # Einstellungen für openlibrary
+    #---------------------------------------------------------------------------
+    if ($cType eq 'openlibrary') {
+        $URL    = 'http://covers.openlibrary.org/b/isbn/' . $cISBN . '-M.jpg';
+
+    #---------------------------------------------------------------------------
+    # Einstellungen für amazon
+    #---------------------------------------------------------------------------
+    } elsif ($cType eq 'amazon') {
+        $URL    = 'http://images.amazon.com/images/P/' .
+                    $cISBN .
+                    '.01._SCLZZZZZZZ_.jpg';
+
+    } else {
+        # Parameter nicht das erwartete Format
+        die __LINE__ . " Falscher Parameter in PruefeCoverNeutral(), Zulaessig 'openlibrary' oder 'amazon'\n";
+    }
+
+
     my $lAbfrageErfolgreich = $falsch;
     my $lCover              = $falsch;
     my $lCache              = $falsch;
     my $lThumbnail          = $falsch;
-    my $lAmazon             = $wahr;
+
     my $doc;
     my @zeilen              = ();
-    my $cImageName          = $htmlpath . '/CoverCache/' . $pISBN . '.jpg';
-    my $cThumbnailImageName = $htmlpath . '/CoverCache/thumbnail/' . $pISBN . '.jpg';
+    my $cImageName          = $htmlpath . '/CoverCache/' . $cISBN . '.jpg';
+    my $cThumbnailImageName = $htmlpath . '/CoverCache/thumbnail/' . $cISBN . '.jpg';
 
-    my $cImageNameWeb          = 'CoverCache/' . $pISBN . '.jpg';
-    my $cThumbnailImageNameWeb = 'CoverCache/thumbnail/' . $pISBN . '.jpg';
+    my $cImageNameWeb          = 'CoverCache/' . $cISBN . '.jpg';
+    my $cThumbnailImageNameWeb = 'CoverCache/thumbnail/' . $cISBN . '.jpg';
 
 
     # Prüfen ob die Datei schon im Cache liegt!
     if (-e $cImageName) {
         $lCover = $wahr;
         $lCache = $wahr;
-    }
-    else
-    {
-        # Image muss erst von Amazon abgefragt werden
+    } else {
+        # Image muss erst von OpenLibrary / Amazon abgefragt werden
         my $ua      = LWP::UserAgent->new;
         $ua->timeout( 100 );
 
         my $docUA   = $ua->get( $URL );
 
-        if ($docUA->is_success)
-        {
-            print "Erfolgreich bei $pISBN \n"   if ($debug);
+        if ($docUA->is_success) {
+            print $cType . ": Erfolgreich bei $cISBN \n"   if ($debug);
             $lAbfrageErfolgreich = $wahr;
-        }
-        else
-        {
+        } else {
             $lAbfrageErfolgreich = $falsch;
-            print "Holen nicht Erfolgreich bei $pISBN \n" if ($debug);
-            print ERRORLOG "Holen nicht Erfolgreich bei $pISBN \n";
-        };
-        if ($docUA->is_success)
-        {
-            $doc = $docUA->content;
-            # Prüfen ob es sich um die kein Cover-Image handelt
-            if (substr($doc, 0, 6 ) eq 'GIF89a') {
-                # Kein Cover vorhanden!
-                $lAmazon    = $falsch;
-            } elsif (substr($doc, 0, 6 ) eq 'GIF87a') {
-                my $tempGif = "tempGif.gif";
-                open( IMAGE, ">$tempGif" )
-                    or die "Kann IMAGE $tempGif nicht oeffnen $!\n";
-                binmode IMAGE;
-                print IMAGE $doc;
-                close IMAGE;
-                system( `convert $tempGif $cImageName`);
-                unlink $tempGif;
-                $lCover = $wahr;
-            } else {
-                open( IMAGE, ">$cImageName" )
-                    or die "Kann IMAGE $cImageName nicht oeffnen $!\n";
-                binmode IMAGE;
-                print IMAGE $doc;
-                close IMAGE;
-                $lCover = $wahr;
-            }
+            print $cType . ": Holen nicht Erfolgreich bei $cISBN \n" if ($debug);
+            print ERRORLOG $cType . ": Holen nicht Erfolgreich bei $cISBN \n";
         };
 
+        if ($docUA->is_success) {
+
+            $doc = $docUA->content;
+
+            if ($cType eq 'amazon') {
+                # Prüfen ob es sich um kein Cover-Image handelt
+                if (substr($doc, 0, 6 ) eq 'GIF89a') {
+                    # Kein Cover vorhanden!
+                    $lCover     = $falsch;
+                    #$lAmazon    = $falsch;
+                # Prüfen ob es sich um ein Cover-Image handelt
+                } elsif (substr($doc, 0, 6 ) eq 'GIF87a') {
+                    my $tempGif = "tempGif.gif";
+                    open( IMAGE, ">$tempGif" )
+                        or die "Kann IMAGE $tempGif nicht oeffnen $!\n";
+                    binmode IMAGE;
+                    print IMAGE $doc;
+                    close IMAGE;
+                    system( `convert $tempGif $cImageName`);
+                    unlink $tempGif;
+                    $lCover     = $wahr;
+                    #$lAmazon    = $wahr;
+                # unbekannter Covertyp
+                } else {
+                    open( IMAGE, ">$cImageName" )
+                        or die "Kann IMAGE $cImageName nicht oeffnen $!\n";
+                    binmode IMAGE;
+                    print IMAGE $doc;
+                    close IMAGE;
+                    $lCover     = $wahr;
+                    #$lAmazon    = $wahr;
+                }
+            #-------------------------------------------------------------------
+            # Open Library
+            #-------------------------------------------------------------------
+            } elsif ($cType eq 'openlibrary') {
+                # Prüfen ob es sich um kein Cover-Image handelt
+                if (substr($doc, 0, 6 ) eq 'GIF89a') {
+                    # Kein Cover vorhanden!
+                    $lCover         = $falsch;
+                    #$lOpenLibrary   = $falsch;
+                # Prüfen ob es sich um ein Cover-Image handelt
+                } else {
+                    my $tempGif = "tempGif.gif";
+                    open( IMAGE, ">$tempGif" )
+                        or die "Kann IMAGE $tempGif nicht oeffnen $!\n";
+                    binmode IMAGE;
+                    print IMAGE $doc;
+                    close IMAGE;
+                    system( `convert $tempGif $cImageName`);
+                    unlink $tempGif;
+                    $lCover         = $wahr;
+                    #$lOpenLibrary   = $wahr;
+                };
+            };
+        };
     };
 
-    if ($lAmazon) {
+    if ($lCover) {
         if (-e $cThumbnailImageName) {
             $lThumbnail = $wahr;
         } else {
