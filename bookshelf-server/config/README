@@ -281,6 +281,13 @@ tastendruckmultiplikator=15
 [ALMA]
 # you can create in ALMA a Collection, use here the Collection-Key
 collection=99999999999999999
+
+
+# Ebooks 
+# for EBooks you can create in ALMA a second Collection, use here the Collection-Key
+ebooks-collection=99999999999999999
+
+
 # you can create in ALMA a search api.
 # with the indiducal apiKey you get the data as xml
 apiKey=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -296,11 +303,11 @@ SkipStartWith=:
 #used for HoleCSV_von_alma.pl
 
 # locationId in Alma 
-# 'WEST_EG' or '110' are used values in Mannheim
-locationId=110
+# 'WEST_EG' or '120' are used values in Mannheim
+locationId=WEST_EG
 
 # in Mannheim we used RVK call numbers
 # the first 3 numbers are shown the location
-# '120' or '110' are used values in Mannheim
+# '120' is a used values in Mannheim
 # a possible call number is: 120 AH 11005 E36
-siganfang=110
+siganfang=120

@@ -279,14 +279,16 @@ tastendruckmultiplikator=15
 
 [ALMA]
 collection=99999999999999999
+
+# Ebooks
+ebooks-collection=99999999999999999
+
 apiKey=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 skipSubtitles=yes
-SkipStartWith=:[SET]
-locationId=110
-siganfang=110
+SkipStartWith=:
 
 [SET]
 #used for HoleCSV_von_alma.pl
-locationId=110
-siganfang=110
+locationId=WEST_EG
+siganfang=120
