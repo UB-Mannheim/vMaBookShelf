@@ -1,6 +1,6 @@
-#!/usr/bin/perl -w
+ï»¿#!/usr/bin/perl -w
 #-------------------------------------------------------------------------------
-# Copyright (C) 2016 Universitätsbibliothek Mannheim
+# Copyright (C) 2016 UniversitÃ¤tsbibliothek Mannheim
 # Name:
 #       HoleCSV_von_alma.pl
 # Author:
@@ -12,11 +12,11 @@
 # Aufruf:
 #       perl HoleCSV_von_alma.pl
 # Hinweis:
-# 	Funktioniert aktuell nur bei books für die vorher in Alma eine Sammlung eingetragen wurde
+# 	Funktioniert aktuell nur bei books fÃ¼r die vorher in Alma eine Sammlung eingetragen wurde
 # History:
 #   2016-06-08, 12:03:25
 #       verschiedene location_id abfragbar, bisher nur 110
-#       neu auch für WEST_EG
+#       neu auch fÃ¼r WEST_EG
 #       zweiter Parameter dann zwingend $SigAnfang
 #       bei 110 ist das Deckungsgleich bei WEST_EG ist das 120
 #
@@ -90,7 +90,7 @@ GetOptions(
 
 
 #--------------------------------------------------------------
-# wenn gewünscht ist das das Errorlog zurückgesetzt wird
+# wenn gewÃ¼nscht ist das das Errorlog zurÃ¼ckgesetzt wird
 #--------------------------------------------------------------
 if ($lresetlog)
 {
@@ -133,7 +133,7 @@ if ($sourceDir =~ m/^(.*?)\/$/) {
 }
 
 
-# 'learningcenter_print.csv';   # default für print-csv-Datei
+# 'learningcenter_print.csv';   # default fÃ¼r print-csv-Datei
 my $pSourceFilePrint        = $cfg->val( 'CSV', 'print' );
 
 my $SourceFilePrint          = $sourceDir . '/' . $pSourceFilePrint;
@@ -254,7 +254,7 @@ do {
 
 
 				# wenn keine holding_id ermittelt werden konnte dann gibt es fuer dieses Medium
-				# keine Daten, daher muss hierfür nichts angefragt werden
+				# keine Daten, daher muss hierfÃ¼r nichts angefragt werden
 				if ($AddInfos{ $thisRecord->{'mms_id'} }->{'holding_id'}  ne '') {
 
 					#########################################
@@ -457,7 +457,7 @@ sub readRecordStufe1 {
     };
 
 
-    # vorbelegen mit dummywerten der zu ergänzenden Felder
+    # vorbelegen mit dummywerten der zu ergÃ¤nzenden Felder
     $data{'call_number'} = '';
     $data{'holding_id'} = '';
     $data{'location'} = '';
@@ -469,7 +469,7 @@ sub readRecordStufe1 {
     $data{'jahr'} = '';
     $data{'sprache'} = '';
 
-    # Stufe 1 Daten eines Buches werden zurückgemeldet
+    # Stufe 1 Daten eines Buches werden zurÃ¼ckgemeldet
     return(\%data);
 }
 
@@ -483,7 +483,7 @@ sub readRecordStufe2 {
     $data{'call_number'} = $record->{'call_number'}[0];
     $data{'holding_id'} = $record->{'holding_id'}[0];
 
-    # Achtung location enthält manchmal kein weiteren Hash
+    # Achtung location enthÃ¤lt manchmal kein weiteren Hash
     if (ref($record->{'location'}[0]) eq 'HASH') {
         if (exists($record->{'location'}[0]->{'desc'})) {
             $data{'location'} = $record->{'location'}[0]->{'desc'};
@@ -497,7 +497,7 @@ sub readRecordStufe2 {
         $data{'location_id'} = $record->{'location'}[0];
     }
 
-    # Stufe 2 Daten eines Buches werden zurückgemeldet
+    # Stufe 2 Daten eines Buches werden zurÃ¼ckgemeldet
     return(\%data);
 }
 
@@ -537,7 +537,7 @@ sub readRecordStufe3 {
     $data{'statistik1'} = $cTemp;
 
 
-    # Stufe 3 Daten eines Buches werden zurückgemeldet
+    # Stufe 3 Daten eines Buches werden zurÃ¼ckgemeldet
     return(\%data);
 }
 
@@ -568,7 +568,7 @@ sub readRecordStufe4 {
     }
     $data{'year'} = $cImprint;
 
-    # Stufe 4 Daten eines Buches werden zurückgemeldet
+    # Stufe 4 Daten eines Buches werden zurÃ¼ckgemeldet
     return(\%data);
 }
 
