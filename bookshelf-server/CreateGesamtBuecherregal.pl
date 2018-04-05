@@ -91,6 +91,7 @@ my %KeineTrefferCache       = ();
 my %MedienDaten             = ();
 my %PrintTitel              = ();
 
+
 #-------------------------------------------------------------------------------
 # Altes CSV-Fehler Protokoll leeren
 #-------------------------------------------------------------------------------
@@ -2190,6 +2191,17 @@ sub LeseQuellDaten {
     foreach my $akt (sort( keys( %{$Statistik{'sprache'}} ) ) ) {
         print STATISTIK $akt . ":\t" . $Statistik{'sprache'}{$akt} . "\n";
     }
+
+    print STATISTIK "\n"x3;
+    print STATISTIK "Coverdownload von:\n";
+    # Statistik wieviele Covers wurden von wo geholt
+    print STATISTIK "OpenLibrary (nicht gefunden):" . $Statistik{'coverdownload'}{'openlibrary_00'} . "\n";
+    print STATISTIK "OpenLibrary (      gefunden):" . $Statistik{'coverdownload'}{'openlibrary_ok'} . "\n";
+
+    print STATISTIK "Amazon      (nicht gefunden):" . $Statistik{'coverdownload'}{'amazon_00'} . "\n";
+    print STATISTIK "Amazon      (      gefunden):" . $Statistik{'coverdownload'}{'amazon_ok'} . "\n";
+
+
     # Statistik-Daten ausgeben Ende
 }
 
@@ -2277,6 +2289,7 @@ sub PruefeCover {
                     # Kein Cover vorhanden!
                     $lCover     = $falsch;
                     #$lAmazon    = $falsch;
+                    $Statistik{'coverdownload'}{'amazon_00'}++;
                 # Prüfen ob es sich um ein Cover-Image handelt
                 } elsif (substr($doc, 0, 6 ) eq 'GIF87a') {
                     my $tempGif = "tempGif.gif";
@@ -2289,6 +2302,7 @@ sub PruefeCover {
                     unlink $tempGif;
                     $lCover     = $wahr;
                     #$lAmazon    = $wahr;
+                    $Statistik{'coverdownload'}{'amazon_ok'}++;
                 # unbekannter Covertyp
                 } else {
                     open( IMAGE, ">$cImageName" )
@@ -2298,6 +2312,7 @@ sub PruefeCover {
                     close IMAGE;
                     $lCover     = $wahr;
                     #$lAmazon    = $wahr;
+                    $Statistik{'coverdownload'}{'amazon_00'}++;
                 }
             #-------------------------------------------------------------------
             # Open Library
@@ -2308,6 +2323,7 @@ sub PruefeCover {
                     # Kein Cover vorhanden!
                     $lCover         = $falsch;
                     #$lOpenLibrary   = $falsch;
+                    $Statistik{'coverdownload'}{'openlibrary_00'}++;
                 # Prüfen ob es sich um ein Cover-Image handelt
                 } else {
                     my $tempGif = "tempGif.gif";
@@ -2320,6 +2336,7 @@ sub PruefeCover {
                     unlink $tempGif;
                     $lCover         = $wahr;
                     #$lOpenLibrary   = $wahr;
+                    $Statistik{'coverdownload'}{'openlibrary_ok'}++;
                 };
             };
         };
