@@ -508,7 +508,7 @@ do {
         # für ebooks
         #================================================
                 #1. Entwurf https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/{mms_id}/portfolios
-        #2. Entwurf https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/{mms_id} + apikey
+                #2. Entwurf https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/{mms_id} + apikey
 
 
                 # jetzt mit den Daten Weiterarbeiten und die Zweite Stufe holen
@@ -518,7 +518,7 @@ do {
                 #        $thisRecord->{'mms_id'} .
                 #        '/portfolios?apikey=' . $apiKey;
 
-        # Versuch mit bibs
+                # Versuch mit bibs
                 my $cAnfrage2 = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
                         $thisRecord->{'mms_id'} .
                         '?apikey=' . $apiKey;
@@ -553,14 +553,6 @@ do {
                     # Auflage
                     $AddInfos{ $thisRecord->{'mms_id'} }->{'auflage'} = $bibliograph->{'complete_edition'}[0];
                     
-                    # Fehlersuche
-                    #if ($AddInfos{ $thisRecord->{'mms_id'} }->{'author'} eq 'Herrmann, Marco') {
-                    #if ($thisRecord->{'mms_id'} eq '9918367233702561') {
-                    #if ($thisRecord->{'mms_id'} eq '9918367237202561') {
-                    #if ($thisRecord->{'mms_id'} eq '9918367237502561') {
-                    #if ($thisRecord->{'mms_id'} eq '9918367238502561') {
-                    #    sleep(1);
-                    #}
                 
 
                     # Jahr
@@ -574,9 +566,8 @@ do {
                     my %PrintParent     = ();                    
 
                     foreach my $akt (sort( keys($bibliograph->{'record'}[0]->{'datafield'}))) {
-                        print $akt . ': ' . $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} . "\n";
+                        print $akt . ': ' . $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} . "\n" if ($debug);
                         # Sprache
-                        #if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '041') {
                         if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '041') {
                             if ($lang eq '') {
                                 $lang  = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[0]->{'content'};
@@ -588,7 +579,7 @@ do {
                             #$year = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[0]->{'content'};
 
                             foreach my $aktSub (sort( keys($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}))) {
-                                print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n";
+                                print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
                                 if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'c') {
                                     if ($year eq '') {
                                         # year bereinigen
@@ -604,10 +595,9 @@ do {
                         # auch erschienen unter
                         if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') {
                             my $lPrintParent = $falsch;
-                            #my %PrintParent  = ();
 
                             foreach my $aktSub (sort( keys($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}))) {
-                                print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n";
+                                print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
 
                                 # prüfen einiger Daten da bisher keinen Überblick
                                 # Erscheint auch als Druckausgabe prüfen
@@ -618,7 +608,7 @@ do {
                                 # Author
                                 } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'a') {
                                     my $tempAutor = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
-                                    #my $tempA;
+
                                     # 'Haratsch, Andreas, 1963 - '
                                     # entferne , Jahr -
                                     if ($tempAutor =~ m/(.*?)[,](.*?)[,](.*?)/) {
@@ -679,10 +669,13 @@ do {
                                 }
                             }
                         }
-                        # Prüfen ob Daten nachgetragen werden können
-                    if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
                         
-                        # noch prüfen ob über die isbn oder kurzisbn ein match durchgeführt werden kann
+                        # Prüfen ob Daten nachgetragen werden können
+                        if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
+                            
+                            #-----------------------------------------------------------------------------------
+                            # noch prüfen ob über die isbn oder kurzisbn ein match durchgeführt werden kann
+                            #-----------------------------------------------------------------------------------
                             #
                             # @BookData enthält die Datein der BookCSV-Datei
                             #
@@ -693,40 +686,33 @@ do {
 
                                 if (($aktBookData->{'ISBN'} eq $PrintParent{'isbn'}) || ($aktBookData->{'ISBN'} eq $PrintParent{'isbn_kurz'}))  {
 
-                                    # wenn isbn vergleich hier dann hatte Daten keinen autor enthalten
-                                    #if ($aktBookData->{'Autor'} eq $PrintParent{'author'}) {
+                                    $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
+                                    # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " abgeschnitten
+                                    my $tempSig   = $aktBookData->{'Signatur'};
+                                    $tempSig  =~ m/^
+                                        (\d{3})         # 1 3 Zahlen
+                                        (\s+)           # 2   Leerzeichen
+                                        ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
+                                        (\s+)           # 4   Leerzeichen
+                                        (.*?)           # 5   beliebige Zeichen
+                                        $
+                                    /x;
 
-                                        #sleep(1);
-                                        $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
-                                        # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " abgeschnitten
-                                        my $tempSig   = $aktBookData->{'Signatur'};
-                                        $tempSig  =~ m/^
-                                            (\d{3})         # 1 3 Zahlen
-                                            (\s+)           # 2   Leerzeichen
-                                            ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
-                                            (\s+)           # 4   Leerzeichen
-                                            (.*?)           # 5   beliebige Zeichen
-                                            $
-                                        /x;
+                                    $tempSig = $3 . $4 . $5;
 
-                                        $tempSig = $3 . $4 . $5;
-
-                                        $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
-
-                                    #}
+                                    $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
 
                                 }
                             }
-                        
-                        # noch prüfen ob über die isbn oder kurzisbn ein match durchgeführt werden kann ENDE
-                        
-                        # zweiter Test, ist Signatur immer noch leer?
-                        if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
-                            $nBooksWithoutMatch++;
-                            $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = 'ZZ 999 Z9999';
-                            $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = '01';
-                        }
-                    };
+                            # noch prüfen ob über die isbn oder kurzisbn ein match durchgeführt werden kann ENDE
+                            
+                            # zweiter Test, ist Signatur immer noch leer?
+                            if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
+                                $nBooksWithoutMatch++;
+                                $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = 'ZZ 999 Z9999';
+                                $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = '01';
+                            }
+                        };
 
 
                     }
