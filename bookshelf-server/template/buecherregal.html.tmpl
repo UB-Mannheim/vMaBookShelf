@@ -220,7 +220,22 @@
             var gesamturl = baseurl + url;
             var width=1024;
             var height=660;
-            var newWin = window.open( gesamturl,"subWin",
+	    //var newWin;
+	    var lOpenNewWin = false;
+	    var nBaseLength = baseurl.length;
+	    
+	    if (typeof newWin !== 'undefined') {
+		if (newWin.closed) {
+			lOpenNewWin = true;
+		};
+	    } else {
+		lOpenNewWin = true;	    
+	    };
+		
+	    if (lOpenNewWin) {
+	        if  (url.substr(0,nBaseLength) !== baseurl) {
+	    
+			newWin = window.open( gesamturl,"subWin",
                                       "directories=no," +
                                       "dependent=yes," +
                                       "dialog=off," +
@@ -238,8 +253,10 @@
                                       "toolbar=no," +
                                       "alwaysRaised=yes," +
                                       "top=0");
-            newWin.moveTo(0,0);
-            newWin.focus();
+			newWin.moveTo(0,0);
+			newWin.focus();
+                };
+            };
         };
 
         function loadURL(url) {
