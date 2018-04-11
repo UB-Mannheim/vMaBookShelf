@@ -1,4 +1,4 @@
-﻿#!/usr/bin/perl -w
+#!/usr/bin/perl -w
 #-------------------------------------------------------------------------------
 # Copyright (C) 2014 Universitätsbibliothek Mannheim
 # Name:
@@ -1089,14 +1089,16 @@ sub LeseQuellDaten {
         #---------------------------------------------------
         if (length($aktZeile) > 2 ) {
 
+            # Da die Daten jetzt von Alma via API geholt werden wird dieser
+            # Abscnitt nicht mehr benötigt
             #---------------------------------------------------
             #in der URL ist teilweise ein "|" enthalten
             # diesen "|" wird jetzt in seine Hex-Entsprechung
             # umgewandelt (alle Treffer)
             #---------------------------------------------------
-            while ($aktZeile =~ m/http\:(.*?)\|/) {
-                $aktZeile =~ s/http\:(.*?)\|/http:$1%7C/;
-            }
+            #while ($aktZeile =~ m/http\:(.*?)\|/) {
+            #    $aktZeile =~ s/http\:(.*?)\|/http:$1%7C/;
+            #}
 
             my @AktFelder               = split( /\|/, $aktZeile );
             my %AktSpalten              = ();
@@ -1201,8 +1203,7 @@ sub LeseQuellDaten {
                         # aber verschiedene Daten abgleichen
                         # aktuell das Fach
                         #-------------------------------------------------------
-                        if ($AlephIds{ $aktAlephID } < 2)
-                        {
+                        if ($AlephIds{ $aktAlephID } < 2) {
                             # Index der Bücher hochzählen, z.B. wg. Mengentest
                             $nBuchIndex++;
                             if (!$lEbook) {
@@ -1592,24 +1593,15 @@ sub LeseQuellDaten {
                             #---------------------------------------------------
                             if ($lEbook) {
 
-                                # Beispiel: cofz , text , lb30 ,
-                                my @StatistikArray = split( /\,/, $fach );
                                 my $lFach   = $falsch;
-
-                                foreach my $aktStat (@StatistikArray) {
-                                    $aktStat =~ s/^\s//g;
-                                    $aktStat =~ s/\s$//g;
-                                    if ($aktStat =~ m/^lb(\d\d)/) {
-                                        $fach = $1;
-                                        #$lFach   = $falsch;
+                                # New Version now only number
+                                if ($fach ne '') {
                                         $lFach   = $wahr;
 
-                                        if ($fach ne '') {
-                                            $Statistik{'fachgesamt'}{'mitfach'}++;
-                                            $Statistik{'fach'}{$fach}++;
-                                        };
-                                    };
-                                }
+                                        $Statistik{'fachgesamt'}{'mitfach'}++;
+                                        $Statistik{'fach'}{$fach}++;
+                                };
+                                
                                 if (!$lFach){
                                     $fach   = "";
                                 };
@@ -1619,16 +1611,6 @@ sub LeseQuellDaten {
                                 #-----------------------------------------------
                                 $fach   = $akt;
 
-                                #-----------------------------------------------
-                                # falsche Zuordnung bei Signaturen mit
-                                # Beginn "AP" korrigieren
-                                # egal welches Fach diese Buecher haben es soll
-                                # immer die 25 zugeordnet werden
-                                # wurde nicht aktiviert und nie verwendet!
-                                #-----------------------------------------------
-                                #if (substr($cAktSigWStatistikFehler,4,2) eq 'AP') {
-                                #    $fach = 25;
-                                #}
                                 if ($fach ne '') {
                                     $Statistik{'fachgesamt'}{'mitfach'}++;
                                     $Statistik{'fach'}{$fach}++;
