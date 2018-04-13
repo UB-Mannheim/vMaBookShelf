@@ -416,20 +416,6 @@ function WelchesFensterIstAktiv () {
     document.body.removeEventListener('touchstart', BehandleClickUndTouch, false);
 
 
-    //if (typeof( window.ClickId ) !== 'undefined' ) {
-    //    document.body.detachEvent('click', window.ClickId);
-    //    console.log( "detachEvent möglich, ClickId ist:" + window.ClickId);
-    //} else {
-    //    console.log( "detachEvent nicht möglich, ClickId ist nicht definiert!");
-    //};
-    //if (typeof( window.TouchId ) !== 'undefined' ) {
-    //    document.body.detachEvent('touchstart', window.TouchId);
-    //    console.log( "detachEvent möglich, TouchId ist:" + window.TouchId);
-    //} else {
-    //    console.log( "detachEvent nicht möglich, TouchId ist nicht definiert!");
-    //};
-
-
     //BehandleClickUndTouch
     window.ClickId  = document.body.addEventListener('click',
         BehandleClickUndTouch, false);
