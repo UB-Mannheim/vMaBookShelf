@@ -233,16 +233,42 @@ if (lInfoBlockVorhanden) {
         // an main.js Nachricht schicken, ich brauche die aktuelle Konfiguration für url
         self.port.emit("giveUrlBack", '');
         self.port.on("aktURL", function holeurl(cUrl) {
-            vMaBookShelfHelper.settings.HomeUrl = cUrl;
+            var nLastBack = cUrl.lastIndexOf('/');
+            // Check if a html-Url is behind nLastBack
+            // at the moment only check
+            var lRemoveHtml = false;
+            var cShortUrl = cUrl
+            var cUrlLastPart = cUrl.substr(nLastBack + 1);
+            if (cUrlLastPart.indexOf('.') > -1) {
+                var nLastPoint = cUrl.lastIndexOf('.');
+                var cExtent = cUrl.substr(nLastPoint);
+                if ((cExtent.toLowerCase() === 'html') || (cExtent.toLowerCase() === 'htm')) {
+                    lRemoveHtml = true;
+                }
+                if (lRemoveHtml) {
+                    cShortUrl = cUrlLastPart;
+                }
+            }
+
+
+            //vMaBookShelfHelper.settings.HomeUrl = cUrl;
+            vMaBookShelfHelper.settings.HomeUrl = cShortUrl;
+
+            // Check if last string in cShortUrl is a '/'
+            var ncShortUrlLenght = cShortUrl.length;
+            var lastChar = cShortUrl.charAt(ncShortUrlLenght-1);
+            if (lastChar === '/') {
+                cShortUrl = cShortUrl.substr(0, ncShortUrlLenght-1);
+            }
 
             apiLog( "A".repeat(50) + "\n", "n", 0 );
             apiLog( "in aktURL cUrl: " + cUrl, "n", 0 );
             apiLog( "A".repeat(50) + "\n", "n", 0 );
-            apiLog( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
+            apiLog( cShortUrl + "/RufeExterneURL.php?url=" +
                                       aktLocation, "n", 0 );
 
             // Setze location abhängig von Einstellungen neu
-            document.location.replace( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
+            document.location.replace( cShortUrl + "/RufeExterneURL.php?url=" +
                                       aktLocation);
 
         });
