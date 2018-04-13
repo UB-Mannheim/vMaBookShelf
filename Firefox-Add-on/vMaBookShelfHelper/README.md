@@ -40,6 +40,8 @@ Dies ist freie Software. Sie können sie unter den Bedingungen der
 GNU General Public License (GPL) verwenden. Siehe [LICENSE](LICENSE) für Details.
 
 ## Historie
+* 0.9.12 2018-04-13, 17:08:00
+                           - replace jQuery functions with javascript, remove jquery-2.2.0.min.js
 * 0.9.11 2018-04-11, 09:48:00
                            - correct an error with primo when e-book is called
 * 0.9.10 2017-06-12, 15:23:00

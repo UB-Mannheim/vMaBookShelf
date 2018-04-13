@@ -36,8 +36,7 @@ var lUnterFensterAktiv  = false;
 
 pageMod.PageMod({
     include: "*",
-    contentScriptFile: [ data.url("js/jquery/jquery-2.2.0.min.js"),
-                         data.url("js/element-getter.js"),
+    contentScriptFile: [ data.url("js/element-getter.js"),
                          data.url("js/erzeuge-close-button.js")],
     contentStyleFile: data.url("css/externe.css"),
     // contentStyle is built dynamically here to include an absolute URL

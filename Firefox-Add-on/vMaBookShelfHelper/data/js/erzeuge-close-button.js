@@ -1,5 +1,5 @@
 //   Name: erzeuge-close-button.js
-//  Stand: 2017-07-12, 15:02:21
+//  Stand: 2018-04-13, 16:35:21
 // Author: Bernd Fallert, UB Mannheim
 
 // ToDo: Timer des Hauptfensters ausschalten wenn unterfenster aufgerufen wird
@@ -26,13 +26,23 @@ if (typeof vMaBookShelfHelper === "undefined") {
 var d                           = document;
 var host                        = d.location.host;
 
-var cFileType                   = $( "#vMaBookShelfHelper_type" ).text();
+//var cFileType                   = $( "#vMaBookShelfHelper_type" ).text();
+var cFileType;
+if (document.getElementById("vMaBookShelfHelper_type")) {
+    cFileType                   = document.getElementById("vMaBookShelfHelper_type").innerHTML;
+};
 var lInfoBlockVorhanden         = false;
-if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+//if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+//    lInfoBlockVorhanden = true;
+//
+//    apiLog( "----> Aus Webseite ausgelesen: cFileType: " + cFileType, "n", 0 );
+//}
+if (document.getElementById("vMaBookShelfHelper")) {
     lInfoBlockVorhanden = true;
 
     apiLog( "----> Aus Webseite ausgelesen: cFileType: " + cFileType, "n", 0 );
 }
+
 //------------------------------------------------------------------------------
 // Fuer Pruefung auf RufeExterneURL.php und UB3D
 //------------------------------------------------------------------------------
@@ -376,9 +386,15 @@ if (lZeigeButton) {
         if (debug) {
             // Jetzt testweise alle Elemente mit class fachnavi durchgehen
             apiLog( "fehlersuche: alle Elemente mit class fachnavi auflisten", "n", 0);
-            $( '.fachnavi' ).each(function(index) {
-                apiLog( "index: " + index + " " + $(this).data('id'), "n", 0);
-            });
+            //$( '.fachnavi' ).each(function(index) {
+            //    apiLog( "index: " + index + " " + $(this).data('id'), "n", 0);
+            //});
+            var fachnaviList = document.querySelectorAll('.fachnavi');
+            var nIndex = 0;
+            for (nIndex = 0; nIndex < fachnaviList.length; nIndex++) {
+                var element = fachnaviList[nIndex];
+                apiLog( "index: " + nIndex + " " + element.dataset.id, "n", 0);
+            }
             apiLog( "ENDE: fehlersuche: alle Elemente mit class fachnavi auflisten", "n", 0);
         };
     };
@@ -687,11 +703,19 @@ function WaehleZufaelligesFach() {
     apiLog( "\nlese Elemente mit Class 'fachnavi' zur Ermittlung des "+
             "nächsten zufälligen Fachs\n", "n", 0);
 
-    $( '.fachnavi' ).each(function(index) {
-        var nID = $(this).data('id');
-        apiLog( "index: '" + index + "' nID: '" + nID + "'", "n", 0);
+    //$( '.fachnavi' ).each(function(index) {
+    //    var nID = $(this).data('id');
+    //    apiLog( "index: '" + index + "' nID: '" + nID + "'", "n", 0);
+    //    aHtmlFaecherListe.push(nID);
+    //});
+    var fachnaviList = document.querySelectorAll('.fachnavi');
+    var nIndex = 0;
+    for (nIndex = 0; nIndex < fachnaviList.length; nIndex++) {
+        var nID = fachnaviList[nIndex].dataset.id;
+        apiLog( "index: '" + nIndex + "' nID: '" + nID + "'", "n", 0);
         aHtmlFaecherListe.push(nID);
-    });
+    }
+
 
     //--------------------------------------------------------------------------
     // Zufaellige Sprungadresse ermitteln
@@ -718,11 +742,23 @@ function WaehleZufaelligesFach() {
 
     var d                       = document;
     var host                    = d.location.host;
-    var cScriptPath             = $( "#vMaBookShelfHelper_scriptpath" ).text();
-    var cFileType               = $( "#vMaBookShelfHelper_type" ).text();
+    //var cScriptPath             = $( "#vMaBookShelfHelper_scriptpath" ).text();
+    var cScriptPath;
+    if (document.getElementById("vMaBookShelfHelper_scriptpath")) {
+        cScriptPath                   = document.getElementById("vMaBookShelfHelper_scriptpath").innerHTML;
+    };
+
+    //var cFileType               = $( "#vMaBookShelfHelper_type" ).text();
+    var cFileType;
+    if (document.getElementById("vMaBookShelfHelper_type")) {
+        cFileType                   = document.getElementById("vMaBookShelfHelper_type").innerHTML;
+    };
     var lInfoBlockVorhanden     = false;
 
-    if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+    //if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+    //    lInfoBlockVorhanden = true;
+    //}
+    if (document.getElementById("vMaBookShelfHelper")) {
         lInfoBlockVorhanden = true;
     }
     apiLog( "\n\n\n===================================" +
