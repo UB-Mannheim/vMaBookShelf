@@ -149,21 +149,10 @@ function apiLog( pText, pType, pDebugLevel ) {
             } else if (pType == 'info' || pType == 'i' ) {
                 console.info( pText );
             } else if (pType == 'group' || pType == 'g' || pType == 'gruppiere'  ) {
-                if ($.browser.msie) {
-                    console.log( "=========GROUP===============================================================" );
-                    console.log( pText );
-                    console.log( "=========GROUP===============================================================" );
-                } else {
-                    console.group( pText );
-                }
-
+                console.group( pText );
             } else if (pType == 'groupEnd' || pType == 'ge' || pType == 'gruppiereEnde'  ) {
                 //console.groupEnd();
-                if ($.browser.msie) {
-                    console.log( "=========GROUP END============================================================" );
-                } else {
-                    console.groupEnd();
-                }
+                console.groupEnd();
             } else if (pType == 'error' || pType == 'e' || pType == 'f'  || pType == 'fehler'  ) {
                 console.error( pText );
             }
