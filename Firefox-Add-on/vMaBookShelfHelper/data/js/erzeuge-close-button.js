@@ -247,7 +247,7 @@ if (lInfoBlockVorhanden) {
             // Check if a html-Url is behind nLastBack
             // at the moment only check
             var lRemoveHtml = false;
-            var cShortUrl = cUrl
+            var cShortUrl = cUrl;
             var cUrlLastPart = cUrl.substr(nLastBack + 1);
             if (cUrlLastPart.indexOf('.') > -1) {
                 var nLastPoint = cUrl.lastIndexOf('.');
@@ -733,7 +733,7 @@ function WaehleZufaelligesFach() {
     var aktPath     = document.location.pathname;
     var nPathL      = aktPath.length;
     var cVersion    = aktPath.substr( nPathL - 6, 1 );
-    var cOptGesten  = ""
+    var cOptGesten  = "";
 
     // Optionen fuer Gestenversion setzten
     if (cVersion === "g") {
