@@ -493,7 +493,7 @@ function overlay(mode) {
             div.setAttribute('className', 'iframe-extern-wrapper-abgelaufen');
             div.setAttribute('class', 'iframe-extern-wrapper-abgelaufen');
 
-            divTextBox = document.createElement("div");
+            var divTextBox = document.createElement("div");
             //divTextBox.innerHTML = '<h1>Möchten Sie noch weiterlesen?<br />Would you like to continue reading</h1><h2>Bitte den Bildschirm an einer beliebigen Stelle berühren<br />Please touch the screen at any point</h2>';
             divTextBox.innerHTML = '<h1>Möchten Sie noch weiterlesen?<br />' +
                 'Would you like to continue reading</h1>' +
