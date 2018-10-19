@@ -22,6 +22,9 @@
 #       neu auch für WEST_EG
 #       zweiter Parameter dann zwingend $SigAnfang
 #       bei 110 ist das Deckungsgleich bei WEST_EG ist das 120
+#   2018-10-18
+#	Publisher ergänzt damit Erwerbung überprüfung der Sammlungen machen kann
+#	es soll auch noch eine Liste ergänzt werden in der die Prints ohne zugehöriges eBook stehen
 #
 # Doku: https://developers.exlibrisgroup.com/alma/apis/bibs
 #
@@ -30,7 +33,10 @@
 # bei ebooks
 #RecordID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Fach|Signatur|URL
 # bei prints
+# bis 17.10.2018 Ft
 #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach
+# ab 18.10.2018 Ft
+#Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Publisher|Signatur|Fach
 
 use strict;
 use warnings;
@@ -82,8 +88,10 @@ my $lEbooks                 = $falsch;
 #-------------------------------------------------------------------------------
 # Altes CSV-Fehler Protokoll leeren
 #-------------------------------------------------------------------------------
-my $log_csv_error = __FILE__ . ".csv_error.log";
+my $log_csv_error       = __FILE__ . ".csv_error.log";
+my $log_csv_ohne_ebook  = __FILE__ . ".csv_ohne_ebook.log";
 open( my $CSVERRORLOG, ">$log_csv_error" ) or die "Kann nicht in $log_csv_error schreiben $!\n";
+open( my $CSVOHNEEBOOK, ">$log_csv_ohne_ebook" ) or die "Kann nicht in $log_csv_ohne_ebook schreiben $!\n";
 
 my $Frage_location_id       = '';   # default siehe History: 2016-06-08, 12:03:25
 my $Frage_SigAnfang         = '';   # default siehe History: 2016-06-08, 12:03:25
@@ -151,6 +159,7 @@ my $SourceFileEBook          = $sourceDir . '/' . $pSourceEBook;
 
 my $parser;
 my @BookData;
+my %hBookData = ();
 
 
 my $out;
@@ -158,7 +167,7 @@ if (!$lEbooks) {
     open($out, ">:utf8", $SourceFilePrint) or die
     "Kann OUT File $SourceFilePrint nicht oeffnen ($!)\n";
 
-    print $out 'Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach' . "\n";
+    print $out 'Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Publisher|Signatur|Fach' . "\n";
 
 } else {
     open($out, ">:utf8", $SourceFileEBook) or die
@@ -169,34 +178,30 @@ if (!$lEbooks) {
     # damit gleiche Variable benutzt werden kann
     $collection    = $ebookCollection;
 
-    # bei ebooks wird die csv-Datei der bücher eingelesen um das Fach (Statistikkennzahl) und die Signatur übernehmen zu können
-    #$pSourceFilePrint        = $cfg->val( 'CSV', 'print' );
-    #$SourceFilePrint          = $sourceDir . '/' . $pSourceFilePrint;
-
-    #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach
-    #$parser = Text::CSV::Simple->new({sep_char=> "|"});
-    #$parser = Text::CSV->new({sep_char=> "|"});
-    #$parser->field_map(qw/Aleph-ID Autor Titel Aufl Jahr ISBN SPRACHE Signatur Fach/);
-
-    #@BookData = $parser->read_file($SourceFilePrint);
+    #---------------------------------------------------------------
+    # bei ebooks wird die csv-Datei der bücher eingelesen um das 
+    # Fach (Statistikkennzahl) und die Signatur übernehmen zu können
+    #---------------------------------------------------------------
 
     #my @BookData;
     # Read/parse CSV
     my $csv = Text::CSV_XS->new ({ binary => 1, auto_diag => 1, sep_char=> "|", allow_loose_quotes => 1 });
     open my $fh, "<:encoding(utf8)", $SourceFilePrint or die "$SourceFilePrint: $!";
+    
     my $nIndex = 0;
     while (my $row = $csv->getline($fh)) {
 
         my @fields = @$row;
         $nIndex++;
+        
         #if ($nIndex == '662') {
         #    sleep(1);
         #};
 
         if ($fields[0] =~ m/^Aleph-ID/) {
         } else {
-        #    #$row->[2] =~ m/pattern/ or next; # 3rd field should match
-        #
+            #   0       1     2     3     4   5     6       7         8        9
+            #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Publisher|Signatur|Fach
             push @BookData, {'Aleph-ID'     => $fields[0]
                              ,'Autor'       => $fields[1]
                              ,'Titel'       => $fields[2]
@@ -204,33 +209,41 @@ if (!$lEbooks) {
                              ,'Jahr'        => $fields[4]
                              ,'ISBN'        => $fields[5]
                              ,'Sprache'     => $fields[6]
-                             ,'Signatur'    => $fields[7]
-                             ,'Fach'        => $fields[8]
+                             ,'Publisher'   => $fields[7]
+                             ,'Signatur'    => $fields[8]
+                             ,'Fach'        => $fields[9]
+                            };
+                            
+            # last index of array
+            my $nBookIndex = $#BookData;
+            
+            # Daten des Buches speichern
+            # Index ist Signatur damit geprüft werden
+            # kann für welche Bücher es ein eBook gibt
+            $hBookData{$fields[8]} = {
+                              'nIndex'      => $nBookIndex
+                             ,'alsEBook'    => $falsch
                             };
         }
-        #sleep(1);
         print $nIndex . ': ' . $fields[0] . "\n";
     }
     close $fh;
-
-
-
 };
 
 
-my $ua          			= LWP::UserAgent->new;
-my $ua2         			= LWP::UserAgent->new;
-my $ua3         			= LWP::UserAgent->new;
-my $ua4         			= LWP::UserAgent->new;
+my $ua                      = LWP::UserAgent->new;
+my $ua2                     = LWP::UserAgent->new;
+my $ua3                     = LWP::UserAgent->new;
+my $ua4                     = LWP::UserAgent->new;
 
 #'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/collections/' . $collection . '/bibs?apikey=' . $apiKey
-my $nOffset 			= 0;
-my $nLimit 			= 100;
+my $nOffset                 = 0;
+my $nLimit                  = 100;
 
-my $nBookAnzahl 		= 1000;
-my $nAktBookAnzahl 	= 0;
-my $nBookNr 			= 0;
-my $nBooksWithoutMatch = 0;
+my $nBookAnzahl             = 1000;
+my $nAktBookAnzahl          = 0;
+my $nBookNr                 = 0;
+my $nBooksWithoutMatch      = 0;
 
 
 do {
@@ -500,8 +513,8 @@ do {
                         }
                     }
                 }
+                
             #ende if (!$lEbooks)
-
             } else {
 
         #================================================
@@ -592,7 +605,9 @@ do {
                             }
                         }
 
+                        #---------------------------------
                         # auch erschienen unter
+                        #---------------------------------
                         if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') {
                             my $lPrintParent = $falsch;
 
@@ -633,18 +648,17 @@ do {
                             }
 
 
-                            #
+                            #-------------------------------------------------------
                             # @BookData enthält die Datein der BookCSV-Datei
-                            #
+                            #-------------------------------------------------------
+
                             # prüfen ob die Daten in %PrintParent in @BookData gefunden werden können
                             #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach
+                            #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Publisher|Signatur|Fach
                             foreach my $aktBookData (@BookData) {
                                 #print $aktBookData . "\n";
-                                #if ($BookData[$aktBookData]->{'Titel'} eq $PrintParent{'title'}) {
                                 if (lc($aktBookData->{'Titel'}) eq lc($PrintParent{'title'})) {
-                                    #if ($BookData[$aktBookData]->{'Autor'} eq $PrintParent{'author'}) {
                                     if ($aktBookData->{'Autor'} eq $PrintParent{'author'}) {
-
                                         #sleep(1);
                                         $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
                                         # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " abgeschnitten
@@ -660,12 +674,14 @@ do {
 
                                         $tempSig = $3 . $4 . $5;
 
-                                        #$AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $aktBookData->{'Signatur'};
+                                        # Match / Treffer
                                         $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
-
-
+                                        
+                                        # für dieses Buch gibt es ein eBook
+                                        $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'} = $wahr;
+                                        $hBookData{$aktBookData->{'Signatur'}}->{'data'} = $AddInfos{ $thisRecord->{'mms_id'} };
+                                        $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'} = $thisRecord->{'mms_id'};
                                     }
-
                                 }
                             }
                         }
@@ -700,8 +716,13 @@ do {
 
                                     $tempSig = $3 . $4 . $5;
 
+                                    # Match / Treffer
                                     $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
 
+                                    # für dieses Buch gibt es ein eBook
+                                    $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'} = $wahr;
+                                    $hBookData{$aktBookData->{'Signatur'}}->{'data'} = $AddInfos{ $thisRecord->{'mms_id'} };
+                                    $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'} = $thisRecord->{'mms_id'};
                                 }
                             }
                             # noch prüfen ob über die isbn oder kurzisbn ein match durchgeführt werden kann ENDE
@@ -727,22 +748,8 @@ do {
 
                     print $nBookNr . ": " . $thisRecord->{'mms_id'} . " ebook " . $AddInfos{$thisRecord->{'mms_id'}}->{'type'} . "\n";
                     $nBookNr++;
-# vorher sigprüfung
-                    #if ($AddInfos{$thisRecord->{'mms_id'}}->{'call_number'} eq '') {
-                    #    print_CSV( $CSVERRORLOG, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $wahr );
-                    #} elsif (!$lSigOk) {
-                    #    print_CSV( $CSVERRORLOG, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $wahr );
-                    #} elsif ($AddInfos{$aktId}->{'statistik'} eq '') {
-                    #    print_CSV( $CSVERRORLOG, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $wahr );
-                    #} else {
 
-
-                        #print $out 'Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach' . "\n";
-
-                        print_CSV( $out, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $falsch );
-
-                    #}
-
+                    print_CSV( $out, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $falsch );
                 }
             }
         }
@@ -755,6 +762,38 @@ do {
 } until ($nAktBookAnzahl >= $nBookAnzahl);
 
 close $CSVERRORLOG;
+
+# Liste der Books ohne eBooks
+print $CSVOHNEEBOOK "Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Publisher|Signatur|Fach\n";
+foreach my $aktBook (sort {$a cmp $b} (keys(%hBookData))) {
+    if (!$hBookData{$aktBook}->{'alsEBook'}) {
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Aleph-ID'} . "|";
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Autor'} . "|";
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Titel'} . "|";
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Auflage'} . "|";
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Jahr'} . "|";
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'ISBN'} . "|";
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Sprache'} . "|";
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Publisher'} . "|";
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Signatur'} . "|";
+        print $CSVOHNEEBOOK $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Fach'} . "\n";
+
+    #print_CSV( $CSVOHNEEBOOK, \%AddInfos, $aktId, $falsch, $wahr );
+    } else {
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Aleph-ID'} . "|";
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Autor'} . "|";
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Titel'} . "|";
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Auflage'} . "|";
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Jahr'} . "|";
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'ISBN'} . "|";
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Sprache'} . "|";
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Publisher'} . "|";
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Signatur'} . "|";
+        print $BookData[$hBookData{$aktBook}->{'nIndex'}]->{'Fach'} . "\n";
+    }
+}
+
+close $CSVOHNEEBOOK;
 
 if ($lEbooks) {
     print $nBookNr . "\n";
@@ -772,8 +811,9 @@ sub readRecordStufe1 {
     # AlmaID
     $data{'mms_id'}     = $record->{'mms_id'}[0];
     $data{'isbn'}       = $record->{'isbn'}[0];
-    $data{'author'}     = $record->{'author'}[0];
-    $data{'title'}      = $record->{'title'}[0];
+    $data{'author'}    	= $record->{'author'}[0];
+    $data{'title'}     	= $record->{'title'}[0];
+    $data{'publisher'}  = $record->{'publisher_const'}[0];
 
     # Abschliessende LZ entfernen
     $data{'title'}      =~ s/\s+$//;
@@ -925,7 +965,6 @@ sub print_CSV {
 
     print $out ${$AddInfos}{$aktId}->{'mms_id'} . '|';
 
-
     if ($lError) {
         if (!$lEBook) {
             print $out ${$AddInfos}{$aktId}->{'barcode'} . '|';
@@ -963,6 +1002,13 @@ sub print_CSV {
     }
 
     if (!$lEBook) {
+    # neu 18.10.2018 Ft
+        if (${$AddInfos}{$aktId}->{'publisher'} ne '') {
+            print $out ${$AddInfos}{$aktId}->{'publisher'} . '|';
+        } else {
+            print $out '|';
+        }
+
         if (${$AddInfos}{$aktId}->{'call_number'} ne '') {
             print $out ${$AddInfos}{$aktId}->{'call_number'} . '|';
         } else {
@@ -994,7 +1040,6 @@ sub print_CSV {
             #print $out '|';
         }
     }
-
 
     print $out "\n";
 }
