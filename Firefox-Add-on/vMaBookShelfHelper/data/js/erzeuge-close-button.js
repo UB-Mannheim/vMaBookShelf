@@ -1,5 +1,5 @@
 //   Name: erzeuge-close-button.js
-//  Stand: 2017-07-12, 15:02:21
+//  Stand: 2018-04-13, 16:35:21
 // Author: Bernd Fallert, UB Mannheim
 
 // ToDo: Timer des Hauptfensters ausschalten wenn unterfenster aufgerufen wird
@@ -26,13 +26,23 @@ if (typeof vMaBookShelfHelper === "undefined") {
 var d                           = document;
 var host                        = d.location.host;
 
-var cFileType                   = $( "#vMaBookShelfHelper_type" ).text();
+//var cFileType                   = $( "#vMaBookShelfHelper_type" ).text();
+var cFileType;
+if (document.getElementById("vMaBookShelfHelper_type")) {
+    cFileType                   = document.getElementById("vMaBookShelfHelper_type").innerHTML;
+};
 var lInfoBlockVorhanden         = false;
-if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+//if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+//    lInfoBlockVorhanden = true;
+//
+//    apiLog( "----> Aus Webseite ausgelesen: cFileType: " + cFileType, "n", 0 );
+//}
+if (document.getElementById("vMaBookShelfHelper")) {
     lInfoBlockVorhanden = true;
 
     apiLog( "----> Aus Webseite ausgelesen: cFileType: " + cFileType, "n", 0 );
 }
+
 //------------------------------------------------------------------------------
 // Fuer Pruefung auf RufeExterneURL.php und UB3D
 //------------------------------------------------------------------------------
@@ -233,16 +243,42 @@ if (lInfoBlockVorhanden) {
         // an main.js Nachricht schicken, ich brauche die aktuelle Konfiguration für url
         self.port.emit("giveUrlBack", '');
         self.port.on("aktURL", function holeurl(cUrl) {
-            vMaBookShelfHelper.settings.HomeUrl = cUrl;
+            var nLastBack = cUrl.lastIndexOf('/');
+            // Check if a html-Url is behind nLastBack
+            // at the moment only check
+            var lRemoveHtml = false;
+            var cShortUrl = cUrl
+            var cUrlLastPart = cUrl.substr(nLastBack + 1);
+            if (cUrlLastPart.indexOf('.') > -1) {
+                var nLastPoint = cUrl.lastIndexOf('.');
+                var cExtent = cUrl.substr(nLastPoint);
+                if ((cExtent.toLowerCase() === 'html') || (cExtent.toLowerCase() === 'htm')) {
+                    lRemoveHtml = true;
+                }
+                if (lRemoveHtml) {
+                    cShortUrl = cUrlLastPart;
+                }
+            }
+
+
+            //vMaBookShelfHelper.settings.HomeUrl = cUrl;
+            vMaBookShelfHelper.settings.HomeUrl = cShortUrl;
+
+            // Check if last string in cShortUrl is a '/'
+            var ncShortUrlLenght = cShortUrl.length;
+            var lastChar = cShortUrl.charAt(ncShortUrlLenght-1);
+            if (lastChar === '/') {
+                cShortUrl = cShortUrl.substr(0, ncShortUrlLenght-1);
+            }
 
             apiLog( "A".repeat(50) + "\n", "n", 0 );
             apiLog( "in aktURL cUrl: " + cUrl, "n", 0 );
             apiLog( "A".repeat(50) + "\n", "n", 0 );
-            apiLog( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
+            apiLog( cShortUrl + "/RufeExterneURL.php?url=" +
                                       aktLocation, "n", 0 );
 
             // Setze location abhängig von Einstellungen neu
-            document.location.replace( vMaBookShelfHelper.settings.HomeUrl + "/RufeExterneURL.php?url=" +
+            document.location.replace( cShortUrl + "/RufeExterneURL.php?url=" +
                                       aktLocation);
 
         });
@@ -350,9 +386,15 @@ if (lZeigeButton) {
         if (debug) {
             // Jetzt testweise alle Elemente mit class fachnavi durchgehen
             apiLog( "fehlersuche: alle Elemente mit class fachnavi auflisten", "n", 0);
-            $( '.fachnavi' ).each(function(index) {
-                apiLog( "index: " + index + " " + $(this).data('id'), "n", 0);
-            });
+            //$( '.fachnavi' ).each(function(index) {
+            //    apiLog( "index: " + index + " " + $(this).data('id'), "n", 0);
+            //});
+            var fachnaviList = document.querySelectorAll('.fachnavi');
+            var nIndex = 0;
+            for (nIndex = 0; nIndex < fachnaviList.length; nIndex++) {
+                var element = fachnaviList[nIndex];
+                apiLog( "index: " + nIndex + " " + element.dataset.id, "n", 0);
+            }
             apiLog( "ENDE: fehlersuche: alle Elemente mit class fachnavi auflisten", "n", 0);
         };
     };
@@ -388,20 +430,6 @@ function WelchesFensterIstAktiv () {
 
     document.body.removeEventListener('click', BehandleClickUndTouch, false);
     document.body.removeEventListener('touchstart', BehandleClickUndTouch, false);
-
-
-    //if (typeof( window.ClickId ) !== 'undefined' ) {
-    //    document.body.detachEvent('click', window.ClickId);
-    //    console.log( "detachEvent möglich, ClickId ist:" + window.ClickId);
-    //} else {
-    //    console.log( "detachEvent nicht möglich, ClickId ist nicht definiert!");
-    //};
-    //if (typeof( window.TouchId ) !== 'undefined' ) {
-    //    document.body.detachEvent('touchstart', window.TouchId);
-    //    console.log( "detachEvent möglich, TouchId ist:" + window.TouchId);
-    //} else {
-    //    console.log( "detachEvent nicht möglich, TouchId ist nicht definiert!");
-    //};
 
 
     //BehandleClickUndTouch
@@ -675,11 +703,19 @@ function WaehleZufaelligesFach() {
     apiLog( "\nlese Elemente mit Class 'fachnavi' zur Ermittlung des "+
             "nächsten zufälligen Fachs\n", "n", 0);
 
-    $( '.fachnavi' ).each(function(index) {
-        var nID = $(this).data('id');
-        apiLog( "index: '" + index + "' nID: '" + nID + "'", "n", 0);
+    //$( '.fachnavi' ).each(function(index) {
+    //    var nID = $(this).data('id');
+    //    apiLog( "index: '" + index + "' nID: '" + nID + "'", "n", 0);
+    //    aHtmlFaecherListe.push(nID);
+    //});
+    var fachnaviList = document.querySelectorAll('.fachnavi');
+    var nIndex = 0;
+    for (nIndex = 0; nIndex < fachnaviList.length; nIndex++) {
+        var nID = fachnaviList[nIndex].dataset.id;
+        apiLog( "index: '" + nIndex + "' nID: '" + nID + "'", "n", 0);
         aHtmlFaecherListe.push(nID);
-    });
+    }
+
 
     //--------------------------------------------------------------------------
     // Zufaellige Sprungadresse ermitteln
@@ -706,11 +742,23 @@ function WaehleZufaelligesFach() {
 
     var d                       = document;
     var host                    = d.location.host;
-    var cScriptPath             = $( "#vMaBookShelfHelper_scriptpath" ).text();
-    var cFileType               = $( "#vMaBookShelfHelper_type" ).text();
+    //var cScriptPath             = $( "#vMaBookShelfHelper_scriptpath" ).text();
+    var cScriptPath;
+    if (document.getElementById("vMaBookShelfHelper_scriptpath")) {
+        cScriptPath                   = document.getElementById("vMaBookShelfHelper_scriptpath").innerHTML;
+    };
+
+    //var cFileType               = $( "#vMaBookShelfHelper_type" ).text();
+    var cFileType;
+    if (document.getElementById("vMaBookShelfHelper_type")) {
+        cFileType                   = document.getElementById("vMaBookShelfHelper_type").innerHTML;
+    };
     var lInfoBlockVorhanden     = false;
 
-    if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+    //if ( $( "#vMaBookShelfHelper" ).length > 0 ) {
+    //    lInfoBlockVorhanden = true;
+    //}
+    if (document.getElementById("vMaBookShelfHelper")) {
         lInfoBlockVorhanden = true;
     }
     apiLog( "\n\n\n===================================" +
@@ -763,21 +811,11 @@ function apiLog( pText, pType, pDebugLevel ) {
             } else if (pType == 'info' || pType == 'i' ) {
                 console.info( pText );
             } else if (pType == 'group' || pType == 'g' || pType == 'gruppiere'  ) {
-                if ($.browser.msie) {
-                    console.log( "=========GROUP===============================================================" );
-                    console.log( pText );
-                    console.log( "=========GROUP===============================================================" );
-                } else {
-                    console.group( pText );
-                }
+                console.group( pText );
 
             } else if (pType == 'groupEnd' || pType == 'ge' || pType == 'gruppiereEnde'  ) {
                 //console.groupEnd();
-                if ($.browser.msie) {
-                    console.log( "=========GROUP END============================================================" );
-                } else {
-                    console.groupEnd();
-                }
+                console.groupEnd();
             } else if (pType == 'error' || pType == 'e' || pType == 'f'  || pType == 'fehler'  ) {
                 console.error( pText );
             }

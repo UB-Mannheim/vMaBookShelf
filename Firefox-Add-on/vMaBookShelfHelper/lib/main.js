@@ -6,11 +6,6 @@ vMaBookShelfHelper.settings = vMaBookShelfHelper.settings || {};
 
 var data = require("sdk/self").data; // High
 var pageMod = require("sdk/page-mod"); // High
-//var bookListTimer = require("sdk/timers");
-//var utils = require('sdk/window/utils');
-// Ausgeschaltet da low level sdk/windows nicht mehr kompatibel
-// Comment out because low level sdk / windows is no longer compatible
-//var windows = require("sdk/windows");  // low
 
 var prefs = require("sdk/simple-prefs"); // High
 var debug = false;
@@ -41,8 +36,7 @@ var lUnterFensterAktiv  = false;
 
 pageMod.PageMod({
     include: "*",
-    contentScriptFile: [ data.url("js/jquery/jquery-2.2.0.min.js"),
-                         data.url("js/element-getter.js"),
+    contentScriptFile: [ data.url("js/element-getter.js"),
                          data.url("js/erzeuge-close-button.js")],
     contentStyleFile: data.url("css/externe.css"),
     // contentStyle is built dynamically here to include an absolute URL
@@ -78,16 +72,6 @@ pageMod.PageMod({
     contentScriptWhen: "ready",
     onAttach: function(worker) {
         apiLog( "\n" + "=".repeat(80) + "\njetzt in onAttach" + "\n" + "=".repeat(80));
-            //console.log( "tag: " + tag );
-            //worker.port.emit("getElements", tag);
-
-        // Ausgeschaltet da low level sdk/windows nicht mehr kompatibel
-        // Comment out because low level sdk / windows is no longer compatible
-        //for (let window of windows.browserWindows) {
-        //    apiLog( "title: " + window.title, "n", 0);
-        //}
-
-        //apiLog( "Anzahl: " + windows.browserWindows.length, "n", 0);
 
         // Hiermit kann eine Funktion aufgerufen werden
         //worker.port.emit("getAnzahl", tag);
@@ -104,31 +88,6 @@ pageMod.PageMod({
                     "=".repeat(80), "n", 0);
             worker.port.emit("aktURL", vMaBookShelfHelper.settings.HomeUrl);
         });
-        // Ausgeschaltet da low level sdk/windows nicht mehr kompatibel
-        // Comment out because low level sdk / windows is no longer compatible
-        //worker.port.on("anzahlElemente", function(elementContent) {
-        //    //console.log( "worker.port.on 'anzahlElemente' " + "+".repeat(68) );
-        //    apiLog( "\n" + "=".repeat(80) + "\n" +
-        //        "worker.port.on 'BEGINN von anzahlElemente' " + "\n" +
-        //        "=".repeat(80), "n", 0);
-
-        //    apiLog( "\n" + "=".repeat(80) + "\n" +
-        //        "worker.port.on 'anzahlElemente' " + "\n" +
-        //        "=".repeat(80) +
-        //        "\nanzahlElemente: elementContent: " +
-        //        elementContent + " " + "%".repeat(12) +
-        //        "\n", "n", 0);
-        //
-        //    for (var prop in windows.browserWindows) {
-        //        var window = windows.browserWindows[prop];
-        //        apiLog( "Titel: (window.title):" + window.title, "n", 0);
-        //    };
-        //    apiLog( "Anzahl: (windows.browserWindows.length): " +
-        //            windows.browserWindows.length, "n", 0);
-        //    apiLog( "\n" + "=".repeat(80) + "\n" +
-        //            "worker.port.on 'ENDE von anzahlElemente' " + "\n" +
-        //            "=".repeat(80), "n", 0);
-        //});
         worker.port.on("empfangeUnterfensterAktiv", function(elementContent) {
             apiLog( "\n" + "=".repeat(80) + "\n" +
                     "worker.port.on 'BEGINN von empfangeUnterfensterAktiv' " + "\n" +
@@ -190,21 +149,10 @@ function apiLog( pText, pType, pDebugLevel ) {
             } else if (pType == 'info' || pType == 'i' ) {
                 console.info( pText );
             } else if (pType == 'group' || pType == 'g' || pType == 'gruppiere'  ) {
-                if ($.browser.msie) {
-                    console.log( "=========GROUP===============================================================" );
-                    console.log( pText );
-                    console.log( "=========GROUP===============================================================" );
-                } else {
-                    console.group( pText );
-                }
-
+                console.group( pText );
             } else if (pType == 'groupEnd' || pType == 'ge' || pType == 'gruppiereEnde'  ) {
                 //console.groupEnd();
-                if ($.browser.msie) {
-                    console.log( "=========GROUP END============================================================" );
-                } else {
-                    console.groupEnd();
-                }
+                console.groupEnd();
             } else if (pType == 'error' || pType == 'e' || pType == 'f'  || pType == 'fehler'  ) {
                 console.error( pText );
             }

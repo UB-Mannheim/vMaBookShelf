@@ -155,7 +155,7 @@ It enables you to test, run, and package add-ons.
 After you have npm installed and node on your PATH, install jpm just as you would
 any other npm package.
 
-###Installing jpm globally
+### Installing jpm globally
 Depending on your setup, you might need to run this as an administrator!
 
 - open a "node.js command prompt" as Administrator
