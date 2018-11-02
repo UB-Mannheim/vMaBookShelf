@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #script ohne parameter starten
-perl HoleCSV_von_alma.pl
+perl HoleCSV_von_alma.pl --resetlog
 
 #script mit parameter für ebooks starten
 perl HoleCSV_von_alma.pl --ebooks
