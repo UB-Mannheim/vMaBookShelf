@@ -550,6 +550,8 @@ foreach my $akt (sort {
                             $MedienDaten{$b}->{sortSignatur} ||
                         $MedienDaten{$a}->{sortTitle} cmp
                             $MedienDaten{$b}->{sortTitle} ||
+                        $MedienDaten{$a}->{aufl} cmp
+                            $MedienDaten{$b}->{aufl} ||
                         $MedienDaten{$a}->{ebook} cmp
                             $MedienDaten{$b}->{ebook}
                       } (keys( %MedienDaten))) {
@@ -1392,7 +1394,7 @@ sub LeseQuellDaten {
                         # nur 10-stellige ISBNs moeglich
                         # daher ggf. ISBN in 10 Stellige umwandeln
 
-                        if (length($cIsbn) > 10) {
+                        if (length($cIsbn) == 13) {
                             # 13 digit ISBNs
                             my $isbn13  = Business::ISBN->new($cIsbnOri);
                             my $isbn10  = $isbn13->as_isbn10;   # Convert
@@ -2021,6 +2023,15 @@ sub LeseQuellDaten {
 
                         }
                     }
+                    #-----------------------------------------------------------
+                    elsif (     ($SpaltenName{ $nSpalte } eq 'Aufl.')
+                            and ($AlephIds{ $aktAlephID } < 2)){
+                        if ($akt ne '') {
+                            ${$MedienDaten}{$aktAlephID}->{aufl} = $akt;
+                        }
+                    }
+		    
+		    
                 }
 
                 $nSpalte++;
