@@ -247,7 +247,7 @@ if (lInfoBlockVorhanden) {
             // Check if a html-Url is behind nLastBack
             // at the moment only check
             var lRemoveHtml = false;
-            var cShortUrl = cUrl
+            var cShortUrl = cUrl;
             var cUrlLastPart = cUrl.substr(nLastBack + 1);
             if (cUrlLastPart.indexOf('.') > -1) {
                 var nLastPoint = cUrl.lastIndexOf('.');
@@ -493,7 +493,7 @@ function overlay(mode) {
             div.setAttribute('className', 'iframe-extern-wrapper-abgelaufen');
             div.setAttribute('class', 'iframe-extern-wrapper-abgelaufen');
 
-            divTextBox = document.createElement("div");
+            var divTextBox = document.createElement("div");
             //divTextBox.innerHTML = '<h1>Möchten Sie noch weiterlesen?<br />Would you like to continue reading</h1><h2>Bitte den Bildschirm an einer beliebigen Stelle berühren<br />Please touch the screen at any point</h2>';
             divTextBox.innerHTML = '<h1>Möchten Sie noch weiterlesen?<br />' +
                 'Would you like to continue reading</h1>' +
@@ -733,7 +733,7 @@ function WaehleZufaelligesFach() {
     var aktPath     = document.location.pathname;
     var nPathL      = aktPath.length;
     var cVersion    = aktPath.substr( nPathL - 6, 1 );
-    var cOptGesten  = ""
+    var cOptGesten  = "";
 
     // Optionen fuer Gestenversion setzten
     if (cVersion === "g") {
