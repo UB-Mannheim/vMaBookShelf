@@ -316,6 +316,18 @@ do {
             } elsif ($thisRecord->{'mms_id'} == '9918387045502561') {
                 # ebook mit zuordnung zu falscher Signatur
                 sleep(1);
+            } elsif ($thisRecord->{'mms_id'} == '9918449038002561') {
+                # ebook mit nicht verfügbarem Portfolios
+                sleep(1);
+            } elsif ($thisRecord->{'mms_id'} == '9918455258002561') {
+                # ebook mit nicht verfügbarem Portfolios
+                sleep(1);
+            } elsif ($thisRecord->{'mms_id'} == '9918376552802561') {
+                # ebook mit verfügbarem Portfolios
+                sleep(1);
+            } elsif ($thisRecord->{'mms_id'} == '9918379768602561') {
+                # ebook ohne Zuordnung zu Titel
+                sleep(1);
             };
 
             # hier unterscheiden ob es schon daten gibt oder ob es der erste Titel ist
@@ -485,50 +497,56 @@ do {
                                 #      ], 
                                 
                                 if ($thisRecordBookDetails->{'statistik'} eq "") {
-                                    #########################################
-                                    # Jetzt Bestellposten anfangen
-                                    #########################################
-                                    my $cAnfrageBestellposten = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/acq/po-lines/' .
-                                        $thisRecordBookDetails->{'po_line'} .
-                                        '?apikey=' . $apiKey;
+                                    
+                                    if ($thisRecordBookDetails->{'po_line'} ne '') {
+                                    
+                                        #########################################
+                                        # Jetzt Bestellposten anfangen
+                                        #########################################
+                                        my $cAnfrageBestellposten = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/acq/po-lines/' .
+                                            $thisRecordBookDetails->{'po_line'} .
+                                            '?apikey=' . $apiKey;
 
-                                    print ERRORLOG "------------- ANFRAGE Bestellposten -----------------\n";
-                                    print ERRORLOG $cAnfrageBestellposten . "\n";
-                                    print ERRORLOG "-----------------------------------------\n";
-                                    my $responsebestpost = $uabestpost->request(
-                                        HTTP::Request->new(
-                                        GET => $cAnfrageBestellposten ));
+                                        print ERRORLOG "------------- ANFRAGE Bestellposten -----------------\n";
+                                        print ERRORLOG $cAnfrageBestellposten . "\n";
+                                        print ERRORLOG "-----------------------------------------\n";
+                                        my $responsebestpost = $uabestpost->request(
+                                            HTTP::Request->new(
+                                            GET => $cAnfrageBestellposten ));
 
-                                    if ($responsebestpost->is_error()) {
-                                        printf "%s\n(3) " . $responsebestpost->status_line . "\n\tanfrageBestellposten: " .  $cAnfrageBestellposten . "\n";
-                                        printf ERRORLOG "%s\n(3) " . $responsebestpost->status_line . "\n";
-                                        print ERRORLOG "\tAnfrageBestellposten: " . $cAnfrageBestellposten . "\n";
-
-                                    } else {
-                                        
-                                        my $xmlBestellposten = $responsebestpost->content;
-
-
-                                        my $BestellDetails = XMLin($xmlBestellposten, ForceArray => 1);
-                                        print ERRORLOG "------------- BestellDetails -----------------\n";
-                                        print ERRORLOG Dumper($BestellDetails);
-
-                                        # aus Bestellposten ermittelte Statistik speichern
-                                        if (ref($BestellDetails->{'secondary_reporting_code'}[0]) eq 'HASH') {
-                                            # Fehler wenn Hash Ursache klären! Tritt z.B. bei 
-                                            #} elsif ($thisRecord->{'mms_id'} == '990005935980402561') { auf
+                                        if ($responsebestpost->is_error()) {
+                                            printf "%s\n(3) " . $responsebestpost->status_line . "\n\tanfrageBestellposten: " .  $cAnfrageBestellposten . "\n";
+                                            printf ERRORLOG "%s\n(3) " . $responsebestpost->status_line . "\n";
+                                            print ERRORLOG "\tAnfrageBestellposten: " . $cAnfrageBestellposten . "\n";
 
                                         } else {
-                                        
-                                            $thisRecordBookDetails->{'statistik'} = $BestellDetails->{'secondary_reporting_code'}[0];
-                                            $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'} 	= $thisRecordBookDetails->{'statistik'};
-                                            ${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}[$#{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}]->{'statistik'}    = $thisRecordBookDetails->{'statistik'};
-                                        }
-                                        
-                                    };
-                                    #########################################
-                                    # Jetzt Bestellposten ende
-                                    #########################################
+                                            
+                                            my $xmlBestellposten = $responsebestpost->content;
+
+
+                                            my $BestellDetails = XMLin($xmlBestellposten, ForceArray => 1);
+                                            print ERRORLOG "------------- BestellDetails -----------------\n";
+                                            print ERRORLOG Dumper($BestellDetails);
+
+                                            # aus Bestellposten ermittelte Statistik speichern
+                                            if (ref($BestellDetails->{'secondary_reporting_code'}[0]) eq 'HASH') {
+                                                # Fehler wenn Hash Ursache klären! Tritt z.B. bei 
+                                                #} elsif ($thisRecord->{'mms_id'} == '990005935980402561') { auf
+
+                                            } else {
+                                            
+                                                $thisRecordBookDetails->{'statistik'} = $BestellDetails->{'secondary_reporting_code'}[0];
+                                                $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'} 	= $thisRecordBookDetails->{'statistik'};
+                                                ${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}[$#{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}]->{'statistik'}    = $thisRecordBookDetails->{'statistik'};
+                                            }
+                                            
+                                        };
+                                        #########################################
+                                        # Jetzt Bestellposten ende
+                                        #########################################
+                                    } else {
+                                        # Fehler keine po_line ermittelbar
+                                    }
                                 };
                             }
 
@@ -658,375 +676,456 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
         #================================================
         # für ebooks
         #================================================
-                #1. Entwurf https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/{mms_id}/portfolios
-                #2. Entwurf https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/{mms_id} + apikey
+                # ---------------------------------------------------------------------
+                # Prüfen ob es für diese mms_id ein portfolios gibt
+                # um die Verfügbarkeit für den Benutzer festzustellen
+                # wenn es <availability desc="Not Available">10</availability> dann
+                # braucht der folgende Schritt nicht ausgeführt werden
+                # ---------------------------------------------------------------------
 
+                #<portfolios total_record_count="1">
+                #<portfolio link="https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/9918449038002561/portfolios/53212785660002561">
+                #   <id>53212785660002561</id>
+                #   <is_local>true</is_local>
+                #   <is_standalone>false</is_standalone>
+                #   <resource_metadata>...</resource_metadata>
+                #   <electronic_collection>...</electronic_collection>
+                #   <availability desc="Not Available">10</availability>    <== 
+                # or
+                #   <availability desc="Available">11</availability>        <==
+                #</portfolio>
+                #</portfolios>
+                
+                my $lAvailability   = $falsch;
 
-                # jetzt mit den Daten Weiterarbeiten und die Zweite Stufe holen
-                # 2. Anfrage
-                # portfolios ermitteln
-                #my $cAnfrage2 = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
-                #        $thisRecord->{'mms_id'} .
-                #        '/portfolios?apikey=' . $apiKey;
-
-                # Versuch mit bibs
-                my $cAnfrage2 = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
+                my $cAnfragePortfolios = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
                         $thisRecord->{'mms_id'} .
-                        '?apikey=' . $apiKey;
+                        '/portfolios?apikey=' . $apiKey;
 
-
-                print ERRORLOG "------------- ANFRAGE 2 -----------------\n";
-                print $cAnfrage2 . "\n";
-                print ERRORLOG $cAnfrage2 . "\n";
-                print ERRORLOG "-----------------------------------------\n";
-
-                my $response2 = $ua2->request(
+                print ERRORLOG "============ ANFRAGE Portfolios -----------------\n";
+                print $cAnfragePortfolios . "\n";
+                print ERRORLOG $cAnfragePortfolios . "\n";
+                print ERRORLOG "--------------------------------------------------\n";
+                
+                my $responsePortfolios = $ua2->request(
                     HTTP::Request->new(
-                    GET => $cAnfrage2 ));
+                    GET => $cAnfragePortfolios ));
 
-                if ($response2->is_error()) {
-                    printf "%s\n(2) " . $response2->status_line . "\n";
-                    #printf ERRORLOG "%s\n" . $response2->status_line ;
-                    printf ERRORLOG "%s\n(2) " . $response2->status_line . "\n";
-                    print ERRORLOG "\t" . $cAnfrage2 . "\n";
+                if ($responsePortfolios->is_error()) {
+                    printf "%s\n(2) " . $responsePortfolios->status_line . "\n";
+                    printf ERRORLOG "%s\n(2) " . $responsePortfolios->status_line . "\n";
+                    print ERRORLOG "\t" . $cAnfragePortfolios . "\n";
 
                 } else {
 
+                    my $xmlPortfolios = $responsePortfolios->content;
 
 
-                    my $xml2 = $response2->content;
+                    my $portfolios = XMLin($xmlPortfolios, ForceArray => 1);
+
+                    # <availability desc="Available">11</availability>
+                    #$portfolios->{'portfolio'}[0]->{'availability'}[0]->{'desc'}   Not Available / Available
+                    #$portfolios->{'portfolio'}[0]->{'availability'}[0]->{'content'}    10/11
+                    if ($portfolios->{'portfolio'}[0]->{'availability'}[0]->{'content'} == 11) {
+                        $lAvailability  = $wahr;
+                    #<availability desc="Not Available">10</availability>
+                    } elsif ($portfolios->{'portfolio'}[0]->{'availability'}[0]->{'content'} == 10) {
+                        $lAvailability  = $falsch;
+                    } else {
+                        print ERRORLOG "Unbekannter Status: \n";
+                        print ERRORLOG Dumper($portfolios);
+                    }
+                }
 
 
-                    my $bibliograph = XMLin($xml2, ForceArray => 1);
 
-                    print ERRORLOG "------------- STUFE 2 -ebooks----------------\n";
 
-                    # Auflage
-                    $AddInfos{ $thisRecord->{'mms_id'} }->{'auflage'} = $bibliograph->{'complete_edition'}[0];
+                if ($lAvailability) {
+                    #--------------------------------------------------------------------------------
+                    # jetzt mit den Daten Weiterarbeiten und die Zweite Stufe holen
+                    # 2. Anfrage
+                    # Daten bibs ermitteln
+                    #--------------------------------------------------------------------------------                
+                    my $cAnfrage2 = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
+                            $thisRecord->{'mms_id'} .
+                            '?apikey=' . $apiKey;
+
+
+                    print ERRORLOG "------------- ANFRAGE 2 -----------------\n";
+                    print $cAnfrage2 . "\n";
+                    print ERRORLOG $cAnfrage2 . "\n";
+                    print ERRORLOG "-----------------------------------------\n";
+
+                    my $response2 = $ua2->request(
+                        HTTP::Request->new(
+                        GET => $cAnfrage2 ));
+
+                    if ($response2->is_error()) {
+                        printf "%s\n(2) " . $response2->status_line . "\n";
+                        #printf ERRORLOG "%s\n" . $response2->status_line ;
+                        printf ERRORLOG "%s\n(2) " . $response2->status_line . "\n";
+                        print ERRORLOG "\t" . $cAnfrage2 . "\n";
+
+                    } else {
+
+
+
+                        my $xml2 = $response2->content;
+
+
+                        my $bibliograph = XMLin($xml2, ForceArray => 1);
+
+                        print ERRORLOG "------------- STUFE 2 -ebooks----------------\n";
+
+                        # Auflage
+                        $AddInfos{ $thisRecord->{'mms_id'} }->{'auflage'} = $bibliograph->{'complete_edition'}[0];
+                        
                     
-                
 
-                    # Jahr
-                    # Sprache
-                    # müssen aus subfeldern extrahiert werden
-
-                    my $year            = '';
-                    my $lang            = '';
-                    #                                                            12345678901234567
-                    my $isbn_13         = '';   # Langform der ISBN 13    z.B.: '978-3-7910-3705-9'
-                    my $isbn_13_kompakt = '';   # Kompaktform der ISBN 13 ohne '-'
-                    #                                                        1234567890123
-                    my $isbn_10         = '';   # Langform der ISBN 10 z.B. '3-7910-3705-6'
-                    my $isbn_10_kompakt = '';   # Kompaktform der ISBN 10 ohne '-'
-                    
-                    my %PrintParent     = ();
-                    my $lPrintParent    = $falsch;
-
-                    foreach my $akt (sort( keys($bibliograph->{'record'}[0]->{'datafield'}))) {
-                        print $akt . ': ' . $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} . "\n" if ($debug);
+                        # Jahr
                         # Sprache
-                        if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '041') {
-                            if ($lang eq '') {
-                                $lang  = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[0]->{'content'};
-                            };
-                        }
+                        # müssen aus subfeldern extrahiert werden
 
-                        # Year
-                        if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '264') {
-                            #$year = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[0]->{'content'};
+                        my $year            = '';
+                        my $lang            = '';
+                        #                                                            12345678901234567
+                        my $isbn_13         = '';   # Langform der ISBN 13    z.B.: '978-3-7910-3705-9'
+                        my $isbn_13_kompakt = '';   # Kompaktform der ISBN 13 ohne '-'
+                        #                                                        1234567890123
+                        my $isbn_10         = '';   # Langform der ISBN 10 z.B. '3-7910-3705-6'
+                        my $isbn_10_kompakt = '';   # Kompaktform der ISBN 10 ohne '-'
+                        
+                        my %PrintParent     = ();
+                        my $lPrintParent    = $falsch;
 
-                            foreach my $aktSub (sort( keys($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}))) {
-                                print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
-                                if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'c') {
-                                    if ($year eq '') {
-                                        # year bereinigen
-                                        my $tempYear = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
-                                        $tempYear =~ s/^©\s//;
-                                        $year = $tempYear;
-
-                                    };
-                                }
-                            }
-                        }
-
-                        #---------------------------------
-                        # auch erschienen unter 776 ev. aber auch 775?? 101 Fragen und Antworten im Vorstellung
-                        # 776 muss nur durchsucht werden wenn in 775 noch nichts gefunden wurde 
-                        #---------------------------------
-                        if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '775') || ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') and !$lPrintParent ) {
-
-
-                            foreach my $aktSub (sort( keys($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}))) {
-                                print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
-
-                                # prüfen einiger Daten da bisher keinen Überblick
-                                # Erscheint auch als Druckausgabe prüfen
-                                if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'n') {
-                                    if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Druck-Ausgabe') {
-                                        $lPrintParent = $wahr;
-                                    }
-                                } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'i') {
-                                    if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Buchausg. u.d.T.') || 
-                                        ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Erscheint auch als') ||
-                                        ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Druckausg.')) {
-                                        $lPrintParent = $wahr;
-                                    }
-                                # Author
-                                } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'a') {
-                                    my $tempAutor = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
-
-                                    # 'Haratsch, Andreas, 1963 - '
-                                    # entferne , Jahr -
-                                    if ($tempAutor =~ m/(.*?)[,](.*?)[,](.*?)/) {
-                                        $PrintParent{'author'} = $1 . ',' . $2;
-                                    } else {
-                                        $PrintParent{'author'} = $tempAutor;
-                                    };
-                                    $lPrintParent = $wahr;
-                                    
-
-                                # Titel
-                                } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 't') {
-                                    $PrintParent{'title'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
-                                    # ev. auch eine um Sonderzeichen wie punkt komma doppelpunkt bindestriche bereinigte Titelversion
-                                    # ggf. damit einen Treffer versuchen. Ev. auch nicht die volle Länge!
-                                    $PrintParent{'title_ohne_satzzeichen'}  = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
-                                    $PrintParent{'title_ohne_satzzeichen'} =~ s/[\.\;\:]//g;
-                                    
-                                    $lPrintParent = $wahr;
-
-                                # ISBN 10/13
-                                } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'z') {
-                                    $lPrintParent = $wahr;
-                                        
-                                    # ggf. sind mehr als eine ISBN abfragbar
-                                    # isbn 13 mit '-'
-                                    if (length($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'}) == 17) {
-                                        $PrintParent{'isbn_13'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
-                                        $PrintParent{'isbn_13_kompakt'} =  $PrintParent{'isbn_13'};
-                                        $PrintParent{'isbn_13_kompakt'} =~ s/-//g;
-                                    }
-                                    # isbn 10 mit '-'
-                                    if (length($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'}) == 13) {
-                                        $PrintParent{'isbn_10'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
-                                        $PrintParent{'isbn_10_kompakt'} =  $PrintParent{'isbn_10'};
-                                        $PrintParent{'isbn_10_kompakt'} =~ s/-//g;
-                                    }
-                                }
+                        foreach my $akt (sort( keys($bibliograph->{'record'}[0]->{'datafield'}))) {
+                            print $akt . ': ' . $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} . "\n" if ($debug);
+                            # Sprache
+                            if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '041') {
+                                if ($lang eq '') {
+                                    $lang  = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[0]->{'content'};
+                                };
                             }
 
+                            # Year
+                            if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '264') {
+                                #$year = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[0]->{'content'};
 
-                            # macht nur Sinn wenn ein PrintParent entdeckt wurde
-                            if ($lPrintParent) {
-                                #-------------------------------------------------------
-                                # @BookData enthält die Datein der BookCSV-Datei
-                                #-------------------------------------------------------
-                                
-                                my $lTreffer = $falsch;
-
-                                # prüfen ob die Daten in %PrintParent in @BookData gefunden werden können
-                                #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach
-                                #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Publisher|Signatur|Fach
-                                foreach my $aktBookData (@BookData) {
-                                    #print $aktBookData . "\n";
-                                    if (lc($aktBookData->{'Titel'}) eq lc($PrintParent{'title'})) {
-                                        if ($aktBookData->{'Autor'} eq $PrintParent{'author'}) {
-                                            #sleep(1);
-                                            $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
-                                            # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " abgeschnitten
-                                            my $tempSig   = $aktBookData->{'Signatur'};
-                                            $tempSig  =~ m/^
-                                                (\d{3})         # 1 3 Zahlen
-                                                (\s+)           # 2   Leerzeichen
-                                                ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
-                                                (\s+)           # 4   Leerzeichen
-                                                (.*?)           # 5   beliebige Zeichen
-                                                $
-                                            /x;
-
-                                            $tempSig = $3 . $4 . $5;
-
-                                            # Match / Treffer
-                                            $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
-                                            
-                                            # für dieses Buch gibt es ein eBook
-                                            $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
-                                            $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
-                                            $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
-                                            
-                                            $lTreffer = $wahr;
-                                            last;
-                                        }
-                                    }
-                                }
-                                
-                                # Wenn kein Treffer
-                                # Jetzt mit der isbn_10/13 oder isbn_10/13_kompakt versuchen
-                                if (!$lTreffer){
-                                    foreach my $aktBookData (@BookData) {
-                                        my $lTrefferIsbn = $falsch;
-                                        if (exists($PrintParent{'isbn_13'}) && exists($PrintParent{'isbn_10'})) {
-                                            if (
-                                                (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
-                                                (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'})) || 
-                                                (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
-                                                (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'})) ) {
-                                                $lTrefferIsbn   = $wahr;
-                                            }
-                                        } elsif (exists($PrintParent{'isbn_13'})) {
-                                            if (
-                                                (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
-                                                (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'}))) {
-                                                $lTrefferIsbn   = $wahr;
-                                            }
-                                        } elsif (exists($PrintParent{'isbn_10'})) {
-                                            if (
-                                                (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
-                                                (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'}))) {
-                                                $lTrefferIsbn   = $wahr;
-                                            }
-                                        }
-                                        
-                                        if ($lTrefferIsbn) {
-                                            $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
-                                            # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " abgeschnitten
-                                            my $tempSig   = $aktBookData->{'Signatur'};
-                                            $tempSig  =~ m/^
-                                                (\d{3})         # 1 3 Zahlen
-                                                (\s+)           # 2   Leerzeichen
-                                                ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
-                                                (\s+)           # 4   Leerzeichen
-                                                (.*?)           # 5   beliebige Zeichen
-                                                $
-                                            /x;
-
-                                            $tempSig = $3 . $4 . $5;
-
-                                            # Match / Treffer
-                                            $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
-                                            
-                                            # für dieses Buch gibt es ein eBook
-                                            $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
-                                            $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
-                                            $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
-                                            
-                                            $lTreffer = $wahr;
-                                            last;
+                                foreach my $aktSub (sort( keys($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}))) {
+                                    print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
+                                    if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'c') {
+                                        if ($year eq '') {
+                                            # year bereinigen
+                                            my $tempYear = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                            $tempYear =~ s/^©\s//;
+                                            $year = $tempYear;
 
                                         };
-                                    };
-                                }; # if (!$lTreffer)
-                            };   # if ($lPrintParent) {
-                        }; #if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '775') || ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') and !$lPrintParent ) {
-                    };  #foreach my $akt (sort( keys($bibliograph->{'record'}[0]->{'datafield'}))) {
-                    
-                    
-
-
-
-                    # Prüfen ob Daten nachgetragen werden können, 
-                    # das müsste ev. noch verschoben werden!
-                    if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
-                        
-                        # macht nur Sinn wenn ein PrintParent entdeckt wurde
-                        if ($lPrintParent) {
-                            #-----------------------------------------------------------------------------------
-                            # noch prüfen ob über die isbn oder kurzisbn ein match durchgeführt werden kann
-                            #-----------------------------------------------------------------------------------
-                            #
-                            # @BookData enthält die Datein der BookCSV-Datei
-                            #
-                            # prüfen ob die Daten in %PrintParent in @BookData gefunden werden können
-                            #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach
-                            foreach my $aktBookData (@BookData) {
-                                #print $aktBookData . "\n";
-
-                                if (
-                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
-                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'})) || 
-                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
-                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'})) ) {
-
-                                    $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
-                                    # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " abgeschnitten
-                                    my $tempSig   = $aktBookData->{'Signatur'};
-                                    $tempSig  =~ m/^
-                                        (\d{3})         # 1 3 Zahlen
-                                        (\s+)           # 2   Leerzeichen
-                                        ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
-                                        (\s+)           # 4   Leerzeichen
-                                        (.*?)           # 5   beliebige Zeichen
-                                        $
-                                    /x;
-
-                                    $tempSig = $3 . $4 . $5;
-
-                                    # Match / Treffer
-                                    $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
-
-                                    # für dieses Buch gibt es ein eBook
-                                    $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
-                                    $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
-                                    $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
+                                    }
                                 }
                             }
-                            # noch prüfen ob über die isbn oder kurzisbn ein match durchgeführt werden kann ENDE
-                        } else {
-                            #--------------------------------------------------------------------
-                            # trotdem mit der isbn suchen, manchmal liefert das einen Treffer
-                            #--------------------------------------------------------------------
-                            
-                            foreach my $aktBookData (@BookData) {
-                                #print $aktBookData . "\n";
 
-                                if (lc($aktBookData->{'ISBN'}) eq lc($AddInfos{ $thisRecord->{'mms_id'} }->{'isbn'})) {
+                            #---------------------------------
+                            # auch erschienen unter 776 ev. aber auch 775?? 101 Fragen und Antworten im Vorstellung
+                            # 776 muss nur durchsucht werden wenn in 775 noch nichts gefunden wurde 
+                            #---------------------------------
+                            if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '775') || ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') and !$lPrintParent ) {
 
-                                    $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
-                                    # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " abgeschnitten
-                                    my $tempSig   = $aktBookData->{'Signatur'};
-                                    $tempSig  =~ m/^
-                                        (\d{3})         # 1 3 Zahlen
-                                        (\s+)           # 2   Leerzeichen
-                                        ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
-                                        (\s+)           # 4   Leerzeichen
-                                        (.*?)           # 5   beliebige Zeichen
-                                        $
-                                    /x;
 
-                                    $tempSig = $3 . $4 . $5;
+                                foreach my $aktSub (sort( keys($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}))) {
+                                    print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
 
-                                    # Match / Treffer
-                                    $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
+                                    # prüfen einiger Daten da bisher keinen Überblick
+                                    # Erscheint auch als Druckausgabe prüfen
+                                    if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'n') {
+                                        if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Druck-Ausgabe') {
+                                            $lPrintParent = $wahr;
+                                        }
+                                    } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'i') {
+                                        if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Buchausg. u.d.T.') || 
+                                            ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Erscheint auch als') ||
+                                            ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Druckausg.')) {
+                                            $lPrintParent = $wahr;
+                                        }
+                                    # Author
+                                    } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'a') {
+                                        my $tempAutor = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
 
-                                    # für dieses Buch gibt es ein eBook
-                                    $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
-                                    $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
-                                    $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
+                                        # 'Haratsch, Andreas, 1963 - '
+                                        # entferne , Jahr -
+                                        if ($tempAutor =~ m/(.*?)[,](.*?)[,](.*?)/) {
+                                            $PrintParent{'author'} = $1 . ',' . $2;
+                                        } else {
+                                            $PrintParent{'author'} = $tempAutor;
+                                        };
+                                        $lPrintParent = $wahr;
+                                        
+
+                                    # Titel
+                                    } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 't') {
+                                        $PrintParent{'title'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                        # ev. auch eine um Sonderzeichen wie punkt komma doppelpunkt bindestriche bereinigte Titelversion
+                                        # ggf. damit einen Treffer versuchen. Ev. auch nicht die volle Länge!
+                                        $PrintParent{'title_ohne_satzzeichen'}  = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                        $PrintParent{'title_ohne_satzzeichen'} =~ s/[\.\;\:]//g;
+                                        
+                                        $lPrintParent = $wahr;
+
+                                    # ISBN 10/13
+                                    } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'z') {
+                                        $lPrintParent = $wahr;
+                                            
+                                        # ggf. sind mehr als eine ISBN abfragbar
+                                        # isbn 13 mit '-'
+                                        if (length($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'}) == 17) {
+                                            $PrintParent{'isbn_13'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                            $PrintParent{'isbn_13_kompakt'} =  $PrintParent{'isbn_13'};
+                                            $PrintParent{'isbn_13_kompakt'} =~ s/-//g;
+                                        }
+                                        # isbn 10 mit '-'
+                                        if (length($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'}) == 13) {
+                                            $PrintParent{'isbn_10'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                            $PrintParent{'isbn_10_kompakt'} =  $PrintParent{'isbn_10'};
+                                            $PrintParent{'isbn_10_kompakt'} =~ s/-//g;
+                                        }
+                                    }
                                 }
-                            }
-                        }
+
+
+                                # macht nur Sinn wenn ein PrintParent entdeckt wurde
+                                if ($lPrintParent) {
+                                    #-------------------------------------------------------
+                                    # @BookData enthält die Datein der BookCSV-Datei
+                                    #-------------------------------------------------------
+                                    
+                                    my $lTreffer = $falsch;
+
+                                    # prüfen ob die Daten in %PrintParent in @BookData gefunden werden können
+                                    #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach
+                                    #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Publisher|Signatur|Fach
+                                    foreach my $aktBookData (@BookData) {
+                                        #print $aktBookData . "\n";
+                                        if ((exists($PrintParent{'title'}) && lc($aktBookData->{'Titel'}) eq lc($PrintParent{'title'}))) {
+                                            if (exists($PrintParent{'author'}) && ($aktBookData->{'Autor'} eq $PrintParent{'author'}) || $aktBookData->{'Autor'} eq '' ) {
+
+                                                $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
+                                                
+                                                # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " ==> LKZ abgeschnitten
+                                                my $tempSig   = $aktBookData->{'Signatur'};
+                                                $tempSig  =~ m/^
+                                                    (\d{3})         # 1 3 Zahlen
+                                                    (\s+)           # 2   Leerzeichen
+                                                    ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
+                                                    (\s+)           # 4   Leerzeichen
+                                                    (.*?)           # 5   beliebige Zeichen
+                                                    $
+                                                /x;
+
+                                                $tempSig = $3 . $4 . $5;
+
+                                                # Match / Treffer
+                                                $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
+                                                
+                                                # für dieses Buch gibt es ein eBook
+                                                $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
+                                                $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
+                                                $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
+                                                
+                                                $lTreffer = $wahr;
+                                                last;
+                                            }
+                                        }
+                                    }
+                                    
+                                    # Wenn kein Treffer
+                                    # Jetzt mit der isbn_10/13 oder isbn_10/13_kompakt versuchen
+                                    if (!$lTreffer){
+                                        foreach my $aktBookData (@BookData) {
+                                            my $lTrefferIsbn = $falsch;
+                                            if (exists($PrintParent{'isbn_13'}) && exists($PrintParent{'isbn_10'})) {
+                                                if (
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'})) || 
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'})) ) {
+                                                    $lTrefferIsbn   = $wahr;
+                                                }
+                                            } elsif (exists($PrintParent{'isbn_13'})) {
+                                                if (
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'}))) {
+                                                    $lTrefferIsbn   = $wahr;
+                                                }
+                                            } elsif (exists($PrintParent{'isbn_10'})) {
+                                                if (
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'}))) {
+                                                    $lTrefferIsbn   = $wahr;
+                                                }
+                                            }
+                                            
+                                            if ($lTrefferIsbn) {
+                                                $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
+                                                
+                                                # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " => LKZ abgeschnitten
+                                                my $tempSig   = $aktBookData->{'Signatur'};
+                                                $tempSig  =~ m/^
+                                                    (\d{3})         # 1 3 Zahlen
+                                                    (\s+)           # 2   Leerzeichen
+                                                    ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
+                                                    (\s+)           # 4   Leerzeichen
+                                                    (.*?)           # 5   beliebige Zeichen
+                                                    $
+                                                /x;
+
+                                                $tempSig = $3 . $4 . $5;
+
+                                                # Match / Treffer
+                                                $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
+                                                
+                                                # für dieses Buch gibt es ein eBook
+                                                $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
+                                                $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
+                                                $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
+                                                
+                                                $lTreffer = $wahr;
+                                                last;
+
+                                            };
+                                        };
+                                    }; # if (!$lTreffer)
+                                };   # if ($lPrintParent) {
+                            }; #if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '775') || ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') and !$lPrintParent ) {
+                        };  #foreach my $akt (sort( keys($bibliograph->{'record'}[0]->{'datafield'}))) {
                         
                         
-                        # zweiter Test, ist Signatur immer noch leer?
-                        # Dann Zuordnung einer Temporären Signatur am Ende
+
+
+
+                        # Prüfen ob Daten nachgetragen werden können, 
+                        # das müsste ev. noch verschoben werden!
                         if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
-                            $nBooksWithoutMatch++;
-                            $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = 'ZZ 999 Z9999';
-                            $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = '01';
-                        }
-                    };
+                            
+                            # macht nur Sinn wenn ein PrintParent entdeckt wurde
+                            if ($lPrintParent) {
+                                #-----------------------------------------------------------------------------------
+                                # noch prüfen ob über die isbn_10/13 oder isbn_10/13_kompakt ein match durchgeführt werden kann
+                                #-----------------------------------------------------------------------------------
+                                #
+                                # @BookData enthält die Datein der BookCSV-Datei
+                                #
+                                # prüfen ob die Daten in %PrintParent in @BookData gefunden werden können
+                                #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Signatur|Fach
+                                foreach my $aktBookData (@BookData) {
+
+                                    my $lTrefferIsbn = $falsch;
+                                    if (exists($PrintParent{'isbn_13'}) && exists($PrintParent{'isbn_10'})) {
+                                        if (
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'})) || 
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'})) ) {
+                                            $lTrefferIsbn   = $wahr;
+                                        }
+                                    } elsif (exists($PrintParent{'isbn_13'})) {
+                                        if (
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'}))) {
+                                            $lTrefferIsbn   = $wahr;
+                                        }
+                                    } elsif (exists($PrintParent{'isbn_10'})) {
+                                        if (
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'}))) {
+                                            $lTrefferIsbn   = $wahr;
+                                        }
+                                    }
+                                    
+                                    if ($lTrefferIsbn) {
+
+                                        $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
+                                        
+                                        # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " ==> LKZ abgeschnitten
+                                        my $tempSig   = $aktBookData->{'Signatur'};
+                                        $tempSig  =~ m/^
+                                            (\d{3})         # 1 3 Zahlen
+                                            (\s+)           # 2   Leerzeichen
+                                            ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
+                                            (\s+)           # 4   Leerzeichen
+                                            (.*?)           # 5   beliebige Zeichen
+                                            $
+                                        /x;
+
+                                        $tempSig = $3 . $4 . $5;
+
+                                        # Match / Treffer
+                                        $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
+
+                                        # für dieses Buch gibt es ein eBook
+                                        $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
+                                        $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
+                                        $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
+                                    }
+                                }
+                                # noch prüfen ob über die isbn oder kurzisbn ein match durchgeführt werden kann ENDE
+                            } else {
+                                #--------------------------------------------------------------------
+                                # trotdem mit der isbn suchen, manchmal liefert das einen Treffer
+                                #--------------------------------------------------------------------
+                                
+                                foreach my $aktBookData (@BookData) {
+                                    #print $aktBookData . "\n";
+
+                                    if (lc($aktBookData->{'ISBN'}) eq lc($AddInfos{ $thisRecord->{'mms_id'} }->{'isbn'})) {
+
+                                        $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
+                                        # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " abgeschnitten
+                                        my $tempSig   = $aktBookData->{'Signatur'};
+                                        $tempSig  =~ m/^
+                                            (\d{3})         # 1 3 Zahlen
+                                            (\s+)           # 2   Leerzeichen
+                                            ([a-zA-Z]{2})   # 3 2 zwei Buchstaben
+                                            (\s+)           # 4   Leerzeichen
+                                            (.*?)           # 5   beliebige Zeichen
+                                            $
+                                        /x;
+
+                                        $tempSig = $3 . $4 . $5;
+
+                                        # Match / Treffer
+                                        $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
+
+                                        # für dieses Buch gibt es ein eBook
+                                        $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
+                                        $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
+                                        $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
+                                        
+                                    };  # if (lc($aktBookData->{'ISBN'}) eq lc($AddInfos{ $thisRecord->{'mms_id'} }->{'isbn'})) {
+                                };   # foreach my $aktBookData (@BookData) {
+                            };   # if ($lPrintParent) { / else
+                            
+                            
+                            # zweiter Test, ist Signatur immer noch leer?
+                            # Dann Zuordnung einer Temporären Signatur am Ende
+                            if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
+                                $nBooksWithoutMatch++;
+                                $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = 'ZZ 999 Z9999';
+                                $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = '01';
+                            };
+                        };  # if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
 
 
-                    $AddInfos{ $thisRecord->{'mms_id'} }->{'sprache'}   =  $lang;
-                    $AddInfos{ $thisRecord->{'mms_id'} }->{'jahr'}      =  $year;
-                    $AddInfos{ $thisRecord->{'mms_id'} }->{'url'}       =  'https://primo.bib.uni-mannheim.de/primo-explore/search?tab=default_tab&search_scope=MAN_ALMA&vid=MAN_UB&lang=de_DE&offset=0&query=any,contains,' . $thisRecord->{'mms_id'};
+                        $AddInfos{ $thisRecord->{'mms_id'} }->{'sprache'}   =  $lang;
+                        $AddInfos{ $thisRecord->{'mms_id'} }->{'jahr'}      =  $year;
+                        $AddInfos{ $thisRecord->{'mms_id'} }->{'url'}       =  'https://primo.bib.uni-mannheim.de/primo-explore/search?tab=default_tab&search_scope=MAN_ALMA&vid=MAN_UB&lang=de_DE&offset=0&query=any,contains,' . $thisRecord->{'mms_id'};
 
 
-                    print $nBookNr . ": " . $thisRecord->{'mms_id'} . " ebook " . $AddInfos{$thisRecord->{'mms_id'}}->{'type'} . "\n";
-                    $nBookNr++;
+                        print $nBookNr . ": " . $thisRecord->{'mms_id'} . " ebook " . $AddInfos{$thisRecord->{'mms_id'}}->{'type'} . "\n";
+                        $nBookNr++;
 
-                    print_CSV( $out, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $falsch );
-                }
+                        print_CSV( $out, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $falsch );
+                    }
+                };   # if $lAvailability
             }
         }
     }
@@ -1301,8 +1400,7 @@ sub print_CSV {
         } else {
             print $out '|';
         }
-        #if (${$AddInfos}{$aktId}->{'auflage'} ne '') {
-        if (${$AddInfos}{$aktId}->{'auflage'} ne '') {
+        if (exists(${$AddInfos}{$aktId}->{'auflage'}) && ${$AddInfos}{$aktId}->{'auflage'} ne '') {
             print $out ${$AddInfos}{$aktId}->{'auflage'} . '|';
         } else {
             print $out '|';
