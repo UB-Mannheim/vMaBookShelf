@@ -235,6 +235,7 @@ GetOptions(
             "sourceebook|quellebook|ebook=s"        => \$pSourceFileEbook,
             # Errolog beim Starten loeschen
             "resetlog"                              => \$lresetlog,
+            "debug"                                 => \$debug,
           );
 
 #--------------------------------------------------------------
@@ -504,27 +505,35 @@ my $nTempIndex              = 0; # nur wg. Debugabbruch gesetzt
 # Für Tests
 if ($debug) {
     foreach my $akt (sort {
-                            $MedienDaten{$a}->{'RVK-1-buchstabe'} cmp
-                                $MedienDaten{$b}->{'RVK-1-buchstabe'} ||
-                            $MedienDaten{$a}->{'RVK-2-feingruppe'} <=>
-                                $MedienDaten{$b}->{'RVK-2-feingruppe'} ||
-                            $MedienDaten{$a}->{'RVK-3a-cutter1_buchstabe'} cmp
-                                $MedienDaten{$b}->{'RVK-3a-cutter1_buchstabe'} ||
-                            length($MedienDaten{$a}->{sortSignatur}) <=>
-                                length($MedienDaten{$b}->{sortSignatur}) ||
-                            $MedienDaten{$a}->{sortSignatur} cmp
-                                $MedienDaten{$b}->{sortSignatur} ||
-                            $MedienDaten{$a}->{sortTitle} cmp
-                                $MedienDaten{$b}->{sortTitle} ||
-                            $MedienDaten{$a}->{ebook} cmp
-                                $MedienDaten{$b}->{ebook}
-                          } (keys( %MedienDaten))) {
+                        $MedienDaten{$a}->{'RVK-1-buchstabe'} cmp
+                            $MedienDaten{$b}->{'RVK-1-buchstabe'}||
+                        $MedienDaten{$a}->{'RVK-2-feingruppe'} <=>
+                            $MedienDaten{$b}->{'RVK-2-feingruppe'}||
+                        $MedienDaten{$a}->{'RVK-3a-cutter1_buchstabe'} cmp
+                            $MedienDaten{$b}->{'RVK-3a-cutter1_buchstabe'}||
+                        $MedienDaten{$a}->{'RVK-3b-cutter1_zahl'} <=>
+                            $MedienDaten{$b}->{'RVK-3b-cutter1_zahl'}||
+                        length($MedienDaten{$a}->{sortSignatur}) <=>
+                            length($MedienDaten{$b}->{sortSignatur}) ||
+                        $MedienDaten{$a}->{sortSignatur} cmp
+                            $MedienDaten{$b}->{sortSignatur} ||
+                        $MedienDaten{$a}->{sortTitle} cmp
+                            $MedienDaten{$b}->{sortTitle} ||
+                        $MedienDaten{$a}->{aufl} cmp
+                            $MedienDaten{$b}->{aufl} ||
+                        $MedienDaten{$a}->{ebook} cmp
+                            $MedienDaten{$b}->{ebook}
+                      } (keys( %MedienDaten))) {
 
-        print ERRORLOG __LINE__ . " " . $akt . "\t" . "'" .
-            $MedienDaten{$akt}->{'RVK-1-buchstabe'} . "'\t'" .
-            $MedienDaten{$akt}->{'RVK-2-feingruppe'} . "'\t'" .
-            $MedienDaten{$akt}->{'RVK-3a-cutter1_buchstabe'} . "'\t'" .
-            $MedienDaten{$akt}->{'RVK-3b-cutter1_zahl'} ."'\n";
+        print ERRORLOG __LINE__ . " " . $akt . "\t" . "'";
+        print ERRORLOG $MedienDaten{$akt}->{'RVK-1-buchstabe'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'RVK-2-feingruppe'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'RVK-3a-cutter1_buchstabe'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'RVK-3b-cutter1_zahl'} . "'\t'";
+        print ERRORLOG length($MedienDaten{$akt}->{'sortSignatur'}) . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'sortSignatur'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'sortTitle'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'ebook'} . "'\n";
 
     };
     print ERRORLOG "-"x60, "\n";
@@ -1399,7 +1408,7 @@ sub LeseQuellDaten {
                             my $isbn13  = Business::ISBN->new($cIsbnOri);
                             my $isbn10  = $isbn13->as_isbn10;   # Convert
                             $cIsbn      = $isbn10->isbn;
-                            print ERRORLOG __LINE__ . " Konvertiere $cIsbnOri zu $cIsbn\n";
+                            #print ERRORLOG __LINE__ . " Konvertiere $cIsbnOri zu $cIsbn\n";
                         };
 
 
@@ -2030,8 +2039,8 @@ sub LeseQuellDaten {
                             ${$MedienDaten}{$aktAlephID}->{aufl} = $akt;
                         }
                     }
-		    
-		    
+            
+            
                 }
 
                 $nSpalte++;
