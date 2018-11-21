@@ -96,6 +96,25 @@ The scripts used the following perl modules. You can download them from cpan.
 - Config::IniFiles
 - Business::ISBN
 
+#### Install Perl-Module with CPAN
+```bash 
+perl -MCPAN -e shell
+install <name>
+```
+or
+```bash 
+perl -MCPAN -e "install <name>"
+```
+#### Install Perl-Module manually
+- Download perl module
+- extract the module in temporary directory
+- change to the temporary directory
+- perl Makefile.PL
+- make
+- make test
+- make install
+
+This procedure is described in the modules README.txt. There may be special hints for each module.
 
 ### Create HTML-File, Download Covers ...
 Now you can create the html files, with
