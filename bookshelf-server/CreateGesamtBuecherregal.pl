@@ -269,10 +269,10 @@ my $cStatistikFile                          = 'log/' . "statistik.log";
 
 open( SOURCEPRINT, "<$SourceFilePrint" ) or die
     "Kann SOURCE-PRINT $SourceFilePrint nicht oeffnen $!\n";
-#binmode(SOURCEPRINT, ':utf8');    
+#binmode(SOURCEPRINT, ':utf8');
 open( SOURCEEBOOK, "<$SourceFileEbook" ) or die
     "Kann SOURCE-EBOOK $SourceFileEbook nicht oeffnen $!\n";
-#binmode(SOURCEEBOOK, ':utf8');        
+#binmode(SOURCEEBOOK, ':utf8');
 
 
 if (-e $cKeinTrefferCacheFile) {
@@ -1105,16 +1105,18 @@ sub LeseQuellDaten {
         #---------------------------------------------------
         if (length($aktZeile) > 2 ) {
 
+            # Schalter hinzufügen für Alma / Aleph
+            #-------------------------------------------------------------------
             # Da die Daten jetzt von Alma via API geholt werden wird dieser
             # Abscnitt nicht mehr benötigt
-            #---------------------------------------------------
+            #-------------------------------------------------------------------
             #in der URL ist teilweise ein "|" enthalten
             # diesen "|" wird jetzt in seine Hex-Entsprechung
             # umgewandelt (alle Treffer)
-            #---------------------------------------------------
-            #while ($aktZeile =~ m/http\:(.*?)\|/) {
-            #    $aktZeile =~ s/http\:(.*?)\|/http:$1%7C/;
-            #}
+            #-------------------------------------------------------------------
+            while ($aktZeile =~ m/http\:(.*?)\|/) {
+                $aktZeile =~ s/http\:(.*?)\|/http:$1%7C/;
+            }
 
             my @AktFelder               = split( /\|/, $aktZeile );
             my %AktSpalten              = ();
@@ -1610,14 +1612,40 @@ sub LeseQuellDaten {
                             if ($lEbook) {
 
                                 my $lFach   = $falsch;
-                                # New Version now only number
-                                if ($fach ne '') {
-                                        $lFach   = $wahr;
 
-                                        $Statistik{'fachgesamt'}{'mitfach'}++;
-                                        $Statistik{'fach'}{$fach}++;
+                                if ($fach ne '') {
+                                        # bei Aleph und in den Beispielen startet dieses Feld (in Mannheim) mit "cofz , text , lb30  BSO ,"
+                                        if ($fach =~ m/^cofz(.*?)/) {
+                                            #-----------------------------------
+                                            # Aleph
+                                            #-----------------------------------
+                                            my @StatistikArray = split( /\,/, $fach );
+
+                                            foreach my $aktStat (@StatistikArray) {
+                                                $aktStat =~ s/^\s//g;
+                                                $aktStat =~ s/\s$//g;
+                                                if ($aktStat =~ m/^lb(\d\d)/) {
+                                                    $fach = $1;
+                                                    $lFach   = $wahr;
+                                                    if ($fach ne '') {
+                                                        $Statistik{'fachgesamt'}{'mitfach'}++;
+                                                        $Statistik{'fach'}{$fach}++;
+                                                    };
+                                                };
+                                            }
+                                        } else {
+                                            #-----------------------------------
+                                            # Alma
+                                            #-----------------------------------
+
+                                            # New Version now only number
+                                            $lFach   = $wahr;
+
+                                            $Statistik{'fachgesamt'}{'mitfach'}++;
+                                            $Statistik{'fach'}{$fach}++;
+                                        };
                                 };
-                                
+
                                 if (!$lFach){
                                     $fach   = "";
                                 };
@@ -2046,8 +2074,8 @@ sub LeseQuellDaten {
                             ${$MedienDaten}{$aktAlephID}->{aufl} = '0';
                         }
                     }
-            
-            
+
+
                 }
 
                 $nSpalte++;
