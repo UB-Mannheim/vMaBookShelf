@@ -32,6 +32,7 @@ BEGIN {
     #-----------------------------------------------
     my $log = __FILE__ . ".log";
     open( ERRORLOG, ">$log" ) or die "Kann nicht in $log schreiben $!\n";
+    binmode(ERRORLOG, ':utf8');
     carpout (*ERRORLOG);
 };
 
@@ -245,6 +246,7 @@ if ($lresetlog)
 {
     open( ERRORLOG, ">$log" ) or die "Kann nicht in $log schreiben $!\n";
     carpout (*ERRORLOG);
+    binmode(ERRORLOG, ':utf8');
     ERRORLOG->autoflush(1);
 };
 
@@ -267,8 +269,10 @@ my $cStatistikFile                          = 'log/' . "statistik.log";
 
 open( SOURCEPRINT, "<$SourceFilePrint" ) or die
     "Kann SOURCE-PRINT $SourceFilePrint nicht oeffnen $!\n";
+#binmode(SOURCEPRINT, ':utf8');    
 open( SOURCEEBOOK, "<$SourceFileEbook" ) or die
     "Kann SOURCE-EBOOK $SourceFileEbook nicht oeffnen $!\n";
+#binmode(SOURCEEBOOK, ':utf8');        
 
 
 if (-e $cKeinTrefferCacheFile) {
@@ -533,6 +537,7 @@ if ($debug) {
         print ERRORLOG length($MedienDaten{$akt}->{'sortSignatur'}) . "'\t'";
         print ERRORLOG $MedienDaten{$akt}->{'sortSignatur'} . "'\t'";
         print ERRORLOG $MedienDaten{$akt}->{'sortTitle'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'aufl'} . "'\t'";
         print ERRORLOG $MedienDaten{$akt}->{'ebook'} . "'\n";
 
     };
@@ -2037,6 +2042,8 @@ sub LeseQuellDaten {
                             and ($AlephIds{ $aktAlephID } < 2)){
                         if ($akt ne '') {
                             ${$MedienDaten}{$aktAlephID}->{aufl} = $akt;
+                        } else {
+                            ${$MedienDaten}{$aktAlephID}->{aufl} = '0';
                         }
                     }
             
