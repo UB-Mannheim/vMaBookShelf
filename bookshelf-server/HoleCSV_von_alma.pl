@@ -278,8 +278,8 @@ do {
 
         my $bibBooks = XMLin($xml, ForceArray => 1);
 
-        print ERRORLOG "------------- STUFE 1 -----------------\n";
-        print ERRORLOG Dumper($bibBooks);
+        print ERRORLOG "------------- STUFE 1 ----------------- 281 \n";
+        #print ERRORLOG Dumper($bibBooks);
 
 
         $nBookAnzahl = $bibBooks->{'total_record_count'};
@@ -327,6 +327,15 @@ do {
                 sleep(1);
             } elsif ($thisRecord->{'mms_id'} == '9918379768602561') {
                 # ebook ohne Zuordnung zu Titel
+                sleep(1);
+            } elsif ($thisRecord->{'mms_id'} == '990015786700402561') {
+                # ebook ohne Zuordnung zu Titel
+                sleep(1);
+            } elsif ($thisRecord->{'mms_id'} == '990016274380402561') {
+                # ebook ohne Zuordnung zu Titel 
+                # müsste aber über die isbn klappen
+                #990016029750402561|Forster, Otto|Analysis.|11., erw. Aufl.|2013|9783658003166|ger|Springer Spektrum|120 SK 400 F734-1(11)|11
+                #990016274380402561|Forster, Otto|Analysis 1 Differential- und Integralrechnung einer VerÃ¤nderlichen|11., erw. Aufl. 2013||9783658003166|ger|01|ZZ 999 Z9999|https://primo.bib.uni-mannheim.de/primo-explore/search?tab=default_tab&search_scope=MAN_ALMA&vid=MAN_UB&lang=de_DE&offset=0&query=any,contains,990016274380402561
                 sleep(1);
             };
 
@@ -797,6 +806,8 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                         
                         my %PrintParent     = ();
                         my $lPrintParent    = $falsch;
+                        my $aIndexData775776 = 0;
+                        
 
                         foreach my $akt (sort( keys($bibliograph->{'record'}[0]->{'datafield'}))) {
                             print $akt . ': ' . $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} . "\n" if ($debug);
@@ -831,6 +842,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                             #---------------------------------
                             if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '775') || ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') and !$lPrintParent ) {
 
+                                $aIndexData775776 = $akt;
 
                                 foreach my $aktSub (sort( keys($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}))) {
                                     print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
@@ -866,7 +878,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                         $PrintParent{'title'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
                                         # ev. auch eine um Sonderzeichen wie punkt komma doppelpunkt bindestriche bereinigte Titelversion
                                         # ggf. damit einen Treffer versuchen. Ev. auch nicht die volle Länge!
-                                        $PrintParent{'title_ohne_satzzeichen'}  = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                        $PrintParent{'title_ohne_satzzeichen'}  = $PrintParent{'title'};
                                         $PrintParent{'title_ohne_satzzeichen'} =~ s/[\.\;\:]//g;
                                         
                                         $lPrintParent = $wahr;
@@ -897,6 +909,17 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                     #-------------------------------------------------------
                                     # @BookData enthält die Datein der BookCSV-Datei
                                     #-------------------------------------------------------
+
+                                    #=====================================================
+                                    # Wenn in den Verknüpungsinformationen kein Autor ... 
+                                    # aufgeführt wird mit den original-Daten auffüllen
+                                    #$PrintParent{'title_ohne_satzzeichen'}
+                                    #=====================================================
+                                    if (!exists($PrintParent{'author'})) {
+                                        $PrintParent{'author'} = $aktRecord->{'author'}[0];
+                                    };
+                                    
+                                    
                                     
                                     my $lTreffer = $falsch;
 
@@ -905,7 +928,13 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                     #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Publisher|Signatur|Fach
                                     foreach my $aktBookData (@BookData) {
                                         #print $aktBookData . "\n";
-                                        if ((exists($PrintParent{'title'}) && lc($aktBookData->{'Titel'}) eq lc($PrintParent{'title'}))) {
+                                        
+                                        my $cTitleOhneSatzzeichen = $aktBookData->{'Titel'};
+                                        $cTitleOhneSatzzeichen =~ s/[\.\;\:]//g;
+                                        
+                                        if ((exists($PrintParent{'title'}) && lc($aktBookData->{'Titel'}) eq lc($PrintParent{'title'})) || 
+                                            (exists($PrintParent{'title_ohne_satzzeichen'}) && lc($cTitleOhneSatzzeichen) eq lc($PrintParent{'title_ohne_satzzeichen'}))
+                                        ) {
                                             if (exists($PrintParent{'author'}) && ($aktBookData->{'Autor'} eq $PrintParent{'author'}) || $aktBookData->{'Autor'} eq '' ) {
 
                                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
@@ -1111,6 +1140,22 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                 $nBooksWithoutMatch++;
                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = 'ZZ 999 Z9999';
                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = '01';
+                                
+                                # Fehlermeldung um Daten anreichern
+                                
+
+                                # Debugging
+                                print ERRORLOG "======================== Signatur nicht zuordenbar ======================== \n";
+                                #print ERRORLOG Dumper($bibliograph->{'record'}[0]);
+                                print ERRORLOG Dumper($aktRecord);
+                                print ERRORLOG Dumper($bibliograph->{'record'}[0]);
+                                
+                                
+                                # Debugging
+                                print ERRORLOG "Signatur nicht zuordenbar\n";
+                                print ERRORLOG Dumper($bibliograph->{'record'}[0]->{'datafield'}[$aIndexData775776]);
+
+                                
                             };
                         };  # if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
 
