@@ -60,7 +60,8 @@ Template::Filters->use_html_entities;
 use HTML::Hyphenate;
 use Config::IniFiles qw( :all);
 use Business::ISBN;     # Umrechnen von ISBN 13 in ISBN 10
-
+use File::Basename;
+use Cwd qw(cwd);
 
 
 $|                          = 1;
@@ -75,6 +76,16 @@ my $debug_gelesene_db       = $falsch;
 
 my $INIFILE                 = 'config/booklist.ini';
 
+my $dirname = dirname(__FILE__);
+
+if ($dirname eq '.') {
+    $dirname = cwd;
+};
+
+if (! -e $dirname . '/template/buecherregal_header.tmpl') {
+    print $dirname . '/template/buecherregal_header.tmpl not existing, please rename ' . $dirname . '/template/buecherregal_header.tmpl_sample' . "\n";
+    die ERRORLOG $dirname . '/template/buecherregal_header.tmpl not existing, please rename ' . $dirname . '/template/buecherregal_header.tmpl_sample' . "\n";
+}
 
 #--------------------------
 # Templating structure

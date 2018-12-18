@@ -95,14 +95,16 @@ The scripts used the following perl modules. You can download them from cpan.
 - HTML::Hyphenate
 - Config::IniFiles
 - Business::ISBN
+- File::Basename
+- Cwd
 
 #### Install Perl-Module with CPAN
-```bash 
+```bash
 perl -MCPAN -e shell
 install <name>
 ```
 or
-```bash 
+```bash
 perl -MCPAN -e "install <name>"
 ```
 #### Install Perl-Module manually
