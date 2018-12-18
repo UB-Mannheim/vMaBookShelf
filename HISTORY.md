@@ -2,6 +2,7 @@
 - 2018.12.18
   - add Perl-Modul: File::Basename and Cwd
     - necessary to check if the file /template/buecherregal_header.tmpl exists and produces better error message if it does not exist
+  - correct an error if html_web_path is only '/'
 
 - 2016.04.23
   - two new parameters in bookshelf-server/config/booklist.ini_tmpl to skip subtitle, they are in alma a part of title field

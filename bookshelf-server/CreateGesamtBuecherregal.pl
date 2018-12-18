@@ -177,6 +177,10 @@ if ($html_web_path =~ m/^\/(.*?)\/$/) {
 } elsif ($html_web_path =~ m/^(.*?)\/$/) {
     $html_web_path = '/' . $1 . '/';
 }
+# prüfen ob html_web_path nur noch //
+if ($html_web_path =~ m/^\/\/$/) {
+    $html_web_path  = '/';
+}
 
 
 
