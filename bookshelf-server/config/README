@@ -25,13 +25,13 @@ qr_cache=/usr/local/bin/vMaBookShelf/bookshelf-server/html/QRCache/
 html_path=html/
 
 
-# this is the directory that you specified as the target of the symbolic link of the 'html' subdirectory
-# if Apache DocumentRoot is /var/www
-# and your linked your html subdirecory to /var/www/booklist
-# then you should write here only /booklist/
-html_web_path=/booklist/
-
-
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# deprecated
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# better use
+# section '[URL]' variable 'html_web_path' +
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# html_web_path=/booklist/
 
 
 [CSV]
@@ -55,20 +55,46 @@ ebook=sample_ebooks.csv
 qr_base=http://link.bib.uni-mannheim.de/ds/
 
 
+# Used protocol.
+# Optional: default = http.
+# Possible values are http | https
+# ': //' is added by the script
+protocol=http
+
+
 # hostname full, (servername with html files and RufeExterneURL.php)
 # without "http://" !!!
 host=aleph.bib.uni-mannheim.de
 
 
-#--------------------------------------------------------------------------------
-# This Variable points to a php script that opens external URLs (including Primo)
+# this is the directory that you specified as the target of the symbolic link of the 'html' subdirectory
+# if Apache DocumentRoot is /var/www
+# and your linked your html subdirecory to /var/www/booklist
+# then you should write here only /booklist/
+# This is a web path, not a unix path.
+#------------------------------------------------------------------------
 # The script adds at the beginning of these variables the following:
-# 'http://' +
+#------------------------------------------------------------------------
+# section '[URL]' variable 'protocol' + '://' +
 # section '[URL]' variable 'host' +
-# section '[PATH]' variable 'html_web_path' +
+# section '[URL]' variable 'html_web_path' +
+# section '[URL]' variable 'openExterneURL_base'
+#------------------------------------------------------------------------
+# if the files are in the webroot you should write
+# html_web_path=/
+# moved from section '[PATH]' to '[URL]' at 18.12.2018
+html_web_path=/booklist/
+
+
+#--------------------------------------------------------------------------------
+# The script adds at the beginning of these variables the following:
+# section '[URL]' variable 'protocol' + '://' +
+# section '[URL]' variable 'host' +
+# section '[URL]' variable 'html_web_path' +
 # section '[URL]' variable 'openExterneURL_base'
 #--------------------------------------------------------------------------------
-# result: openExterneURL_base=http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
+# script result: http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
+#--------------------------------------------------------------------------------
 openExterneURL_base=RufeExterneURL.php?url=
 
 
@@ -283,7 +309,7 @@ tastendruckmultiplikator=15
 collection=99999999999999999
 
 
-# Ebooks 
+# Ebooks
 # for EBooks you can create in ALMA a second Collection, use here the Collection-Key
 ebooks-collection=99999999999999999
 
@@ -302,7 +328,7 @@ SkipStartWith=:
 [SET]
 #used for HoleCSV_von_alma.pl
 
-# locationId in Alma 
+# locationId in Alma
 # 'WEST_EG' or '120' are used values in Mannheim
 locationId=WEST_EG
 

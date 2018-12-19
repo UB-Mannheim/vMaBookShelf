@@ -155,6 +155,13 @@ my $pSourceFileEbook        = $cfg->val( 'CSV', 'ebook' );
 my $SearchLinkBase          = $cfg->val( 'URL', 'qr_base' );
 
 
+if ($cfg->exits( 'URL', 'protocol' )) {
+    # optional http oder https
+    $protocol   = $cfg->val( 'URL', 'protocol' );
+} else {
+    $protocol   = 'http';
+}
+
 
 #http://section [URL] variable host / section [PATH] variable html_web_path
 my $host_name               = $cfg->val( 'URL', 'host' );
@@ -167,9 +174,27 @@ if ($host_name =~ m/^http[s]{0,1}\:\/\/(.*?)$/) {
     $host_name = $1;
 }
 
+# $html_web_path in ini-Verschoben von [PATH] zu [URL]
+my $html_web_path   = '';
+if ($cfg->exists( 'PATH', 'html_web_path' )) {
+    print "deprecated: [PATH] 'html_web_path', better use [URL] 'html_web_path'\n";
+    print ERRORLOG "deprecated: [PATH] 'html_web_path', better use [URL] 'html_web_path'\n";
+}
+if ($cfg->exits( 'URL', 'html_web_path' )) {
+    $html_web_path   = $cfg->val( 'URL', 'html_web_path' );
 
-my $html_web_path   = $cfg->val( 'PATH', 'html_web_path' );
+    if ($cfg->exists( 'PATH', 'html_web_path' )) {
+        print "[URL] 'html_web_path' is used instead of deprecated: [PATH] 'html_web_path'\n";
+    }
+} else {
+    if ($cfg->exists( 'PATH', 'html_web_path' )) {
+        print "deprecated: [PATH] 'html_web_path', better use [URL] 'html_web_path'\n";
+    }
+    $html_web_path   = $cfg->val( 'PATH', 'html_web_path' );
+}
+#-------------------------------------------------------------------------------
 # prüfen ob html_web_path mit / beginnt und endet
+#-------------------------------------------------------------------------------
 if ($html_web_path =~ m/^\/(.*?)\/$/) {
     $html_web_path = '/' . $1 . '/';
 } elsif ($html_web_path =~ m/^\/(.*?)$/) {
@@ -177,7 +202,7 @@ if ($html_web_path =~ m/^\/(.*?)\/$/) {
 } elsif ($html_web_path =~ m/^(.*?)\/$/) {
     $html_web_path = '/' . $1 . '/';
 }
-# prüfen ob html_web_path nur noch //
+# prüfen ob html_web_path nur noch // enthält
 if ($html_web_path =~ m/^\/\/$/) {
     $html_web_path  = '/';
 }
@@ -187,7 +212,7 @@ if ($html_web_path =~ m/^\/\/$/) {
 
 
 # http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
-my $openExterneURL_base     = 'http://' . $host_name . $html_web_path . $cfg->val( 'URL', 'openExterneURL_base' );
+my $openExterneURL_base     = $protocol . '://' . $host_name . $html_web_path . $cfg->val( 'URL', 'openExterneURL_base' );
 
 # http://primo.bib.uni-mannheim.de/primo_library/libweb/action/dlSearch.do?institution=MAN&vid=MAN_UB&search_scope=MAN_ALEPH&query=any,exact,
 my $printMedien_base        = $cfg->val( 'URL', 'printMedien_base' );
@@ -1129,8 +1154,9 @@ sub LeseQuellDaten {
             # diesen "|" wird jetzt in seine Hex-Entsprechung
             # umgewandelt (alle Treffer)
             #-------------------------------------------------------------------
-            while ($aktZeile =~ m/http\:(.*?)\|/) {
+            while ($aktZeile =~ m/http[s]{0,1}\:(.*?)\|/) {
                 $aktZeile =~ s/http\:(.*?)\|/http:$1%7C/;
+                $aktZeile =~ s/https\:(.*?)\|/https:$1%7C/;
             }
 
             my @AktFelder               = split( /\|/, $aktZeile );
