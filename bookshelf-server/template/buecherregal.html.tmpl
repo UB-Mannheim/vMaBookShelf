@@ -220,26 +220,32 @@
             var gesamturl = baseurl + url;
             var width=1024;
             var height=660;
-            var newWin = window.open( gesamturl,"subWin",
-                                      "directories=no," +
-                                      "dependent=yes," +
-                                      "dialog=off," +
-                                      "fullscreen=yes," +
-                                      "height=" + screen.height + "," +
-                                      "width=" + screen.width + "," +
-                                      "left=0," +
-                                      "location=no," +
-                                      "menubar=no," +
-                                      "personalbar=no," +
-                                      "resizable=no," +
-                                      "scrollbars=yes," +
-                                      "status=no," +
-                                      "titlebar=no," +
-                                      "toolbar=no," +
-                                      "alwaysRaised=yes," +
-                                      "top=0");
-            newWin.moveTo(0,0);
-            newWin.focus();
+            var lOpenNewWin = true;
+            var nBaseLength = baseurl.length;
+            
+                
+            if (lOpenNewWin) {
+                newWin = window.open( gesamturl,"subWin",
+                              "directories=no," +
+                              "dependent=yes," +
+                              "dialog=off," +
+                              "fullscreen=yes," +
+                              "height=" + screen.height + "," +
+                              "width=" + screen.width + "," +
+                              "left=0," +
+                              "location=no," +
+                              "menubar=no," +
+                              "personalbar=no," +
+                              "resizable=no," +
+                              "scrollbars=yes," +
+                              "status=no," +
+                              "titlebar=no," +
+                              "toolbar=no," +
+                              "alwaysRaised=yes," +
+                              "top=0");
+                newWin.moveTo(0,0);
+                newWin.focus();
+            };
         };
 
         function loadURL(url) {

@@ -1,4 +1,4 @@
-﻿#!/usr/bin/perl -w
+#!/usr/bin/perl -w
 #-------------------------------------------------------------------------------
 # Copyright (C) 2014 Universitätsbibliothek Mannheim
 # Name:
@@ -34,6 +34,7 @@ BEGIN {
     #-----------------------------------------------
     my $log = __FILE__ . ".log";
     open( ERRORLOG, ">$log" ) or die "Kann nicht in $log schreiben $!\n";
+    binmode(ERRORLOG, ':utf8');
     carpout (*ERRORLOG);
 };
 
@@ -64,7 +65,6 @@ use Business::ISBN;     # Umrechnen von ISBN 13 in ISBN 10
 use JSON;               # wg. Google-Images
 
 
-
 $|                          = 1;
 my $log                     = __FILE__ . ".log";
 
@@ -77,6 +77,16 @@ my $debug_gelesene_db       = $falsch;
 
 my $INIFILE                 = 'config/booklist.ini';
 
+my $dirname = dirname(__FILE__);
+
+if ($dirname eq '.') {
+    $dirname = cwd;
+};
+
+if (! -e $dirname . '/template/buecherregal_header.tmpl') {
+    print $dirname . '/template/buecherregal_header.tmpl not existing, please rename ' . $dirname . '/template/buecherregal_header.tmpl_sample' . "\n";
+    die ERRORLOG $dirname . '/template/buecherregal_header.tmpl not existing, please rename ' . $dirname . '/template/buecherregal_header.tmpl_sample' . "\n";
+}
 
 #--------------------------
 # Templating structure
@@ -169,6 +179,10 @@ if ($html_web_path =~ m/^\/(.*?)\/$/) {
 } elsif ($html_web_path =~ m/^(.*?)\/$/) {
     $html_web_path = '/' . $1 . '/';
 }
+# prüfen ob html_web_path nur noch //
+if ($html_web_path =~ m/^\/\/$/) {
+    $html_web_path  = '/';
+}
 
 
 
@@ -239,6 +253,7 @@ GetOptions(
             "sourceebook|quellebook|ebook=s"        => \$pSourceFileEbook,
             # Errolog beim Starten loeschen
             "resetlog"                              => \$lresetlog,
+            "debug"                                 => \$debug,
           );
 
 #--------------------------------------------------------------
@@ -248,6 +263,7 @@ if ($lresetlog)
 {
     open( ERRORLOG, ">$log" ) or die "Kann nicht in $log schreiben $!\n";
     carpout (*ERRORLOG);
+    binmode(ERRORLOG, ':utf8');
     ERRORLOG->autoflush(1);
 };
 
@@ -270,8 +286,10 @@ my $cStatistikFile                          = 'log/' . "statistik.log";
 
 open( SOURCEPRINT, "<$SourceFilePrint" ) or die
     __LINE__ . " Kann SOURCE-PRINT $SourceFilePrint nicht oeffnen $!\n";
+#binmode(SOURCEPRINT, ':utf8');
 open( SOURCEEBOOK, "<$SourceFileEbook" ) or die
     __LINE__ . " Kann SOURCE-EBOOK $SourceFileEbook nicht oeffnen $!\n";
+#binmode(SOURCEEBOOK, ':utf8');
 
 
 if (-e $cKeinTrefferCacheFile) {
@@ -508,27 +526,36 @@ my $nTempIndex              = 0; # nur wg. Debugabbruch gesetzt
 # Für Tests
 if ($debug) {
     foreach my $akt (sort {
-                            $MedienDaten{$a}->{'RVK-1-buchstabe'} cmp
-                                $MedienDaten{$b}->{'RVK-1-buchstabe'} ||
-                            $MedienDaten{$a}->{'RVK-2-feingruppe'} <=>
-                                $MedienDaten{$b}->{'RVK-2-feingruppe'} ||
-                            $MedienDaten{$a}->{'RVK-3a-cutter1_buchstabe'} cmp
-                                $MedienDaten{$b}->{'RVK-3a-cutter1_buchstabe'} ||
-                            length($MedienDaten{$a}->{sortSignatur}) <=>
-                                length($MedienDaten{$b}->{sortSignatur}) ||
-                            $MedienDaten{$a}->{sortSignatur} cmp
-                                $MedienDaten{$b}->{sortSignatur} ||
-                            $MedienDaten{$a}->{sortTitle} cmp
-                                $MedienDaten{$b}->{sortTitle} ||
-                            $MedienDaten{$a}->{ebook} cmp
-                                $MedienDaten{$b}->{ebook}
-                          } (keys( %MedienDaten))) {
+                        $MedienDaten{$a}->{'RVK-1-buchstabe'} cmp
+                            $MedienDaten{$b}->{'RVK-1-buchstabe'}||
+                        $MedienDaten{$a}->{'RVK-2-feingruppe'} <=>
+                            $MedienDaten{$b}->{'RVK-2-feingruppe'}||
+                        $MedienDaten{$a}->{'RVK-3a-cutter1_buchstabe'} cmp
+                            $MedienDaten{$b}->{'RVK-3a-cutter1_buchstabe'}||
+                        $MedienDaten{$a}->{'RVK-3b-cutter1_zahl'} <=>
+                            $MedienDaten{$b}->{'RVK-3b-cutter1_zahl'}||
+                        length($MedienDaten{$a}->{sortSignatur}) <=>
+                            length($MedienDaten{$b}->{sortSignatur}) ||
+                        $MedienDaten{$a}->{sortSignatur} cmp
+                            $MedienDaten{$b}->{sortSignatur} ||
+                        $MedienDaten{$a}->{sortTitle} cmp
+                            $MedienDaten{$b}->{sortTitle} ||
+                        $MedienDaten{$a}->{aufl} cmp
+                            $MedienDaten{$b}->{aufl} ||
+                        $MedienDaten{$a}->{ebook} cmp
+                            $MedienDaten{$b}->{ebook}
+                      } (keys( %MedienDaten))) {
 
-        print ERRORLOG __LINE__ . " " . $akt . "\t" . "'" .
-            $MedienDaten{$akt}->{'RVK-1-buchstabe'} . "'\t'" .
-            $MedienDaten{$akt}->{'RVK-2-feingruppe'} . "'\t'" .
-            $MedienDaten{$akt}->{'RVK-3a-cutter1_buchstabe'} . "'\t'" .
-            $MedienDaten{$akt}->{'RVK-3b-cutter1_zahl'} ."'\n";
+        print ERRORLOG __LINE__ . " " . $akt . "\t" . "'";
+        print ERRORLOG $MedienDaten{$akt}->{'RVK-1-buchstabe'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'RVK-2-feingruppe'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'RVK-3a-cutter1_buchstabe'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'RVK-3b-cutter1_zahl'} . "'\t'";
+        print ERRORLOG length($MedienDaten{$akt}->{'sortSignatur'}) . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'sortSignatur'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'sortTitle'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'aufl'} . "'\t'";
+        print ERRORLOG $MedienDaten{$akt}->{'ebook'} . "'\n";
 
     };
     print ERRORLOG "-"x60, "\n";
@@ -554,6 +581,8 @@ foreach my $akt (sort {
                             $MedienDaten{$b}->{sortSignatur} ||
                         $MedienDaten{$a}->{sortTitle} cmp
                             $MedienDaten{$b}->{sortTitle} ||
+                        $MedienDaten{$a}->{aufl} cmp
+                            $MedienDaten{$b}->{aufl} ||
                         $MedienDaten{$a}->{ebook} cmp
                             $MedienDaten{$b}->{ebook}
                       } (keys( %MedienDaten))) {
@@ -1095,11 +1124,15 @@ sub LeseQuellDaten {
         #---------------------------------------------------
         if (length($aktZeile) > 2 ) {
 
-            #---------------------------------------------------
+            # Schalter hinzufügen für Alma / Aleph
+            #-------------------------------------------------------------------
+            # Da die Daten jetzt von Alma via API geholt werden wird dieser
+            # Abscnitt nicht mehr benötigt
+            #-------------------------------------------------------------------
             #in der URL ist teilweise ein "|" enthalten
             # diesen "|" wird jetzt in seine Hex-Entsprechung
             # umgewandelt (alle Treffer)
-            #---------------------------------------------------
+            #-------------------------------------------------------------------
             while ($aktZeile =~ m/http\:(.*?)\|/) {
                 $aktZeile =~ s/http\:(.*?)\|/http:$1%7C/;
             }
@@ -1808,24 +1841,41 @@ sub LeseQuellDaten {
                             #---------------------------------------------------
                             if ($lEbook) {
 
-                                # Beispiel: cofz , text , lb30 ,
-                                my @StatistikArray = split( /\,/, $fach );
                                 my $lFach   = $falsch;
 
-                                foreach my $aktStat (@StatistikArray) {
-                                    $aktStat =~ s/^\s//g;
-                                    $aktStat =~ s/\s$//g;
-                                    if ($aktStat =~ m/^lb(\d\d)/) {
-                                        $fach = $1;
-                                        #$lFach   = $falsch;
-                                        $lFach   = $wahr;
+                                if ($fach ne '') {
+                                        # bei Aleph und in den Beispielen startet dieses Feld (in Mannheim) mit "cofz , text , lb30  BSO ,"
+                                        if ($fach =~ m/^cofz(.*?)/) {
+                                            #-----------------------------------
+                                            # Aleph
+                                            #-----------------------------------
+                                            my @StatistikArray = split( /\,/, $fach );
 
-                                        if ($fach ne '') {
+                                            foreach my $aktStat (@StatistikArray) {
+                                                $aktStat =~ s/^\s//g;
+                                                $aktStat =~ s/\s$//g;
+                                                if ($aktStat =~ m/^lb(\d\d)/) {
+                                                    $fach = $1;
+                                                    $lFach   = $wahr;
+                                                    if ($fach ne '') {
+                                                        $Statistik{'fachgesamt'}{'mitfach'}++;
+                                                        $Statistik{'fach'}{$fach}++;
+                                                    };
+                                                };
+                                            }
+                                        } else {
+                                            #-----------------------------------
+                                            # Alma
+                                            #-----------------------------------
+
+                                            # New Version now only number
+                                            $lFach   = $wahr;
+
                                             $Statistik{'fachgesamt'}{'mitfach'}++;
                                             $Statistik{'fach'}{$fach}++;
                                         };
-                                    };
-                                }
+                                };
+
                                 if (!$lFach){
                                     $fach   = "";
                                 };
@@ -1835,16 +1885,6 @@ sub LeseQuellDaten {
                                 #-----------------------------------------------
                                 $fach   = $akt;
 
-                                #-----------------------------------------------
-                                # falsche Zuordnung bei Signaturen mit
-                                # Beginn "AP" korrigieren
-                                # egal welches Fach diese Buecher haben es soll
-                                # immer die 25 zugeordnet werden
-                                # wurde nicht aktiviert und nie verwendet!
-                                #-----------------------------------------------
-                                #if (substr($cAktSigWStatistikFehler,4,2) eq 'AP') {
-                                #    $fach = 25;
-                                #}
                                 if ($fach ne '') {
                                     $Statistik{'fachgesamt'}{'mitfach'}++;
                                     $Statistik{'fach'}{$fach}++;
@@ -2251,6 +2291,17 @@ sub LeseQuellDaten {
 
                         }
                     }
+                    #-----------------------------------------------------------
+                    elsif (     ($SpaltenName{ $nSpalte } eq 'Aufl.')
+                            and ($AlephIds{ $aktAlephID } < 2)){
+                        if ($akt ne '') {
+                            ${$MedienDaten}{$aktAlephID}->{aufl} = $akt;
+                        } else {
+                            ${$MedienDaten}{$aktAlephID}->{aufl} = '0';
+                        }
+                    }
+
+
                 }
 
                 $nSpalte++;

@@ -29,6 +29,7 @@
 
     $lTrust = CheckAllowed($_SERVER['HTTP_REFERER'],$_SERVER['REMOTE_ADDR']);
 
+    $lTrust = true;
     //------------------------------------------
     // Wenn aus dem booklist-Kontext aufgerufen
     // oder Testzugang
