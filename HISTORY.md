@@ -1,6 +1,8 @@
 ## History
 - 2019.04.01
   - if cover was not found on Open Library or Amazon further search on Google and Syndetics
+  - add Perl-Modul: JSON
+    - necessary for api for bookcover from Google
 
 - 2018.12.18
   - add Perl-Modul: File::Basename and Cwd
