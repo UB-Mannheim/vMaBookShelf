@@ -212,7 +212,7 @@ Depending on your setup, you might need to run this as an administrator!
 
 
 
-## Client where you like two show the Website
+## Client where you like to show the Website
 
 ### Firefox
 
