@@ -161,7 +161,7 @@ create a symbolic link
   * to:   /var/www/ds, or copy the script to a different server
 
 
-## Client where you like two test the Website
+## Client where you like to test the Website
 
 #### Download Node.js
 - https://nodejs.org/en/
