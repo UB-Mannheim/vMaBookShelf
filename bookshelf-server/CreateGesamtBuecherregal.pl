@@ -62,6 +62,8 @@ Template::Filters->use_html_entities;
 use HTML::Hyphenate;
 use Config::IniFiles qw( :all);
 use Business::ISBN;     # Umrechnen von ISBN 13 in ISBN 10
+use File::Basename;
+use Cwd;
 use JSON;               # wg. Google-Images
 
 
