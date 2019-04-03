@@ -1432,19 +1432,30 @@ sub LeseQuellDaten {
                         # nur 10-stellige ISBNs moeglich
                         # daher ggf. ISBN in 10 Stellige umwandeln
 
-                        print __LINE__ . " \$cIsbnOri: $cIsbnOri\n" if ($debug);
                         if (length($cIsbn) > 10) {
                             # 13 digit ISBNs
                             my $isbn13  = Business::ISBN->new($cIsbnOri);
-                            my $isbn10  = $isbn13->as_isbn10;   # Convert
-                            $cIsbn      = $isbn10->isbn;
-                            $cISBN13    = $isbn13->isbn;
-                            print ERRORLOG __LINE__ . " Konvertiere $cIsbnOri zu $cIsbn\n";
+                            # isbn13 ist nicht definiert wenn die $cIsbnOri nicht korrekt ist
+                            if (defined($isbn13)) {
+                                my $isbn10  = $isbn13->as_isbn10;   # Convert
+                                $cIsbn      = $isbn10->isbn;
+                                $cISBN13    = $isbn13->isbn;
+                                print ERRORLOG __LINE__ . " Konvertiere $cIsbnOri zu $cIsbn\n";
+                            } else {
+                                $cIsbn      = '';
+                                $cISBN13    = '';
+                            }
                         } elsif (length($cIsbn) > 0) {
                             my $isbn13  = Business::ISBN->new($cIsbnOri);
-                            my $isbn10  = $isbn13->as_isbn10;   # Convert
-                            $cIsbn      = $isbn10->isbn;
-                            $cISBN13    = '';
+                            # isbn13 ist nicht definiert wenn die $cIsbnOri nicht korrekt ist
+                            if (defined($isbn13)) {
+                                my $isbn10  = $isbn13->as_isbn10;   # Convert
+                                $cIsbn      = $isbn10->isbn;
+                                $cISBN13    = '';
+                            } else {
+                                $cIsbn      = '';
+                                $cISBN13    = '';
+                            }
                         } else {
                             $cIsbn      = '';
                             $cISBN13    = '';
@@ -2389,24 +2400,25 @@ sub LeseQuellDaten {
         print STATISTIK $akt . ":\t" . $Statistik{'sprache'}{$akt} . "\n";
     }
 
-    print STATISTIK "\n"x3;
-    print STATISTIK "Coverdownload von:\n";
-    # Statistik wieviele Covers wurden von wo geholt
-    print STATISTIK "OpenLibrary (nicht gefunden):" . $Statistik{'coverdownload'}{'openlibrary_00'} . "\n";
-    print STATISTIK "OpenLibrary (      gefunden):" . $Statistik{'coverdownload'}{'openlibrary_ok'} . "\n";
+    if (1==0) {
+        print STATISTIK "\n"x3;
+        print STATISTIK "Coverdownload von:\n";
+        # Statistik wieviele Covers wurden von wo geholt
+        print STATISTIK "OpenLibrary (nicht gefunden):" . $Statistik{'coverdownload'}{'openlibrary_00'} . "\n";
+        print STATISTIK "OpenLibrary (      gefunden):" . $Statistik{'coverdownload'}{'openlibrary_ok'} . "\n";
 
-    print STATISTIK "Amazon      (nicht gefunden):" . $Statistik{'coverdownload'}{'amazon_00'} . "\n";
-    print STATISTIK "Amazon      (      gefunden):" . $Statistik{'coverdownload'}{'amazon_ok'} . "\n";
+        print STATISTIK "Amazon      (nicht gefunden):" . $Statistik{'coverdownload'}{'amazon_00'} . "\n";
+        print STATISTIK "Amazon      (      gefunden):" . $Statistik{'coverdownload'}{'amazon_ok'} . "\n";
 
-    print STATISTIK "Google      (nicht gefunden):" . $Statistik{'coverdownload'}{'google_00'} . "\n";
-    print STATISTIK "Google      (      gefunden):" . $Statistik{'coverdownload'}{'google_ok'} . "\n";
+        print STATISTIK "Google      (nicht gefunden):" . $Statistik{'coverdownload'}{'google_00'} . "\n";
+        print STATISTIK "Google      (      gefunden):" . $Statistik{'coverdownload'}{'google_ok'} . "\n";
 
-    print STATISTIK "Syndetics   (nicht gefunden):" . $Statistik{'coverdownload'}{'syndetics_00'} . "\n";
-    print STATISTIK "Syndetics   (      gefunden):" . $Statistik{'coverdownload'}{'syndetics_ok'} . "\n";
+        print STATISTIK "Syndetics   (nicht gefunden):" . $Statistik{'coverdownload'}{'syndetics_00'} . "\n";
+        print STATISTIK "Syndetics   (      gefunden):" . $Statistik{'coverdownload'}{'syndetics_ok'} . "\n";
 
-    print STATISTIK "                    Books 00:" . $Statistik{'coverdownload'}{'books_00'} . "\n";
-    print STATISTIK "                   eBooks 00:" . $Statistik{'coverdownload'}{'ebooks_00'} . "\n";
-
+        print STATISTIK "                    Books 00:" . $Statistik{'coverdownload'}{'books_00'} . "\n";
+        print STATISTIK "                   eBooks 00:" . $Statistik{'coverdownload'}{'ebooks_00'} . "\n";
+    };
     # Statistik-Daten ausgeben Ende
 }
 
