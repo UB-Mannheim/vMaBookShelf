@@ -1,8 +1,15 @@
 ## History
-- 2019.04.01
-  - if cover was not found on Open Library or Amazon further search on Google and Syndetics
+- 2019.04.04
+  - Error Corrected
+    - insert again Perl-Modul: File::Basename and Cwd (Thanks to Thiemontz, Marcel)
+  - Check if isbn is ok, if not convert to empty isbn
+
+- 2019.04.01 (0.9.14)
+  - if cover was not found on Open Library or Amazon further search on Google and Syndetics (Thanks to Thiemontz, Marcel)
   - add Perl-Modul: JSON
     - necessary for api for bookcover from Google
+  - Error
+    - set tag 0.9.13 to older version
 
 - 2018.12.18
   - add Perl-Modul: File::Basename and Cwd
