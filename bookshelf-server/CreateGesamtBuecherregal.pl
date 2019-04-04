@@ -1151,6 +1151,7 @@ sub LeseQuellDaten {
                                                     # zurücksetzen
             my $lWgFehlerDelete         = $falsch;
             my $lWgFehlerDeleteReport   = $wahr;
+            my $cCSVFehlerType          = '';
             my $cAktSigWStatistikFehler = "";
             my $cKeyPrintBook           = "";
 
@@ -1193,6 +1194,7 @@ sub LeseQuellDaten {
                         # wenn die Anzahl der Spalten kleiner als erwartet ist
                         # muss dieser Datensatz verworfen werden.
                         $lWgFehlerDelete    = $wahr;
+                        $cCSVFehlerType     = 'Anzahl Spalten falsch';
                     };
 
                     # Unbehandelter Origianal-Inhalt der Spalte speichern
@@ -1351,8 +1353,9 @@ sub LeseQuellDaten {
                             # diese Titel können kommentarlos aus der
                             # Liste entfernt werden
                             $title = '-~-';
-                            $lWgFehlerDelete         = $wahr;
-                            $lWgFehlerDeleteReport   = $falsch;
+                            $lWgFehlerDelete        = $wahr;
+                            $lWgFehlerDeleteReport  = $falsch;
+                            $cCSVFehlerType         = 'Titel leer';
 
                         };
 
@@ -1444,6 +1447,13 @@ sub LeseQuellDaten {
                             } else {
                                 $cIsbn      = '';
                                 $cISBN13    = '';
+                                print ERRORLOG __LINE__ . " Fehler: $cIsbnOri scheint fehlerhaft zu sein, wird ignoriert!\n";
+
+                                # ISBN fehlerhaft
+                                # Protokollieren des Fehlers damit der Datensatz korrigiert werden kann
+                                open( CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error schreiben $!\n";
+                                print CSVERRORLOG "Fehler (isbn): " . $aktZeile . "\n";
+                                close CSVERRORLOG;
                             }
                         } elsif (length($cIsbn) > 0) {
                             my $isbn13  = Business::ISBN->new($cIsbnOri);
@@ -1455,6 +1465,13 @@ sub LeseQuellDaten {
                             } else {
                                 $cIsbn      = '';
                                 $cISBN13    = '';
+                                print ERRORLOG __LINE__ . " Fehler: $cIsbnOri scheint fehlerhaft zu sein, wird ignoriert!\n";
+
+                                # ISBN fehlerhaft
+                                # Protokollieren des Fehlers damit der Datensatz korrigiert werden kann
+                                open( CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error schreiben $!\n";
+                                print CSVERRORLOG "Fehler (isbn): " . $aktZeile . "\n";
+                                close CSVERRORLOG;
                             }
                         } else {
                             $cIsbn      = '';
@@ -2044,6 +2061,7 @@ sub LeseQuellDaten {
                                 # ein Fehler beim Verlinken passiert, deshalb
                                 # muss dieser Datensatz verworfen werden.
                                 $lWgFehlerDelete    = $wahr;
+                                $cCSVFehlerType     = 'URL bei ebook leer';
                             }
                         }
                     #-----------------------------------------------------------
@@ -2290,6 +2308,7 @@ sub LeseQuellDaten {
                             # deshalb muss dieser Datensatz verworfen werden.
                             #---------------------------------------------------
                             $lWgFehlerDelete    = $wahr;
+                            $cCSVFehlerType     = 'Signatur leer';
                         }
                     #-----------------------------------------------------------
                     } elsif (     ($SpaltenName{ $nSpalte } eq 'SPRACHE')
@@ -2342,7 +2361,7 @@ sub LeseQuellDaten {
                     if ($lWgFehlerDeleteReport) {
                         # Protokollieren des Fehlers damit der Datensatz korrigiert werden kann
                         open( CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error schreiben $!\n";
-                        print CSVERRORLOG "Fehler in: " . $aktZeile . "\n";
+                        print CSVERRORLOG "Fehler (" . $cCSVFehlerType . "): " . $aktZeile . "\n";
                         close CSVERRORLOG;
                     };
 
