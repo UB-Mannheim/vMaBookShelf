@@ -1487,7 +1487,7 @@ sub LeseQuellDaten {
                         # 3. Ist das Cover abrufbar
                         # wenn nicht 1 oder 2 dann keine ISBN ausgeben,
                         if ($cISBN13 ne '') {
-                            if (!exists($KeineTrefferCache{$cISBN13})) {
+                            #if (!exists($KeineTrefferCache{$cISBN13})) {
                                 # Prüfe auf die eigene isbn
                                 ($lCover,
                                     $cGrafikName,
@@ -1504,11 +1504,11 @@ sub LeseQuellDaten {
                                         $cAktCoverTyp = 'openlibrary';
                                         print $cIsbn . " ";
                                     }
-                            };
+                            #};
                         };
                         if (!$lCover) {
                             if (($cIsbn ne $cISBN13) and ($cIsbn ne '')) {
-                                if (!exists($KeineTrefferCache{$cIsbn})) {
+                                #if (!exists($KeineTrefferCache{$cIsbn})) {
                                     # Prüfe auf die eigene isbn
                                     ($lCover,
                                         $cGrafikName,
@@ -1524,7 +1524,7 @@ sub LeseQuellDaten {
                                             $cAktCoverTyp = 'openlibrary';
                                             print $cIsbn . " ";
                                         }
-                                };
+                                #};
                             };
                         }
 
@@ -1541,7 +1541,7 @@ sub LeseQuellDaten {
                             # wenn nicht 1 oder 2 dann keine ISBN ausgeben,
                             # ev. als irgendwas damit Suche in Aleph möglich ist
                             if ($cIsbn ne '') {
-                                if (!exists($KeineTrefferCache{$cIsbn})) {
+                                #if (!exists($KeineTrefferCache{$cIsbn})) {
                                     # Prüfe auf die eigene isbn
                                     ($lCover,
                                     $cGrafikName,
@@ -1557,14 +1557,14 @@ sub LeseQuellDaten {
                                         $cAktCoverTyp = 'amazon';
                                         print $cIsbn . " ";
                                     }
-                                }
+                                #}
                             }
                         }
 
                         # Google
                         if (!$lCover) {
                             if ($cISBN13 ne '') {
-                                if (!exists($KeineTrefferCache{$cISBN13})) {
+                                #if (!exists($KeineTrefferCache{$cISBN13})) {
                                     # bei google prüfen ob ein Cover heruntergeholt
                                     # werden kann
                                     # 1. Liegt das Cover schon vor (gecached)
@@ -1587,12 +1587,12 @@ sub LeseQuellDaten {
                                             $cAktCoverTyp = 'google';
                                             print $cIsbn . " ";
                                         }
-                                };
+                                #};
                             };
 
                             if (!$lCover) {
                                 if (($cIsbn ne $cISBN13) and ($cIsbn ne '')) {
-                                    if (!exists($KeineTrefferCache{$cIsbn})) {
+                                    #if (!exists($KeineTrefferCache{$cIsbn})) {
                                         # Prüfe auf die eigene isbn
                                         ($lCover,
                                             $cGrafikName,
@@ -1608,7 +1608,7 @@ sub LeseQuellDaten {
                                                 $cAktCoverTyp = 'google';
                                                 print $cIsbn . " ";
                                             }
-                                    };
+                                    #};
                                 };
                             }
                         };
@@ -1616,7 +1616,7 @@ sub LeseQuellDaten {
                         # Syndetics
                         if (!$lCover) {
                             if ($cISBN13 ne '') {
-                                if (!exists($KeineTrefferCache{$cISBN13})) {
+                                #if (!exists($KeineTrefferCache{$cISBN13})) {
                                     # bei syndetics prüfen ob ein Cover heruntergeholt
                                     # werden kann
                                     # 1. Liegt das Cover schon vor (gecached)
@@ -1639,12 +1639,12 @@ sub LeseQuellDaten {
                                             $cAktCoverTyp = 'syndetics';
                                             print $cIsbn . " ";
                                         }
-                                };
+                                #};
                             };
 
                             if (!$lCover) {
                                 if (($cIsbn ne $cISBN13) and ($cIsbn ne '')) {
-                                    if (!exists($KeineTrefferCache{$cIsbn})) {
+                                    #if (!exists($KeineTrefferCache{$cIsbn})) {
                                         # Prüfe auf die eigene isbn
                                         ($lCover,
                                             $cGrafikName,
@@ -1660,7 +1660,7 @@ sub LeseQuellDaten {
                                                 $cAktCoverTyp = 'syndetics';
                                                 print $cIsbn . " ";
                                             }
-                                    };
+                                    #};
                                 };
                             }
                         };
@@ -1695,8 +1695,10 @@ sub LeseQuellDaten {
                                     $ThumbnailMtime;
                             }
                         } else {
-                            print ERRORLOG '  ' . 'isbn ohne Grafik ' .
-                                $cIsbn . "\n";
+                            print ERRORLOG '  ' . 'isbn ohne Grafik isbn: ' .
+                                $cIsbn . '  \$aktAlephID: ' . $aktAlephID . ' Author: ' . ${$MedienDaten}{$aktAlephID}->{authors} . ' Titel: ' . ${$MedienDaten}{$aktAlephID}->{title} . "\n";
+
+
                             print "$cIsbnOri\tkein IMAGE (book)";
                             $KeineTrefferCache{ $cIsbn } = $cIsbn;
 
@@ -1733,7 +1735,7 @@ sub LeseQuellDaten {
                                         #print ERRORLOG __LINE__ . " " . $PrintAlephId . " " ;
                                         #print ERRORLOG ${$MedienDaten}{$PrintAlephId}->{'isbn'} . "\n";
                                         if ($cPrintIsbn ne "") {
-                                            if (!exists($KeineTrefferCache{$cPrintIsbn})) {
+                                            #if (!exists($KeineTrefferCache{$cPrintIsbn})) {
 
                                                 # Jetzt prüfen ob eine Thumbnail für
                                                 # dieses Buch vorliegt
@@ -1822,7 +1824,7 @@ sub LeseQuellDaten {
                                                     print "$cIsbn\tkein IMAGE (ebook)";
                                                     $KeineTrefferCache{ $cIsbn } = $cIsbn;
                                                 };
-                                            }
+                                            #}
                                         }
                                     }
                                 }
@@ -2466,6 +2468,7 @@ sub PruefeCover {
     #---------------------------------------------------------------------------
     if ($cType eq 'openlibrary') {
         $URL    = 'http://covers.openlibrary.org/b/isbn/' . $cISBN . '-M.jpg';
+        print ERRORLOG $cType . ": " . $URL . "\n";
 
     #---------------------------------------------------------------------------
     # Einstellungen für amazon
@@ -2474,6 +2477,7 @@ sub PruefeCover {
         $URL    = 'http://images.amazon.com/images/P/' .
                     $cISBN .
                     '.01._SCLZZZZZZZ_.jpg';
+        print ERRORLOG $cType . ": " . $URL . "\n";
 
     #---------------------------------------------------------------------------
     # Einstellungen für google
@@ -2481,6 +2485,7 @@ sub PruefeCover {
     } elsif ($cType eq 'google') {
         $URL    = 'https://www.googleapis.com/books/v1/volumes?q=isbn:' .
                    $cISBN;
+        print ERRORLOG $cType . ": " . $URL . "\n";
 
 
     #---------------------------------------------------------------------------
@@ -2491,6 +2496,7 @@ sub PruefeCover {
                    $cISBN .
                    ';/LC.JPG&client=primo';     # Larger
 #                   ';/SC.JPG&client=primo';    # very small
+        print ERRORLOG $cType . ": " . $URL . "\n";
 
     } else {
         # Parameter nicht das erwartete Format
