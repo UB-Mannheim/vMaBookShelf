@@ -1,8 +1,17 @@
 ## History
+- 2019.04.09
+  - Error Corrected
+    - remove not correct working KeineTrefferCache. Now more covers are found.
+    - remove some error messages
+      - no errormessage if fach is empty
+  - ToDo
+    - handling the error message in errorlog when sorting titles without a signature (or RVK Signature) in eboob.csv.
+
 - 2019.04.04
   - Error Corrected
     - insert again Perl-Modul: File::Basename and Cwd (Thanks to Thiemontz, Marcel)
   - Check if isbn is ok, if not convert to empty isbn
+  - Better messages in log if error in record
 
 - 2019.04.01 (0.9.14)
   - if cover was not found on Open Library or Amazon further search on Google and Syndetics (Thanks to Thiemontz, Marcel)

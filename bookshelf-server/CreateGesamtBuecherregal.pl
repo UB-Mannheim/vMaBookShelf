@@ -1695,8 +1695,16 @@ sub LeseQuellDaten {
                                     $ThumbnailMtime;
                             }
                         } else {
+                            my $cAuthors    = '';
+                            my $cTitle      = '';
+                            if (exists(${$MedienDaten}{$aktAlephID}->{authors})) {
+                                $cAuthors   = ${$MedienDaten}{$aktAlephID}->{authors};
+                            }
+                            if (exists(${$MedienDaten}{$aktAlephID}->{title})) {
+                                $cTitle     = ${$MedienDaten}{$aktAlephID}->{title};
+                            }
                             print ERRORLOG '  ' . 'isbn ohne Grafik isbn: ' .
-                                $cIsbn . '  \$aktAlephID: ' . $aktAlephID . ' Author: ' . ${$MedienDaten}{$aktAlephID}->{authors} . ' Titel: ' . ${$MedienDaten}{$aktAlephID}->{title} . "\n";
+                                $cIsbn . '  \$aktAlephID: ' . $aktAlephID . ' Author: ' . $cAuthors . ' Titel: ' . $cTitle . "\n";
 
 
                             print "$cIsbnOri\tkein IMAGE (book)";
@@ -2395,30 +2403,32 @@ sub LeseQuellDaten {
     close KEINTREFFER;
 
     # Statistik-Daten ausgeben
-    print STATISTIK "Anzahl Medien:           " .
-        $Statistik{'fachgesamt'}{'medien'} . "\n";
-    print STATISTIK "Anzahl Medien mit Fach:  " .
-        $Statistik{'fachgesamt'}{'mitfach'} . "\n";
-    print STATISTIK "Anzahl Medien ohne Fach: " .
-        ($Statistik{'fachgesamt'}{'medien'} -
-            $Statistik{'fachgesamt'}{'mitfach'}) . "\n";
+    if (exists($Statistik{'fachgesamt'})) {
+        print STATISTIK "Anzahl Medien:           " .
+            $Statistik{'fachgesamt'}{'medien'} . "\n";
+        print STATISTIK "Anzahl Medien mit Fach:  " .
+            $Statistik{'fachgesamt'}{'mitfach'} . "\n";
+        print STATISTIK "Anzahl Medien ohne Fach: " .
+            ($Statistik{'fachgesamt'}{'medien'} -
+                $Statistik{'fachgesamt'}{'mitfach'}) . "\n";
 
-    foreach my $akt (sort( keys( %{$Statistik{'fach'}} ) ) ) {
-        print STATISTIK $akt . ":\t" . $Statistik{'fach'}{$akt} . "\n";
-    }
+        foreach my $akt (sort( keys( %{$Statistik{'fach'}} ) ) ) {
+            print STATISTIK $akt . ":\t" . $Statistik{'fach'}{$akt} . "\n";
+        }
 
-    print STATISTIK "\n"x2;
+        print STATISTIK "\n"x2;
 
-    print STATISTIK "Anzahl Medien:              " .
-        $Statistik{'fachgesamt'}{'medien'} . "\n";
-    print STATISTIK "Anzahl Medien  mit Sprache: " .
-        $Statistik{'sprachegesamt'}{'mitsprache'} . "\n";
-    print STATISTIK "Anzahl Medien ohne Sprache: " .
-        ($Statistik{'fachgesamt'}{'medien'} -
-            $Statistik{'sprachegesamt'}{'mitsprache'}) . "\n";
+        print STATISTIK "Anzahl Medien:              " .
+            $Statistik{'fachgesamt'}{'medien'} . "\n";
+        print STATISTIK "Anzahl Medien  mit Sprache: " .
+            $Statistik{'sprachegesamt'}{'mitsprache'} . "\n";
+        print STATISTIK "Anzahl Medien ohne Sprache: " .
+            ($Statistik{'fachgesamt'}{'medien'} -
+                $Statistik{'sprachegesamt'}{'mitsprache'}) . "\n";
 
-    foreach my $akt (sort( keys( %{$Statistik{'sprache'}} ) ) ) {
-        print STATISTIK $akt . ":\t" . $Statistik{'sprache'}{$akt} . "\n";
+        foreach my $akt (sort( keys( %{$Statistik{'sprache'}} ) ) ) {
+            print STATISTIK $akt . ":\t" . $Statistik{'sprache'}{$akt} . "\n";
+        }
     }
 
     if (1==0) {
