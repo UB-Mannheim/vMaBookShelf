@@ -1,7 +1,13 @@
 ## History
-- 2019.05.09
+- 2019.05.09 (0.9.16)
     - add to install.md:
       - info about use of LWP::Protocol::https (Thanks to Thiemontz, Marcel <marcel.thiemontz@uni-due.de>)
+    - reorganisation of booklist.ini
+        - new parameter [URL] protokoll
+        - moved html_web_path from [PATH] to [URL]
+    - when replacing | in URLs now also considered https-urls
+    - add example csv for books if only eBooks needed
+    - year changed for copyright in some places
 
 - 2019.04.09 (0.9.15)
   - Error Corrected

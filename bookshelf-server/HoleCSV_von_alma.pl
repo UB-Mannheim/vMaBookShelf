@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #-------------------------------------------------------------------------------
-# Copyright (C) 2018 Universitätsbibliothek Mannheim
+# Copyright (C) 2019 Universitätsbibliothek Mannheim
 # Name:
 #       HoleCSV_von_alma.pl
 # Author:
@@ -179,7 +179,7 @@ if (!$lEbooks) {
     $collection    = $ebookCollection;
 
     #---------------------------------------------------------------
-    # bei ebooks wird die csv-Datei der bücher eingelesen um das 
+    # bei ebooks wird die csv-Datei der bücher eingelesen um das
     # Fach (Statistikkennzahl) und die Signatur übernehmen zu können
     #---------------------------------------------------------------
 
@@ -187,13 +187,13 @@ if (!$lEbooks) {
     # Read/parse CSV
     my $csv = Text::CSV_XS->new ({ binary => 1, auto_diag => 1, sep_char=> "|", allow_loose_quotes => 1 });
     open my $fh, "<:encoding(utf8)", $SourceFilePrint or die "$SourceFilePrint: $!";
-    
+
     my $nIndex = 0;
     while (my $row = $csv->getline($fh)) {
 
         my @fields = @$row;
         $nIndex++;
-        
+
         #if ($nIndex == '662') {
         #    sleep(1);
         #};
@@ -213,10 +213,10 @@ if (!$lEbooks) {
                              ,'Signatur'    => $fields[8]
                              ,'Fach'        => $fields[9]
                             };
-                            
+
             # last index of array
             my $nBookIndex = $#BookData;
-            
+
             # Daten des Buches speichern
             # Index ist Signatur damit geprüft werden
             # kann für welche Bücher es ein eBook gibt
@@ -332,7 +332,7 @@ do {
                 # ebook ohne Zuordnung zu Titel
                 sleep(1);
             } elsif ($thisRecord->{'mms_id'} == '990016274380402561') {
-                # ebook ohne Zuordnung zu Titel 
+                # ebook ohne Zuordnung zu Titel
                 # müsste aber über die isbn klappen
                 #990016029750402561|Forster, Otto|Analysis.|11., erw. Aufl.|2013|9783658003166|ger|Springer Spektrum|120 SK 400 F734-1(11)|11
                 #990016274380402561|Forster, Otto|Analysis 1 Differential- und Integralrechnung einer VerÃ¤nderlichen|11., erw. Aufl. 2013||9783658003166|ger|01|ZZ 999 Z9999|https://primo.bib.uni-mannheim.de/primo-explore/search?tab=default_tab&search_scope=MAN_ALMA&vid=MAN_UB&lang=de_DE&offset=0&query=any,contains,990016274380402561
@@ -345,7 +345,7 @@ do {
             } else {
                 sleep(1);
             };
-            
+
             #print $nBookNr . ": " . $thisRecord->{'mms_id'} . "\n";
 
             #------------------------------------------------------------------------------
@@ -395,11 +395,11 @@ do {
                     foreach my $aktRecord (@{$holdings->{'holding'}}) {
                         my $thisRecordHolding = readRecordStufe2($aktRecord);
                         if ($thisRecordHolding->{'location_id'} eq $Frage_location_id ) {
-                            
+
                             # bisher diese Infos in das Hash eingefügt
                             # zukünftig muss das in ein Array innerhalb des Hashes eingefügt werden
                             # damit verschiedene Auflagen behandelt werden können
-                                                        
+
                             # kann später wegfallen 24.10.2018 Ft
                             $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $thisRecordHolding->{'call_number'};
                             # diese Feld ist notwendig, da es sich zwischen den Auflagen nicht unterscheidet
@@ -409,7 +409,7 @@ do {
                             if ($thisRecordHolding->{'call_number'} eq '120 PD 3006 B734(3)') {
                                 sleep(1);
                             }
-                            
+
 
                             # neu 24.10.2018 Ft
                             push(@{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}, {
@@ -417,12 +417,12 @@ do {
                                     'holding_id'    => $thisRecordHolding->{'holding_id'},
                                     'auflage'       => $holdings->{'bib_data'}[0]->{'complete_edition'}[0]
                                                                                      });
-                            
-                            
+
+
                             last;
                         }
                     }
-                    
+
                     # kann später wegfallen 24.10.2018 Ft
                     # Weitere Daten holen
                     $AddInfos{ $thisRecord->{'mms_id'} }->{'auflage'} = $holdings->{'bib_data'}[0]->{'complete_edition'}[0];
@@ -486,15 +486,15 @@ do {
                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'} 	= $thisRecordBookDetails->{'statistik'};
                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'pid'} 		    = $thisRecordBookDetails->{'pid'};
                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'barcode'} 	    = $thisRecordBookDetails->{'barcode'};
-                                
-                                
+
+
                                 # Daten jetzt an ausgabe Array ergänzen
                                 #${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}[$#${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgabe'}}->{'type'} = $thisRecordBookDetails->{'type'};
                                 ${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}[$#{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}]->{'type'}         = $thisRecordBookDetails->{'type'};
                                 ${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}[$#{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}]->{'statistik'}    = $thisRecordBookDetails->{'statistik'};
                                 ${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}[$#{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}]->{'pid'}          = $thisRecordBookDetails->{'pid'};
                                 ${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}[$#{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}]->{'barcode'}      = $thisRecordBookDetails->{'barcode'};
-                                
+
                                 # Wenn Statisik leer ist handelt es sich um eine neue Bestellung
                                 # hier muss die Statistik-Gruppe aus den Bestellposten abgefragt werden
                                 # Mail von Bettina 29.10.2018 16:54
@@ -503,12 +503,12 @@ do {
                                 # Quelle für Verknüpungsid In der 3. Anfrage taucht das Feld
                                 #'po_line' => [
                                 #        '161837'
-                                #      ], 
-                                
+                                #      ],
+
                                 if ($thisRecordBookDetails->{'statistik'} eq "") {
-                                    
+
                                     if ($thisRecordBookDetails->{'po_line'} ne '') {
-                                    
+
                                         #########################################
                                         # Jetzt Bestellposten anfangen
                                         #########################################
@@ -529,7 +529,7 @@ do {
                                             print ERRORLOG "\tAnfrageBestellposten: " . $cAnfrageBestellposten . "\n";
 
                                         } else {
-                                            
+
                                             my $xmlBestellposten = $responsebestpost->content;
 
 
@@ -539,16 +539,16 @@ do {
 
                                             # aus Bestellposten ermittelte Statistik speichern
                                             if (ref($BestellDetails->{'secondary_reporting_code'}[0]) eq 'HASH') {
-                                                # Fehler wenn Hash Ursache klären! Tritt z.B. bei 
+                                                # Fehler wenn Hash Ursache klären! Tritt z.B. bei
                                                 #} elsif ($thisRecord->{'mms_id'} == '990005935980402561') { auf
 
                                             } else {
-                                            
+
                                                 $thisRecordBookDetails->{'statistik'} = $BestellDetails->{'secondary_reporting_code'}[0];
                                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'} 	= $thisRecordBookDetails->{'statistik'};
                                                 ${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}[$#{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}]->{'statistik'}    = $thisRecordBookDetails->{'statistik'};
                                             }
-                                            
+
                                         };
                                         #########################################
                                         # Jetzt Bestellposten ende
@@ -622,7 +622,7 @@ do {
 
                                     $AddInfos{ $thisRecord->{'mms_id'} }->{'jahr'} = $thisRecordBookDetails->{'year'};
                                     $AddInfos{ $thisRecord->{'mms_id'} }->{'sprache'} = $thisRecordBookDetails->{'language'};
-                                    
+
                                     ${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}[$#{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}]->{'jahr'} = $thisRecordBookDetails->{'year'};
                                     ${$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}[$#{$AddInfos{ $thisRecord->{'mms_id'} }->{'ausgaben'}}]->{'sprache'} = $thisRecordBookDetails->{'language'};
                                 }
@@ -678,7 +678,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                         }
                     }
                 }
-                
+
             #ende if (!$lEbooks)
             } else {
 
@@ -699,12 +699,12 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                 #   <is_standalone>false</is_standalone>
                 #   <resource_metadata>...</resource_metadata>
                 #   <electronic_collection>...</electronic_collection>
-                #   <availability desc="Not Available">10</availability>    <== 
+                #   <availability desc="Not Available">10</availability>    <==
                 # or
                 #   <availability desc="Available">11</availability>        <==
                 #</portfolio>
                 #</portfolios>
-                
+
                 my $lAvailability   = $falsch;
 
                 my $cAnfragePortfolios = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
@@ -715,7 +715,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                 print $cAnfragePortfolios . "\n";
                 print ERRORLOG $cAnfragePortfolios . "\n";
                 print ERRORLOG "--------------------------------------------------\n";
-                
+
                 my $responsePortfolios = $ua2->request(
                     HTTP::Request->new(
                     GET => $cAnfragePortfolios ));
@@ -754,7 +754,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                     # jetzt mit den Daten Weiterarbeiten und die Zweite Stufe holen
                     # 2. Anfrage
                     # Daten bibs ermitteln
-                    #--------------------------------------------------------------------------------                
+                    #--------------------------------------------------------------------------------
                     my $cAnfrage2 = 'https://api-eu.hosted.exlibrisgroup.com/almaws/v1/bibs/' .
                             $thisRecord->{'mms_id'} .
                             '?apikey=' . $apiKey;
@@ -788,8 +788,8 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
 
                         # Auflage
                         $AddInfos{ $thisRecord->{'mms_id'} }->{'auflage'} = $bibliograph->{'complete_edition'}[0];
-                        
-                    
+
+
 
                         # Jahr
                         # Sprache
@@ -803,11 +803,11 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                         #                                                        1234567890123
                         my $isbn_10         = '';   # Langform der ISBN 10 z.B. '3-7910-3705-6'
                         my $isbn_10_kompakt = '';   # Kompaktform der ISBN 10 ohne '-'
-                        
+
                         my %PrintParent     = ();
                         my $lPrintParent    = $falsch;
                         my $aIndexData775776 = 0;
-                        
+
 
                         foreach my $akt (sort( keys($bibliograph->{'record'}[0]->{'datafield'}))) {
                             print $akt . ': ' . $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} . "\n" if ($debug);
@@ -838,7 +838,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
 
                             #---------------------------------
                             # auch erschienen unter 776 ev. aber auch 775?? 101 Fragen und Antworten im Vorstellung
-                            # 776 muss nur durchsucht werden wenn in 775 noch nichts gefunden wurde 
+                            # 776 muss nur durchsucht werden wenn in 775 noch nichts gefunden wurde
                             #---------------------------------
                             if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '775') || ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') and !$lPrintParent ) {
 
@@ -854,7 +854,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                             $lPrintParent = $wahr;
                                         }
                                     } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'i') {
-                                        if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Buchausg. u.d.T.') || 
+                                        if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Buchausg. u.d.T.') ||
                                             ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Erscheint auch als') ||
                                             ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Druckausg.')) {
                                             $lPrintParent = $wahr;
@@ -871,7 +871,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                             $PrintParent{'author'} = $tempAutor;
                                         };
                                         $lPrintParent = $wahr;
-                                        
+
 
                                     # Titel
                                     } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 't') {
@@ -880,13 +880,13 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                         # ggf. damit einen Treffer versuchen. Ev. auch nicht die volle Länge!
                                         $PrintParent{'title_ohne_satzzeichen'}  = $PrintParent{'title'};
                                         $PrintParent{'title_ohne_satzzeichen'} =~ s/[\.\;\:]//g;
-                                        
+
                                         $lPrintParent = $wahr;
 
                                     # ISBN 10/13
                                     } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'z') {
                                         $lPrintParent = $wahr;
-                                            
+
                                         # ggf. sind mehr als eine ISBN abfragbar
                                         # isbn 13 mit '-'
                                         if (length($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'}) == 17) {
@@ -911,16 +911,16 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                     #-------------------------------------------------------
 
                                     #=====================================================
-                                    # Wenn in den Verknüpungsinformationen kein Autor ... 
+                                    # Wenn in den Verknüpungsinformationen kein Autor ...
                                     # aufgeführt wird mit den original-Daten auffüllen
                                     #$PrintParent{'title_ohne_satzzeichen'}
                                     #=====================================================
                                     if (!exists($PrintParent{'author'})) {
                                         $PrintParent{'author'} = $aktRecord->{'author'}[0];
                                     };
-                                    
-                                    
-                                    
+
+
+
                                     my $lTreffer = $falsch;
 
                                     # prüfen ob die Daten in %PrintParent in @BookData gefunden werden können
@@ -928,17 +928,17 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                     #Aleph-ID|Autor|Titel|Aufl.|Jahr|ISBN|SPRACHE|Publisher|Signatur|Fach
                                     foreach my $aktBookData (@BookData) {
                                         #print $aktBookData . "\n";
-                                        
+
                                         my $cTitleOhneSatzzeichen = $aktBookData->{'Titel'};
                                         $cTitleOhneSatzzeichen =~ s/[\.\;\:]//g;
-                                        
-                                        if ((exists($PrintParent{'title'}) && lc($aktBookData->{'Titel'}) eq lc($PrintParent{'title'})) || 
+
+                                        if ((exists($PrintParent{'title'}) && lc($aktBookData->{'Titel'}) eq lc($PrintParent{'title'})) ||
                                             (exists($PrintParent{'title_ohne_satzzeichen'}) && lc($cTitleOhneSatzzeichen) eq lc($PrintParent{'title_ohne_satzzeichen'}))
                                         ) {
                                             if (exists($PrintParent{'author'}) && ($aktBookData->{'Autor'} eq $PrintParent{'author'}) || $aktBookData->{'Autor'} eq '' ) {
 
                                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
-                                                
+
                                                 # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " ==> LKZ abgeschnitten
                                                 my $tempSig   = $aktBookData->{'Signatur'};
                                                 $tempSig  =~ m/^
@@ -954,18 +954,18 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
 
                                                 # Match / Treffer
                                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
-                                                
+
                                                 # für dieses Buch gibt es ein eBook
                                                 $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
                                                 $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
                                                 $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
-                                                
+
                                                 $lTreffer = $wahr;
                                                 last;
                                             }
                                         }
                                     }
-                                    
+
                                     # Wenn kein Treffer
                                     # Jetzt mit der isbn_10/13 oder isbn_10/13_kompakt versuchen
                                     if (!$lTreffer){
@@ -973,29 +973,29 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                             my $lTrefferIsbn = $falsch;
                                             if (exists($PrintParent{'isbn_13'}) && exists($PrintParent{'isbn_10'})) {
                                                 if (
-                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
-                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'})) || 
-                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) ||
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'})) ||
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) ||
                                                     (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'})) ) {
                                                     $lTrefferIsbn   = $wahr;
                                                 }
                                             } elsif (exists($PrintParent{'isbn_13'})) {
                                                 if (
-                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) ||
                                                     (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'}))) {
                                                     $lTrefferIsbn   = $wahr;
                                                 }
                                             } elsif (exists($PrintParent{'isbn_10'})) {
                                                 if (
-                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
+                                                    (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) ||
                                                     (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'}))) {
                                                     $lTrefferIsbn   = $wahr;
                                                 }
                                             }
-                                            
+
                                             if ($lTrefferIsbn) {
                                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
-                                                
+
                                                 # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " => LKZ abgeschnitten
                                                 my $tempSig   = $aktBookData->{'Signatur'};
                                                 $tempSig  =~ m/^
@@ -1011,12 +1011,12 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
 
                                                 # Match / Treffer
                                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = $tempSig;
-                                                
+
                                                 # für dieses Buch gibt es ein eBook
                                                 $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
                                                 $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
                                                 $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
-                                                
+
                                                 $lTreffer = $wahr;
                                                 last;
 
@@ -1026,15 +1026,15 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                 };   # if ($lPrintParent) {
                             }; #if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '775') || ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') and !$lPrintParent ) {
                         };  #foreach my $akt (sort( keys($bibliograph->{'record'}[0]->{'datafield'}))) {
-                        
-                        
 
 
 
-                        # Prüfen ob Daten nachgetragen werden können, 
+
+
+                        # Prüfen ob Daten nachgetragen werden können,
                         # das müsste ev. noch verschoben werden!
                         if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
-                            
+
                             # macht nur Sinn wenn ein PrintParent entdeckt wurde
                             if ($lPrintParent) {
                                 #-----------------------------------------------------------------------------------
@@ -1050,30 +1050,30 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                     my $lTrefferIsbn = $falsch;
                                     if (exists($PrintParent{'isbn_13'}) && exists($PrintParent{'isbn_10'})) {
                                         if (
-                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
-                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'})) || 
-                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) ||
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'})) ||
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) ||
                                             (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'})) ) {
                                             $lTrefferIsbn   = $wahr;
                                         }
                                     } elsif (exists($PrintParent{'isbn_13'})) {
                                         if (
-                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) || 
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13'})) ||
                                             (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_13_kompakt'}))) {
                                             $lTrefferIsbn   = $wahr;
                                         }
                                     } elsif (exists($PrintParent{'isbn_10'})) {
                                         if (
-                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) || 
+                                            (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10'})) ||
                                             (lc($aktBookData->{'ISBN'}) eq lc($PrintParent{'isbn_10_kompakt'}))) {
                                             $lTrefferIsbn   = $wahr;
                                         }
                                     }
-                                    
+
                                     if ($lTrefferIsbn) {
 
                                         $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = $aktBookData->{'Fach'};
-                                        
+
                                         # Achtung die Signatur wird etwas bearbeitet und zwar wird die "120 " ==> LKZ abgeschnitten
                                         my $tempSig   = $aktBookData->{'Signatur'};
                                         $tempSig  =~ m/^
@@ -1101,7 +1101,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                 #--------------------------------------------------------------------
                                 # trotdem mit der isbn suchen, manchmal liefert das einen Treffer
                                 #--------------------------------------------------------------------
-                                
+
                                 foreach my $aktBookData (@BookData) {
                                     #print $aktBookData . "\n";
 
@@ -1128,34 +1128,34 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                         $hBookData{$aktBookData->{'Signatur'}}->{'alsEBook'}    = $wahr;
                                         $hBookData{$aktBookData->{'Signatur'}}->{'data'}        = $AddInfos{ $thisRecord->{'mms_id'} };
                                         $hBookData{$aktBookData->{'Signatur'}}->{'dataLink'}    = $thisRecord->{'mms_id'};
-                                        
+
                                     };  # if (lc($aktBookData->{'ISBN'}) eq lc($AddInfos{ $thisRecord->{'mms_id'} }->{'isbn'})) {
                                 };   # foreach my $aktBookData (@BookData) {
                             };   # if ($lPrintParent) { / else
-                            
-                            
+
+
                             # zweiter Test, ist Signatur immer noch leer?
                             # Dann Zuordnung einer Temporären Signatur am Ende
                             if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
                                 $nBooksWithoutMatch++;
                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'}   = 'ZZ 999 Z9999';
                                 $AddInfos{ $thisRecord->{'mms_id'} }->{'statistik'}     = '01';
-                                
+
                                 # Fehlermeldung um Daten anreichern
-                                
+
 
                                 # Debugging
                                 print ERRORLOG "======================== Signatur nicht zuordenbar ======================== \n";
                                 #print ERRORLOG Dumper($bibliograph->{'record'}[0]);
                                 print ERRORLOG Dumper($aktRecord);
                                 print ERRORLOG Dumper($bibliograph->{'record'}[0]);
-                                
-                                
+
+
                                 # Debugging
                                 print ERRORLOG "Signatur nicht zuordenbar\n";
                                 print ERRORLOG Dumper($bibliograph->{'record'}[0]->{'datafield'}[$aIndexData775776]);
 
-                                
+
                             };
                         };  # if ($AddInfos{ $thisRecord->{'mms_id'} }->{'call_number'} eq '') {
 
@@ -1329,7 +1329,7 @@ sub readRecordStufe3 {
         }
     }
     $data{'statistik'} = $cTemp;
-    
+
     # Bestellposten Verknüpungsid
     $data{'po_line'} = $record->{'po_line'}[0];
 
@@ -1355,7 +1355,7 @@ sub readRecordStufe4 {
         $cTempLang = $record->{'language'}[0];
     }
     $data{'language'} = $cTempLang;
-    
+
 
     my $cImprint = $record->{'imprint'}[0];
 
@@ -1426,15 +1426,15 @@ sub print_CSV {
 #   'type' => 'BOOK'
 
 
-    
+
     #foreach my $akt (@{${$AddInfos}{$aktId}->{'ausgaben'}}) {
         if ($lError) {
             if (!$lEBook) {
                 print $out ${$AddInfos}{$aktId}->{'barcode'} . '|';
             }
         }
-        
-        
+
+
         if (${$AddInfos}{$aktId}->{'author'} ne '') {
             print $out ${$AddInfos}{$aktId}->{'author'} . '|';
         } else {

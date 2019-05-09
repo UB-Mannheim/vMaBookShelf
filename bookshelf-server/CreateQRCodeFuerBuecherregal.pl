@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #-------------------------------------------------------------------------------
-# Copyright (C) 2014 Universitätsbibliothek Mannheim
+# Copyright (C) 2019 Universitätsbibliothek Mannheim
 # Name:
 #       CreateQRCodeFuerBuecherregal.pl
 # Author:

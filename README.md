@@ -2,7 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/5ab6da2cfce64583b507f6aa8b04d592)](https://app.codacy.com/app/UB-Mannheim/vMaBookShelf?utm_source=github.com&utm_medium=referral&utm_content=UB-Mannheim/vMaBookShelf&utm_campaign=Badge_Grade_Dashboard)
 
-Copyright (C) 2014–2016 Universitätsbibliothek Mannheim
+Copyright (C) 2014–2019 Universitätsbibliothek Mannheim
 
 Authors: Bernd Fallert (UB Mannheim)
 
