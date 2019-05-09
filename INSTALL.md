@@ -90,6 +90,7 @@ The scripts used the following perl modules. You can download them from cpan.
 - Template::Filters
 - Template::Filters->use_html_entities
 - LWP::UserAgent
+- LWP::Protocol::https
 - GD
 - Image::Resize
 - HTML::Hyphenate
@@ -97,6 +98,7 @@ The scripts used the following perl modules. You can download them from cpan.
 - Business::ISBN
 - File::Basename
 - Cwd
+- JSON
 
 #### Install Perl-Module with CPAN
 ```bash
@@ -160,7 +162,7 @@ create a symbolic link
   * to:   /var/www/ds, or copy the script to a different server
 
 
-## Client where you like two test the Website
+## Client where you like to test the Website
 
 #### Download Node.js
 - https://nodejs.org/en/
@@ -211,7 +213,7 @@ Depending on your setup, you might need to run this as an administrator!
 
 
 
-## Client where you like two show the Website
+## Client where you like to show the Website
 
 ### Firefox
 
