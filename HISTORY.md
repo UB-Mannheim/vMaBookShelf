@@ -1,4 +1,8 @@
 ## History
+- 2019.05.09
+    - add to install.md:
+      - info about use of LWP::Protocol::https (Thanks to Thiemontz, Marcel <marcel.thiemontz@uni-due.de>)
+
 - 2019.04.09 (0.9.15)
   - Error Corrected
     - remove not correct working KeineTrefferCache. Now more covers are found.
@@ -9,7 +13,7 @@
 
 - 2019.04.04
   - Error Corrected
-    - insert again Perl-Modul: File::Basename and Cwd (Thanks to Thiemontz, Marcel)
+    - insert again Perl-Modul: File::Basename and Cwd (Thanks to Thiemontz, Marcel <marcel.thiemontz@uni-due.de>)
   - Check if isbn is ok, if not convert to empty isbn
   - Better messages in log if error in record
 

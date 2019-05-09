@@ -90,6 +90,7 @@ The scripts used the following perl modules. You can download them from cpan.
 - Template::Filters
 - Template::Filters->use_html_entities
 - LWP::UserAgent
+- LWP::Protocol::https
 - GD
 - Image::Resize
 - HTML::Hyphenate
