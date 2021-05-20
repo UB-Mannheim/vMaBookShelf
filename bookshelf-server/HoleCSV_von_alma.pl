@@ -98,11 +98,11 @@ my $Frage_SigAnfang         = '';   # default siehe History: 2016-06-08, 12:03:2
 
 
 GetOptions(
-    "location_Id=s"                         	=> \$Frage_location_id,
-    "siganfang=s"                           	=> \$Frage_SigAnfang,
+    "location_Id=s"                     => \$Frage_location_id,
+    "siganfang=s"                       => \$Frage_SigAnfang,
     "ebooks"			            	=> \$lEbooks,
-        # Errolog beim Starten loeschen
-    "resetlog"                              	=> \$lresetlog,
+    # Errolog beim Starten loeschen
+    "resetlog"                          => \$lresetlog,
 );
 
 
@@ -672,7 +672,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
 
                                     }
                                 }
-                                print $nBookNr . ": " . $aktId . " " . $AddInfos{$aktId}->{'type'} . " " . $AddInfos{$aktId}->{'holding_id'} . "\n";
+                                print ($nBookNr + 1) . ": " . $aktId . " " . $AddInfos{$aktId}->{'type'} . " " . $AddInfos{$aktId}->{'holding_id'} . "\n";
                                 $nBookNr++;
                             }
                         }
@@ -1165,7 +1165,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                         $AddInfos{ $thisRecord->{'mms_id'} }->{'url'}       =  'https://primo.bib.uni-mannheim.de/primo-explore/search?tab=default_tab&search_scope=MAN_ALMA&vid=MAN_UB&lang=de_DE&offset=0&query=any,contains,' . $thisRecord->{'mms_id'};
 
 
-                        print $nBookNr . ": " . $thisRecord->{'mms_id'} . " ebook " . $AddInfos{$thisRecord->{'mms_id'}}->{'type'} . "\n";
+                        print ($nBookNr + 1) . ": " . $thisRecord->{'mms_id'} . " ebook " . $AddInfos{$thisRecord->{'mms_id'}}->{'type'} . "\n";
                         $nBookNr++;
 
                         print_CSV( $out, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $falsch );
@@ -1366,8 +1366,14 @@ sub readRecordStufe4 {
         #if ($cImprint  =~ m/^(.*?)\s;\s(.*?)\s([\d\.\[\]]{4,6})$/) {
         if ($cImprint  =~ m/^(.*?)\s[;:]\s(.*?)\s([\d\.\[\]]{4,7})$/) {
             $cImprint = $3;
+        } elsif ($cImprint  =~ m/^(.*?)(\[{0,1})([\d\.]{4,7})\]$/) {
+            # XXXX XXXX XXX XXX [Juli YYYY]
+            # XXXX XXXX XXX XXX [YYYY]
+            $cImprint = $3;
+        } elsif ($cImprint  =~ m/^(.*?)([\d\.]{4,7})$/) {
+            $cImprint = $2;
         } else {
-        print ERRORLOG __LINE__ . " Fehler Unklar $cImprint\n";
+            print ERRORLOG __LINE__ . " Fehler Unklar $cImprint\n";
         }
     }
     $data{'year'} = $cImprint;
@@ -1509,4 +1515,3 @@ sub print_CSV {
 
     print $out "\n";
 }
-
