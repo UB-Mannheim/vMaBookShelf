@@ -672,8 +672,8 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
 
                                     }
                                 }
-                                print ($nBookNr + 1) . ": " . $aktId . " " . $AddInfos{$aktId}->{'type'} . " " . $AddInfos{$aktId}->{'holding_id'} . "\n";
                                 $nBookNr++;
+                                print ($nBookNr + 1) . ": " . $aktId . " " . $AddInfos{$aktId}->{'type'} . " " . $AddInfos{$aktId}->{'holding_id'} . "\n";
                             }
                         }
                     }
@@ -1165,8 +1165,8 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                         $AddInfos{ $thisRecord->{'mms_id'} }->{'url'}       =  'https://primo.bib.uni-mannheim.de/primo-explore/search?tab=default_tab&search_scope=MAN_ALMA&vid=MAN_UB&lang=de_DE&offset=0&query=any,contains,' . $thisRecord->{'mms_id'};
 
 
-                        print ($nBookNr + 1) . ": " . $thisRecord->{'mms_id'} . " ebook " . $AddInfos{$thisRecord->{'mms_id'}}->{'type'} . "\n";
                         $nBookNr++;
+                        print ($nBookNr + 1) . ": " . $thisRecord->{'mms_id'} . " ebook " . $AddInfos{$thisRecord->{'mms_id'}}->{'type'} . "\n";
 
                         print_CSV( $out, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $falsch );
                     }
@@ -1345,6 +1345,7 @@ sub readRecordStufe4 {
 
     # item_data / imprint =>  'Stuttgart ; Metzler 2001' statt ; kann auch : vorkommen
     # item_data / 'language' =>  'ger'
+    # 20.05.2021: ; und : kommen nicht mehr vor, nur noch Leerzeichn, keine Trennung der Elemente mehr
 
 
     my $cTempLang = $record->{'language'}[0];
@@ -1372,10 +1373,13 @@ sub readRecordStufe4 {
             $cImprint = $3;
         } elsif ($cImprint  =~ m/^(.*?)([\d\.]{4,7})$/) {
             $cImprint = $2;
+        } elsif (!defined()) {
+            $cImprint = '';
         } else {
             print ERRORLOG __LINE__ . " Fehler Unklar $cImprint\n";
         }
     }
+    if ($cImprint)
     $data{'year'} = $cImprint;
 
     # Stufe 4 Daten eines Buches werden zurückgemeldet
