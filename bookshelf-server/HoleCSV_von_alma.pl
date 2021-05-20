@@ -809,7 +809,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                         my $aIndexData775776 = 0;
 
 
-                        foreach my $akt (sort( keys($bibliograph->{'record'}[0]->{'datafield'}))) {
+                        foreach my $akt (sort( keys(%{$bibliograph->{'record'}[0]->{'datafield'}}))) {
                             print $akt . ': ' . $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} . "\n" if ($debug);
                             # Sprache
                             if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '041') {
@@ -822,7 +822,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                             if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '264') {
                                 #$year = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[0]->{'content'};
 
-                                foreach my $aktSub (sort( keys($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}))) {
+                                foreach my $aktSub (sort( keys(%{$bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}}))) {
                                     print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
                                     if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'c') {
                                         if ($year eq '') {
@@ -844,7 +844,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
 
                                 $aIndexData775776 = $akt;
 
-                                foreach my $aktSub (sort( keys($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}))) {
+                                foreach my $aktSub (sort( keys(%{$bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}}))) {
                                     print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
 
                                     # prüfen einiger Daten da bisher keinen Überblick
