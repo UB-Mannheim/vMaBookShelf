@@ -13,8 +13,8 @@
 - Rename **proxy-server/ds/config.php_tmpl** to
          **proxy-server/ds/config.php**
   and adapt the example to your needs.
-- Rename **bookshelf-server/RufeExterneURL.config.php_tmpl** to
-         **bookshelf-server/RufeExterneURL.config.php**
+- Rename **bookshelf-server/html/RufeExterneURL.config.php_tmpl** to
+         **bookshelf-server/html/RufeExterneURL.config.php**
   and adapt the example to your needs.
 
 - For QR codes a proxy-script is needed which redirects to Primo,
@@ -92,6 +92,7 @@ The scripts used the following perl modules. You can download them from cpan.
 - LWP::UserAgent
 - LWP::Protocol::https
 - GD
+- GD::Barcode::QRcode
 - Image::Resize
 - HTML::Hyphenate
 - Config::IniFiles
@@ -99,6 +100,19 @@ The scripts used the following perl modules. You can download them from cpan.
 - File::Basename
 - Cwd
 - JSON
+- Text::CSV
+
+- CGI::Enurl (ev. unnötig)
+
+#### Install Perl-Module as Debian Pckages
+
+(List is just under construction)
+libgd-barcode-perl  - Perl module to create barcode images
+libtext-csv-perl    - comma-separated values manipulator (using XS or PurePerl)
+
+```bash
+apt-get install libgd-barcode-perl libtext-csv-perl
+```
 
 #### Install Perl-Module with CPAN
 ```bash
