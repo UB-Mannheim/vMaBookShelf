@@ -808,26 +808,26 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                         my $lPrintParent    = $falsch;
                         my $aIndexData775776 = 0;
 
-
-                        foreach my $akt (sort( keys(%{$bibliograph->{'record'}[0]->{'datafield'}}))) {
-                            print $akt . ': ' . $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} . "\n" if ($debug);
+                        my $nArrayIndex = 0;
+                        foreach my $akt (@{$bibliograph->{'record'}[0]->{'datafield'}}) {
+                            print $nArrayIndex . ': ' . $akt->{'tag'} . "\n" if ($debug);
                             # Sprache
-                            if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '041') {
+                            if ($akt->{'tag'} eq '041') {
                                 if ($lang eq '') {
-                                    $lang  = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[0]->{'content'};
+                                    $lang  = $akt->{'subfield'}[0]->{'content'};
                                 };
                             }
 
                             # Year
-                            if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '264') {
+                            if ($akt->{'tag'} eq '264') {
                                 #$year = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[0]->{'content'};
 
-                                foreach my $aktSub (sort( keys(%{$bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}}))) {
-                                    print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
-                                    if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'c') {
+                                foreach my $aktSub (@{$akt->{'subfield'}}) {
+                                    print $aktSub->{'code'} . "\n" if ($debug);
+                                    if ($aktSub->{'code'} eq 'c') {
                                         if ($year eq '') {
                                             # year bereinigen
-                                            my $tempYear = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                            my $tempYear = $aktSub->{'content'};
                                             $tempYear =~ s/^©\s//;
                                             $year = $tempYear;
 
@@ -840,28 +840,28 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                             # auch erschienen unter 776 ev. aber auch 775?? 101 Fragen und Antworten im Vorstellung
                             # 776 muss nur durchsucht werden wenn in 775 noch nichts gefunden wurde
                             #---------------------------------
-                            if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '775') || ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'tag'} eq '776') and !$lPrintParent ) {
+                            if (($akt->{'tag'} eq '775') || ($akt->{'tag'} eq '776') and !$lPrintParent ) {
 
                                 $aIndexData775776 = $akt;
 
-                                foreach my $aktSub (sort( keys(%{$bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}}))) {
-                                    print $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} . "\n" if ($debug);
+                                foreach my $aktSub (@{$akt->{'subfield'}}) {
+                                    print $aktSub->{'code'} . "\n" if ($debug);
 
                                     # prüfen einiger Daten da bisher keinen Überblick
                                     # Erscheint auch als Druckausgabe prüfen
-                                    if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'n') {
-                                        if ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Druck-Ausgabe') {
+                                    if ($aktSub->{'code'} eq 'n') {
+                                        if ($aktSub->{'content'} eq 'Druck-Ausgabe') {
                                             $lPrintParent = $wahr;
                                         }
-                                    } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'i') {
-                                        if (($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Buchausg. u.d.T.') ||
-                                            ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Erscheint auch als') ||
-                                            ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'} eq 'Druckausg.')) {
+                                    } elsif ($aktSub->{'code'} eq 'i') {
+                                        if (($aktSub->{'content'} eq 'Buchausg. u.d.T.') ||
+                                            ($aktSub->{'content'} eq 'Erscheint auch als') ||
+                                            ($aktSub->{'content'} eq 'Druckausg.')) {
                                             $lPrintParent = $wahr;
                                         }
                                     # Author
-                                    } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'a') {
-                                        my $tempAutor = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                    } elsif ($aktSub->{'code'} eq 'a') {
+                                        my $tempAutor = $aktSub->{'content'};
 
                                         # 'Haratsch, Andreas, 1963 - '
                                         # entferne , Jahr -
@@ -874,8 +874,8 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
 
 
                                     # Titel
-                                    } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 't') {
-                                        $PrintParent{'title'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                    } elsif ($aktSub->{'code'} eq 't') {
+                                        $PrintParent{'title'} = $aktSub->{'content'};
                                         # ev. auch eine um Sonderzeichen wie punkt komma doppelpunkt bindestriche bereinigte Titelversion
                                         # ggf. damit einen Treffer versuchen. Ev. auch nicht die volle Länge!
                                         $PrintParent{'title_ohne_satzzeichen'}  = $PrintParent{'title'};
@@ -884,19 +884,19 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                         $lPrintParent = $wahr;
 
                                     # ISBN 10/13
-                                    } elsif ($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'code'} eq 'z') {
+                                    } elsif ($aktSub->{'code'} eq 'z') {
                                         $lPrintParent = $wahr;
 
                                         # ggf. sind mehr als eine ISBN abfragbar
                                         # isbn 13 mit '-'
-                                        if (length($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'}) == 17) {
-                                            $PrintParent{'isbn_13'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                        if (length($aktSub->{'content'}) == 17) {
+                                            $PrintParent{'isbn_13'} = $aktSub->{'content'};
                                             $PrintParent{'isbn_13_kompakt'} =  $PrintParent{'isbn_13'};
                                             $PrintParent{'isbn_13_kompakt'} =~ s/-//g;
                                         }
                                         # isbn 10 mit '-'
-                                        if (length($bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'}) == 13) {
-                                            $PrintParent{'isbn_10'} = $bibliograph->{'record'}[0]->{'datafield'}[$akt]->{'subfield'}[$aktSub]->{'content'};
+                                        if (length($aktSub->{'content'}) == 13) {
+                                            $PrintParent{'isbn_10'} = $aktSub->{'content'};
                                             $PrintParent{'isbn_10_kompakt'} =  $PrintParent{'isbn_10'};
                                             $PrintParent{'isbn_10_kompakt'} =~ s/-//g;
                                         }
