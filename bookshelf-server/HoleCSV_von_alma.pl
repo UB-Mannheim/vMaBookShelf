@@ -673,7 +673,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
                                     }
                                 }
                                 $nBookNr++;
-                                print ($nBookNr + 1) . ": " . $aktId . " " . $AddInfos{$aktId}->{'type'} . " " . $AddInfos{$aktId}->{'holding_id'} . "\n";
+                                print $nBookNr . ": " . $aktId . " " . $AddInfos{$aktId}->{'type'} . " " . $AddInfos{$aktId}->{'holding_id'} . "\n";
                             }
                         }
                     }
@@ -1166,7 +1166,7 @@ open( $CSVERRORLOG, ">>$log_csv_error" ) or die "Kann nicht in $log_csv_error sc
 
 
                         $nBookNr++;
-                        print ($nBookNr + 1) . ": " . $thisRecord->{'mms_id'} . " ebook " . $AddInfos{$thisRecord->{'mms_id'}}->{'type'} . "\n";
+                        print $nBookNr . ": " . $thisRecord->{'mms_id'} . " ebook " . $AddInfos{$thisRecord->{'mms_id'}}->{'type'} . "\n";
 
                         print_CSV( $out, \%AddInfos, $thisRecord->{'mms_id'}, $wahr, $falsch );
                     }
@@ -1367,19 +1367,18 @@ sub readRecordStufe4 {
         #if ($cImprint  =~ m/^(.*?)\s;\s(.*?)\s([\d\.\[\]]{4,6})$/) {
         if ($cImprint  =~ m/^(.*?)\s[;:]\s(.*?)\s([\d\.\[\]]{4,7})$/) {
             $cImprint = $3;
-        } elsif ($cImprint  =~ m/^(.*?)(\[{0,1})([\d\.]{4,7})\]$/) {
+        } elsif ($cImprint  =~ m/^(.*?)(\[{0,1})([\d\.\]{4,7})(\]{0,1})$/) {
             # XXXX XXXX XXX XXX [Juli YYYY]
             # XXXX XXXX XXX XXX [YYYY]
             $cImprint = $3;
         } elsif ($cImprint  =~ m/^(.*?)([\d\.]{4,7})$/) {
             $cImprint = $2;
-        } elsif (!defined()) {
+        } elsif (!defined($cImprint)) {
             $cImprint = '';
         } else {
             print ERRORLOG __LINE__ . " Fehler Unklar $cImprint\n";
         }
     }
-    if ($cImprint)
     $data{'year'} = $cImprint;
 
     # Stufe 4 Daten eines Buches werden zurückgemeldet
