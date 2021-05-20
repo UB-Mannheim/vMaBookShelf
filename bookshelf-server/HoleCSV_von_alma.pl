@@ -70,7 +70,7 @@ use XML::Simple;
 use Data::Dumper;
 use LWP::UserAgent;
 use HTTP::Response;
-use CGI::Enurl;
+#use CGI::Enurl;
 use URI::Escape;
 use Encode;
 use Config::IniFiles qw( :all);
