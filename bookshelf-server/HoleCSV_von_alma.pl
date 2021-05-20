@@ -1367,7 +1367,7 @@ sub readRecordStufe4 {
         #if ($cImprint  =~ m/^(.*?)\s;\s(.*?)\s([\d\.\[\]]{4,6})$/) {
         if ($cImprint  =~ m/^(.*?)\s[;:]\s(.*?)\s([\d\.\[\]]{4,7})$/) {
             $cImprint = $3;
-        } elsif ($cImprint  =~ m/^(.*?)(\[{0,1})([\d\.\]{4,7})(\]{0,1})$/) {
+        } elsif ($cImprint  =~ m/^(.*?)(\[{0,1})([\d\.\]{4,7})(\]]{0,1})$/) {
             # XXXX XXXX XXX XXX [Juli YYYY]
             # XXXX XXXX XXX XXX [YYYY]
             $cImprint = $3;
