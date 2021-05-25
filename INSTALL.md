@@ -102,16 +102,18 @@ The scripts used the following perl modules. You can download them from cpan.
 - JSON
 - Text::CSV
 
-- CGI::Enurl (ev. unnötig)
+- CGI::Enurl (Possibly unnecessary)
 
 #### Install Perl-Module as Debian Pckages
 
 (List is just under construction)
-libgd-barcode-perl  - Perl module to create barcode images
-libtext-csv-perl    - comma-separated values manipulator (using XS or PurePerl)
+libgd-barcode-perl      - Perl module to create barcode images
+libtext-csv-perl        - comma-separated values manipulator (using XS or PurePerl)
+libbusiness-isbn-perl   - Perl library to work with International Standard Book Numbers
+libjson-perl            - module for manipulating JSON-formatted data
 
 ```bash
-apt-get install libgd-barcode-perl libtext-csv-perl
+apt-get install libgd-barcode-perl libtext-csv-perl libbusiness-isbn-perl libjson-perl
 ```
 
 #### Install Perl-Module with CPAN
