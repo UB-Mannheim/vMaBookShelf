@@ -56,7 +56,8 @@ use Template;
 use LWP::UserAgent;
 
 use GD;
-use Image::Resize;
+#use Image::Resize;
+use MaImageResize;
 use Template::Filters;
 Template::Filters->use_html_entities;
 use HTML::Hyphenate;
@@ -3131,4 +3132,6 @@ sub TransformWinPathToPerl
     $cPath =~ s/\\/\//g;
     return( $cPath );
 }
+
+
 # eof: CreateGesamtBuecherregal.pl
