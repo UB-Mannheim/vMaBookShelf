@@ -12,7 +12,7 @@ $MaImageResize::VERSION = '0.5';
 GD::Image->trueColor( 1 );
 
 sub new {
-    #my ($class, $image) = @_;
+    my ($class, $image) = @_;
     unless ( $class && defined($image) ) { croak "MaImageResize->new(): usage error"; }
     my $gd;
 
