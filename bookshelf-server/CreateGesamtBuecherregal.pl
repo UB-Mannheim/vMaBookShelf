@@ -60,7 +60,7 @@ use GD;
 use MaImageResize;
 use Template::Filters;
 Template::Filters->use_html_entities;
-use HTML::Hyphenate;
+#use HTML::Hyphenate;
 use Config::IniFiles qw( :all);
 use Business::ISBN;     # Umrechnen von ISBN 13 in ISBN 10
 use File::Basename;
@@ -160,7 +160,8 @@ my $pSourceFileEbook        = $cfg->val( 'CSV', 'ebook' );
 my $SearchLinkBase          = $cfg->val( 'URL', 'qr_base' );
 
 
-if ($cfg->exits( 'URL', 'protocol' )) {
+my $protocol;
+if ($cfg->exists( 'URL', 'protocol' )) {
     # optional http oder https
     $protocol   = $cfg->val( 'URL', 'protocol' );
 } else {
@@ -185,7 +186,7 @@ if ($cfg->exists( 'PATH', 'html_web_path' )) {
     print "deprecated: [PATH] 'html_web_path', better use [URL] 'html_web_path'\n";
     print ERRORLOG "deprecated: [PATH] 'html_web_path', better use [URL] 'html_web_path'\n";
 }
-if ($cfg->exits( 'URL', 'html_web_path' )) {
+if ($cfg->exists( 'URL', 'html_web_path' )) {
     $html_web_path   = $cfg->val( 'URL', 'html_web_path' );
 
     if ($cfg->exists( 'PATH', 'html_web_path' )) {
@@ -543,11 +544,11 @@ my @BuchObjekteOhneSubstitution;
 
 
 my $AnzahlMedien            = keys(%MedienDaten);
-my $hyphenator              = new HTML::Hyphenate();
-$hyphenator->default_lang('de-de');
-$hyphenator->min_pre(3);
-$hyphenator->min_post(3);
-$hyphenator->style('german');
+#my $hyphenator              = new HTML::Hyphenate();
+#$hyphenator->default_lang('de-de');
+#$hyphenator->min_pre(3);
+#$hyphenator->min_post(3);
+#$hyphenator->style('german');
 
 my $nTempIndex              = 0; # nur wg. Debugabbruch gesetzt
 
@@ -717,22 +718,23 @@ foreach my $akt (sort {
     if (defined($MedienDaten{$akt}->{sprache})
         and ($MedienDaten{$akt}->{sprache} eq 'eng')) {
 
-        $hyphenator->default_lang('en-us');
+        #$hyphenator->default_lang('en-us');
 
     } elsif (defined($MedienDaten{$akt}->{sprache})
         and ($MedienDaten{$akt}->{sprache} eq 'ger')) {
 
-        $hyphenator->default_lang('de-de');
+        #$hyphenator->default_lang('de-de');
 
     } else {
 
-        $hyphenator->default_lang('de-de');
+        #$hyphenator->default_lang('de-de');
 
     }
 
+#titleHTML           => encode_utf8($hyphenator->hyphenated($MedienDaten{$akt}->{title})),
     my $aktHash = {
         title               => encode_utf8($MedienDaten{$akt}->{title}),
-        titleHTML           => encode_utf8($hyphenator->hyphenated($MedienDaten{$akt}->{title})),
+        titleHTML           => encode_utf8($MedienDaten{$akt}->{title}),
         subtitle            => $SubTitle,
         isbn                => $MedienDaten{$akt}->{isbn},
         alephid             => $MedienDaten{$akt}->{alephid},
@@ -2736,7 +2738,7 @@ sub PruefeCover {
             my $height;
             ($width,$height) = $image->getBounds();
             if ($height > $pHeight) {
-                my $IRimage = Image::Resize->new($cImageName);
+                my $IRimage = MaImageResize->new($cImageName);
                 my $gd = $IRimage->resize(200, $pHeight);
 
                 open( IMAGE, ">$cThumbnailImageName" )
