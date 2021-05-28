@@ -288,8 +288,7 @@ GetOptions(
 #--------------------------------------------------------------
 # wenn gewünscht ist das das Errorlog zurückgesetzt wird
 #--------------------------------------------------------------
-if ($lresetlog)
-{
+if ($lresetlog) {
     open( ERRORLOG, ">$log" ) or die "Kann nicht in $log schreiben $!\n";
     carpout (*ERRORLOG);
     binmode(ERRORLOG, ':utf8');
@@ -898,7 +897,8 @@ my $cssFile             = "css/booklist_erz.css";
 call_templateCSS(
                     $templCssRef,
                     $htmlpath . '/' . $cssFile,
-                    $nAnzahlReihen);
+                    $nAnzahlReihen
+                );
 
 
 
@@ -982,8 +982,7 @@ sub call_templateHtml {
                 ": \$nDiff:         " . $nDiff . "\n"x2;
         }
 
-        if ($lNormal)
-        {
+        if ($lNormal) {
             #--------------------------------------
             # Anzahl der Leerelemente einfuegen
             #--------------------------------------
@@ -1766,8 +1765,8 @@ sub LeseQuellDaten {
                                                 $cPrintIsbn = ${$MedienDaten}{$PrintAlephId}->{isbn};
                                             } else {
                                                 $cPrintIsbn = "";
-                                            }
-                                        }
+                                            };
+                                        };
 
                                         #print ERRORLOG __LINE__ . " " . $PrintAlephId . " " ;
                                         #print ERRORLOG ${$MedienDaten}{$PrintAlephId}->{'isbn'} . "\n";
@@ -1843,7 +1842,7 @@ sub LeseQuellDaten {
                                                         $ImageMtime;
                                                     if ($lCache) {
                                                         print "gecached";
-                                                    }
+                                                    };
 
                                                     ${$MedienDaten}{$aktAlephID}->{thumbnail} =
                                                         $lThumbnail;
@@ -1854,7 +1853,7 @@ sub LeseQuellDaten {
                                                             $cThumbnailImageNameWeb;
                                                         ${$MedienDaten}{$aktAlephID}->{thumbnailtime} =
                                                             $ThumbnailMtime;
-                                                    }
+                                                    };
                                                 } else {
                                                     print ERRORLOG '  ' . 'isbn ohne Grafik ' .
                                                         $cIsbn . "\n";
@@ -1945,7 +1944,7 @@ sub LeseQuellDaten {
                                         };
                                 };
 
-                                if (!$lFach){
+                                if (!$lFach) {
                                     $fach   = "";
                                 };
                             } else {
@@ -1962,8 +1961,8 @@ sub LeseQuellDaten {
                             push(@{${$MedienDaten}{$aktAlephID}->{fach}}, $fach);
                         }
                     #-----------------------------------------------------------
-                    } elsif (     ($SpaltenName{ $nSpalte } eq 'Jahr')
-                            and ($AlephIds{ $aktAlephID } < 2)){
+                    } elsif (   ($SpaltenName{ $nSpalte } eq 'Jahr')
+                            and ($AlephIds{ $aktAlephID } < 2)) {
                         if ($akt ne '') {
                             my $aktJahr = $akt;
                             ${$MedienDaten}{$aktAlephID}->{jahr} = $aktJahr;
@@ -1977,7 +1976,7 @@ sub LeseQuellDaten {
                             if (exists(${$MedienDaten}{$aktAlephID}->{authors})) {
                                 $aktAuthor =
                                     lc(${$MedienDaten}{$aktAlephID}->{authors});
-                            }
+                            };
                             #-------------------------------------------------------
                             # untersuchen wieviele LBS-Buecher eine
                             # ebook-Entsprechung haben
@@ -2071,7 +2070,7 @@ sub LeseQuellDaten {
                                     } else {
                                         print ERRORLOG __LINE__ .
                                             " Fehler RVK-3b-cutter1_zahl ist keine Zahl\n";
-                                    }
+                                    };
 
 
                                     #sleep(1);
@@ -2081,16 +2080,16 @@ sub LeseQuellDaten {
                                         " ebook ohne      $aktAlephID " .
                                         "$aktAuthor : $sorttitle\n" if ($debug);
                                     $nEbooksOhnePrint++;
-                                }
-                            }
+                                };
+                            };
                             #---------------------------------------------------------------
                             #---------------------------------------------------------------
                             #---------------------------------------------------------------
                             #---------------------------------------------------------------
-                        }
+                        };
                     #-----------------------------------------------------------
-                    } elsif (     ($SpaltenName{ $nSpalte } eq 'URL')
-                            and ($AlephIds{ $aktAlephID } < 2)){
+                    } elsif (   ($SpaltenName{ $nSpalte } eq 'URL')
+                            and ($AlephIds{ $aktAlephID } < 2)) {
                         if ($akt ne '') {
                             ${$MedienDaten}{$aktAlephID}->{URL} = $akt;
                         } else {
@@ -2101,11 +2100,11 @@ sub LeseQuellDaten {
                                 # muss dieser Datensatz verworfen werden.
                                 $lWgFehlerDelete    = $wahr;
                                 $cCSVFehlerType     = 'URL bei ebook leer';
-                            }
-                        }
+                            };
+                        };
                     #-----------------------------------------------------------
-                    } elsif (     ($SpaltenName{ $nSpalte } eq 'Signatur')
-                            and ($AlephIds{ $aktAlephID } < 2)){
+                    } elsif (   ($SpaltenName{ $nSpalte } eq 'Signatur')
+                            and ($AlephIds{ $aktAlephID } < 2)) {
                         if ($akt ne '') {
                             my $usersignatur            = $akt;
                             $cAktSigWStatistikFehler    = $usersignatur;
@@ -2157,7 +2156,7 @@ sub LeseQuellDaten {
                                 #-----------------------------------------------
                                 ${$MedienDaten}{$aktAlephID}->{sortSignatur} =
                                     $3;
-                            }
+                            };
 
 
                             # die Signatur jetzt zerlegen um sie sortierbar zu
@@ -2180,7 +2179,7 @@ sub LeseQuellDaten {
                                     print ERRORLOG __LINE__ .
                                         " \$lRVK: '" . $lRVK .
                                         "'\n" if ($debug);
-                                }
+                                };
                             } else {
                                 #-----------------------------------------------
                                 # Prüfen ob es eine rvk-Signatur eines eBooks
@@ -2198,8 +2197,8 @@ sub LeseQuellDaten {
                                     print ERRORLOG __LINE__ .
                                         " \$lRVKEbook: '" .
                                         $lRVKEbook . "'\n" if ($debug);
-                                }
-                            }
+                                };
+                            };
 
                             if ($lRVK) {
                                 my ($Standort,
@@ -2239,7 +2238,7 @@ sub LeseQuellDaten {
                                             $usersignatur .
                                             " Fehler RVK-3b-cutter1_zahl " .
                                             "ist keine Zahl\n";
-                                    }
+                                    };
                                 } else {
                                     #-------------------------------------------
                                     # wenn leer oder nicht definiert
@@ -2257,7 +2256,7 @@ sub LeseQuellDaten {
                                             #-----------------------------------
                                             ${$MedienDaten}{$aktAlephID}->{'RVK-3a-cutter1_buchstabe'} = '';
                                             ${$MedienDaten}{$aktAlephID}->{'RVK-3b-cutter1_zahl'} = 0;
-                                        }
+                                        };
                                     } else {
                                         # wann komme ich hierher?
                                         print ERRORLOG __LINE__ . " " .
@@ -2300,7 +2299,7 @@ sub LeseQuellDaten {
                                             $Cutter1_buchstabe .
                                             "' \$Cutter1_zahl ist keine Zahl: '" .
                                             $Cutter1_zahl . "'\n";
-                                    }
+                                    };
                                 } else {
                                     #-------------------------------------------
                                     # wenn leer oder nicht definiert
@@ -2338,7 +2337,7 @@ sub LeseQuellDaten {
 
                                 # Achtung auch in die Ebooks übernehmen
 
-                            }
+                            };
 
                         } else {
                             #---------------------------------------------------
@@ -2348,10 +2347,10 @@ sub LeseQuellDaten {
                             #---------------------------------------------------
                             $lWgFehlerDelete    = $wahr;
                             $cCSVFehlerType     = 'Signatur leer';
-                        }
+                        };
                     #-----------------------------------------------------------
-                    } elsif (     ($SpaltenName{ $nSpalte } eq 'SPRACHE')
-                            and ($AlephIds{ $aktAlephID } < 2)){
+                    } elsif (   ($SpaltenName{ $nSpalte } eq 'SPRACHE')
+                            and ($AlephIds{ $aktAlephID } < 2)) {
                         if ($akt ne '') {
                             ${$MedienDaten}{$aktAlephID}->{sprache} = $akt;
 
@@ -2359,24 +2358,20 @@ sub LeseQuellDaten {
                                 $Statistik{'sprachegesamt'}{'mitsprache'}++;
                                 $Statistik{'sprache'}{$akt}++;
                             };
-
-                        }
-                    }
+                        };
                     #-----------------------------------------------------------
-                    elsif (     ($SpaltenName{ $nSpalte } eq 'Aufl.')
+                    } elsif (     ($SpaltenName{ $nSpalte } eq 'Aufl.')
                             and ($AlephIds{ $aktAlephID } < 2)){
                         if ($akt ne '') {
                             ${$MedienDaten}{$aktAlephID}->{aufl} = $akt;
                         } else {
                             ${$MedienDaten}{$aktAlephID}->{aufl} = '0';
-                        }
-                    }
-
-
-                }
+                        };
+                    };
+                };
 
                 $nSpalte++;
-            }
+            };
 
             if ($nIndex > 1) {
                 # stillgelegt weil dieser Spezialfall jetzt auf die gleiche Art
@@ -2406,28 +2401,27 @@ sub LeseQuellDaten {
 
                     # bei bestimmten Fehlern Datensatz nicht aufnehmen!
                     delete(${$MedienDaten}{$aktAlephID});
-                }
+                };
 
                 if ($lEbook) {
                     if (!$lPrintEbook) {
                         # weitere Aktionen bei Ebooks tun
-                    }
-                }
-
-            }
-        }
-    }
+                    };
+                };
+            };
+        };
+    };
 
     open( KEINTREFFER, ">$cKeinTrefferCacheFile" ) or die
         "Kann SOURCE $cKeinTrefferCacheFile nicht zum schreiben oeffnen $!\n";
     foreach my $akt (sort( keys( %KeineTrefferCache ) ) ) {
         print KEINTREFFER $akt . "\n";
-    }
+    };
 
     if ($lEbook) {
         print KEINTREFFER " \$nEbooksUndPrint: '" . $nEbooksUndPrint . "'\n";
         print KEINTREFFER "\$nEbooksOhnePrint: '" . $nEbooksOhnePrint . "'\n";
-    }
+    };
 
     close KEINTREFFER;
 
@@ -2443,7 +2437,7 @@ sub LeseQuellDaten {
 
         foreach my $akt (sort( keys( %{$Statistik{'fach'}} ) ) ) {
             print STATISTIK $akt . ":\t" . $Statistik{'fach'}{$akt} . "\n";
-        }
+        };
 
         print STATISTIK "\n"x2;
 
@@ -2457,8 +2451,8 @@ sub LeseQuellDaten {
 
         foreach my $akt (sort( keys( %{$Statistik{'sprache'}} ) ) ) {
             print STATISTIK $akt . ":\t" . $Statistik{'sprache'}{$akt} . "\n";
-        }
-    }
+        };
+    };
 
     if (1==0) {
         print STATISTIK "\n"x3;
@@ -2480,7 +2474,7 @@ sub LeseQuellDaten {
         print STATISTIK "                   eBooks 00:" . $Statistik{'coverdownload'}{'ebooks_00'} . "\n";
     };
     # Statistik-Daten ausgeben Ende
-}
+};
 
 
 
@@ -2540,7 +2534,7 @@ sub PruefeCover {
     } else {
         # Parameter nicht das erwartete Format
         die __LINE__ . " Falscher Parameter in PruefeCoverNeutral(), Zulaessig 'openlibrary' oder 'amazon'\n";
-    }
+    };
 
 
     my $lAbfrageErfolgreich = $falsch;
@@ -2620,7 +2614,7 @@ sub PruefeCover {
                     $lCover     = $wahr;
                     #$lAmazon    = $wahr;
                     $Statistik{'coverdownload'}{'amazon_00'}++;
-                }
+                };
             #-------------------------------------------------------------------
             # Open Library
             #-------------------------------------------------------------------
@@ -2694,9 +2688,9 @@ sub PruefeCover {
                             $lCover         = $wahr;
                             #$lOpenLibrary   = $wahr;
                             $Statistik{'coverdownload'}{'google_ok'}++;
-                        }
-                    }
-                }
+                        };
+                    };
+                };
 
             #-------------------------------------------------------------------
             # Syndetics
@@ -2747,9 +2741,9 @@ sub PruefeCover {
                 print IMAGE $gd->jpeg();
                 close IMAGE;
                 $lThumbnail = $wahr;
-            }
-        }
-    }
+            };
+        };
+    };
 
     #---------------------------------------------------------------------------
     # Dateidatum holen um es an den Grafiknamen anzuhaengen, damit ich
@@ -2769,10 +2763,10 @@ sub PruefeCover {
                         substr($year+1900,-2) . '  ' .
                         $hour . ':' . $min . ':' . $sec . "\n";
         }
-    }
+    };
     if ($lCover) {
         $ImageMtime = (stat $cImageName)[9];
-    }
+    };
 
 
     return( $lCover,
@@ -2803,44 +2797,36 @@ sub PruefeQRCodeFile {
     if (-e $cGrafikName) {
     } else {
         $cGrafikKurzName = "";
-    }
+    };
 
     return($cGrafikKurzName);
 }
 
 
 #-------------------------------------------------------------------------------
-sub FarbWertLight
-{
+sub FarbWertLight {
     my $lNormal = shift();
     my $farbObjekt;
 
-    if ($lNormal)
-    {
+    if ($lNormal) {
         $farbObjekt     = Imager::Color->new(255, 255, 255);
-    }
-    else
-    {
+    } else {
         #$farbObjekt     = Imager::Color->new(255, 0, 0);
         $farbObjekt     = Imager::Color->new(255, 255, 0);
-    }
+    };
     return( $farbObjekt );
 }
 
 #-------------------------------------------------------------------------------
-sub FarbWertDark
-{
+sub FarbWertDark {
     my $lNormal = shift();
     my $farbObjekt;
 
-    if ($lNormal)
-    {
+    if ($lNormal) {
         $farbObjekt     = Imager::Color->new(0, 0, 0);
-    }
-    else
-    {
+    } else {
         $farbObjekt     = Imager::Color->new(255, 0, 0);
-    }
+    };
     return( $farbObjekt );
 }
 
@@ -2852,8 +2838,7 @@ sub FarbWertDark
 #   Parameter:
 #       $cSig                   Die zu pruefende Signatur
 #-----------------------------------------------------------------------
-sub zerlegeRVKSignatur
-{
+sub zerlegeRVKSignatur {
     my $cSig                = shift();
     my $lEbook              = shift();
 
@@ -2902,8 +2887,8 @@ sub zerlegeRVKSignatur
             (.*?)           # 11  beliebige weitere Zeichen inkl. Zahlen
                             #       und Nichtzahlen
         $/x
-        )
-    {
+        ) {
+
         # Beispiel: 500_AZ_12_A12.2012_adsjföaföfadölkjföal
         # Beispiel: 500_AZ_12_A12_.2012_adsjföaföfadölkjföal
         $Standort           = $1;
@@ -2916,9 +2901,9 @@ sub zerlegeRVKSignatur
         print ERRORLOG __LINE__ . " \$cSig: '" . $cSig .
             "' erkennung 1:'$1' 2:'$2' 3:'$3' 4:'$4' 5:'$5' 6:'$6' " .
             "7:'$7' 8:'$8' 9:'$9' 10:'$10'\n"  if ($debug);
-    }
+
     # 100 AF 3000 a12
-    elsif ($cSig =~
+    } elsif ($cSig =~
         m/^
             (\d{3})         # *1  100 200 300 400 500 515 520 ...
             (\s+)           #  2  Leerzeichen
@@ -2931,8 +2916,7 @@ sub zerlegeRVKSignatur
             (\s*)           #  6
             ((\.)(\d*?))    #  9  ein Punkt und weitere Zahlen
         $/x
-        )
-    {
+        ) {
         # Beispiel: 500_AZ_12_A12.2012
         # Beispiel: 500_AZ_12_A12_.2012
         $Standort           = $1;
@@ -2945,8 +2929,8 @@ sub zerlegeRVKSignatur
         print ERRORLOG __LINE__ . " \$cSig: '" . $cSig .
             "' erkennung 1:'$1' 2:'$2' 3:'$3' 4:'$4' 5:'$5' 6:'$6' " .
             "7:'$7' 8:'$8' 9:'$9' 10:'$10'\n"  if ($debug);
-    }
-    elsif ($cSig =~
+
+    } elsif ($cSig =~
         m/^
             (\d{3})         # *1  100 200 300 400 500 515 520 ...
             (\s+)           #  2  Leerzeichen
@@ -2959,8 +2943,7 @@ sub zerlegeRVKSignatur
             (.*?)           # 11  beliebige weitere Zeichen inkl. Zahlen
                             #       und Nichtzahlen
         $/x
-        )
-    {
+        ) {
         # ohne Cutter1
         # Beispiel: 500_AZ_12.adfadfasdf2012_adsjföaföfadölkjföal
         # eignelich ein jahr nach dem punkt aber es könnte auch
@@ -2974,8 +2957,7 @@ sub zerlegeRVKSignatur
         print ERRORLOG __LINE__ . " \$cSig: '" . $cSig .
             "' erkennung 1:'$1' 2:'$2' 3:'$3' 4:'$4' 5:'$5' 6:'$6' " .
             "7:'$7' 8:'$8' 9:'$9' 10:'$10'\n"  if ($debug);
-    }
-    elsif ($cSig =~
+    } elsif ($cSig =~
         m/^
             (\d{3})         #  *1 100 200 300 400 500 515 520 ...
             (\s+)           #   2 Leerzeichen
@@ -2990,8 +2972,7 @@ sub zerlegeRVKSignatur
             (.*?)           #  10 beliebige weitere Zeichen inkl. Zahlen
                             #       und Nichtzahlen
             $/x
-        )
-    {
+        ) {
         # Beispiel: 500_AZ_12.2012_adsjföaföfadölkjföal
         print ERRORLOG __LINE__ . " \$cSig: '" . $cSig .
             "' erkennung 1:'$1' 2:'$2' 3:'$3' 4:'$4' 5:'$5' 6:'$6' " .
@@ -3004,8 +2985,7 @@ sub zerlegeRVKSignatur
         $Cutter1_zahl       = $8;
         #print __LINE__ . " " . $cSig . "\n" if ($debug);
 
-    }
-    elsif ($cSig =~
+    } elsif ($cSig =~
         m/^
             (\d{3})         # *1 100 200 300 400 500 515 520 ...
             (\s+)           # 2  Leerzeichen
@@ -3017,8 +2997,7 @@ sub zerlegeRVKSignatur
             ([a-zA-Z]{1})   # *7 1 Buchstabe
             (\d*?)          # *8 nur Zahlen
         $/x
-        )
-    {
+        ) {
         # Beispiel: 500_AZ_12_A12
         print ERRORLOG __LINE__ . " \$cSig: '" . $cSig .
             "' erkennung 1:'$1' 2:'$2' 3:'$3' 4:'$4' 5:'$5' 6:'$6' " .
@@ -3029,12 +3008,11 @@ sub zerlegeRVKSignatur
         $Cutter1_buchstabe  = $7;
         $Cutter1_zahl       = $8;
         #print __LINE__ . " " . $cSig . "\n" if ($debug);
-    }
     #---------------------------------------------------------------------------
     # Version mit einer Normalen Signatur (Zeitschriften)
     # mit Punkt und einer Zahl
     #---------------------------------------------------------------------------
-    elsif ($cSig =~
+    } elsif ($cSig =~
         m/^
             (\d{3})         # *1 100 200 300 400 500 515 520 ...
             (\s*?)          # 2  optionale Leerzeichen
@@ -3043,8 +3021,8 @@ sub zerlegeRVKSignatur
             (\d*?)          # *5 nur Zahlen
             ((\.)(\d*?))    # 6  ein Punkt und weitere Zahlen
         $/x
-        )
-    {
+        ) {
+
         $Standort           = $1;
         $Buchstabe          = $3;
         $Feingruppe         = $5;
@@ -3052,7 +3030,6 @@ sub zerlegeRVKSignatur
             "' erkennung 1:'$1' 2:'$2' 3:'$3' 4:'$4' 5:'$5' 6:'$6' " .
             "7:'$7' 8:'$8' 9:'$9' 10:'$10'\n"  if ($debug);
         #print __LINE__ . " " . $cSig . "\n" if ($debug);
-    }
     #---------------------------------------------------------------------------
     # Version mit einer Normalen Signatur (Zeitschriften) mit Bindestrich
     # und einer Zahl
@@ -3061,7 +3038,7 @@ sub zerlegeRVKSignatur
     # 300 PA 4030:002
     # 400 AF 08001-25
     # MAN_ALEPH000999570  300 PE 257(3)-DE-R, 1501-2266
-    elsif ($cSig =~
+    } elsif ($cSig =~
         m/^
             (\d{3})         # *1 100 200 300 400 500 515 520 ...
             (\s*?)          # 2  optionale Leerzeichen
@@ -3071,8 +3048,8 @@ sub zerlegeRVKSignatur
             (([-:\(])(.*?)) # 6  ein Bindestrich oder Doppelpunkt oder
                             #       Klammer auf und weitere beliebige Zeichen
         $/x
-        )
-    {
+        ) {
+
         $Standort           = $1;
         $Buchstabe          = $3;
         $Feingruppe         = $5;
@@ -3080,11 +3057,10 @@ sub zerlegeRVKSignatur
             "' erkennung 1:'$1' 2:'$2' 3:'$3' 4:'$4' 5:'$5' 6:'$6' " .
             "7:'--' 8:'--' 9:'--' 10:'--'\n"  if ($debug);
         #print __LINE__ . " " . $cSig . "\n" if ($debug);
-    }
     #---------------------------------------------------------------------------
     # Version mit einer Normalen Signatur (Zeitschriften)
     #---------------------------------------------------------------------------
-    elsif ($cSig    =~
+    } elsif ($cSig    =~
         m/^
             (\d{3})         # *1 100 200 300 400 500 515 520 ...
             (\s*?)          # 2  optionale Leerzeichen
@@ -3092,8 +3068,8 @@ sub zerlegeRVKSignatur
             (\s*?)          # 4  optionale Leerzeichen
             (\d*?)          # *5 nur Zahlen
         $/x
-        )
-    {
+        ) {
+
         $Standort           = $1;
         $Buchstabe          = $3;
         $Feingruppe         = $5;
@@ -3101,15 +3077,14 @@ sub zerlegeRVKSignatur
             "' erkennung 1:'$1' 2:'$2' 3:'$3' 4:'$4' 5:'$5' 6:'$6' " .
             "7:'$7' 8:'$8' 9:'$9' 10:'$10'\n"  if ($debug);
         #print __LINE__ . " " . $cSig . "\n" if ($debug);
-    }
     #---------------------------------------------------------------------------
     # Version fuer blank
     #---------------------------------------------------------------------------
-    elsif ($cSig =~ m/^
+    } elsif ($cSig =~ m/^
                        (blank)
                        $/x
-          )
-    {
+          ) {
+
         $Standort    = 'blank';
         $Buchstabe   = 'blank';
         $Feingruppe  = 'blank';
@@ -3117,7 +3092,7 @@ sub zerlegeRVKSignatur
             "' erkennung 1:'$1' 2:'$2' 3:'$3' 4:'$4' 5:'$5' 6:'$6' " .
             "7:'$7' 8:'$8' 9:'$9' 10:'$10'\n"  if ($debug);
         #print __LINE__ . " " . $cSig . "\n" if ($debug);
-    }
+    };
 
     return( $Standort,
             $Buchstabe,
@@ -3128,12 +3103,10 @@ sub zerlegeRVKSignatur
 };
 
 
-sub TransformWinPathToPerl
-{
+sub TransformWinPathToPerl {
     my $cPath   = shift();
     $cPath =~ s/\\/\//g;
     return( $cPath );
 }
-
 
 # eof: CreateGesamtBuecherregal.pl
