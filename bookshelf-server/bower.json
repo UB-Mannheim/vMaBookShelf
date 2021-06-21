@@ -1,0 +1,29 @@
+{
+  "name": "bookshelf-server",
+  "description": "vMaBookShelf: Bookshelf Server",
+  "main": "",
+  "authors": [
+    "Bernd Fallert"
+  ],
+  "license": "UNLICENSED",
+  "homepage": "134.155.36.31",
+  "private": true,
+  "repository": {
+    "private": true
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2",
+    "jquery-legacy": "jquery#1.12.2",
+    "jquery-lazyload": "^1",
+    "grunt": "^1.4.1",
+    "grunt-cli": "^1.4.3",
+    "font-awesome": "font-awsome#^4.7.0"
+  }
+}

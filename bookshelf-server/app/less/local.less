@@ -1,0 +1,214 @@
+/**
+ *
+ * local.less
+ *
+ * @creator       Bernd Fallert, UB Mannheim
+ * @file          booklist.less
+
+ * these variables are used to create a css file, like SASS or LESS do it
+ * i didn't use these until now.
+ * in booklist.less you will find these variables
+ * example: background-color: @menu_active__background_color;
+ * the script will create a normal css file in html/css/booklist.css
+**/
+
+// Menu active background color
+@menu_active__background_color: #ffffff;
+
+// Menu active text color
+@menu_active__color: #000000;
+
+// Menu normal background color
+@menu__background_color: #990000;
+
+// Menu normal text color
+@menu__color: #ffffff;
+
+// Menu, color of the right border, used as separator between menu and bookshelf, default is #ffffff
+@menu__border_right__color: #ffffff;
+
+
+
+
+// Header background color
+@header__background_color: #990000;
+
+
+// shelf number, background color
+@regalnummer__background_color: #585858;
+
+
+// shelf number, text and border color
+@regalnummer__color: #ffffff;
+
+
+// shelf mark text color
+@buchsignatur__color: #ffffff;
+
+
+// color of the left border, used as separator between menu and fold in icon / fold out icon
+@id_collapse_menu__border_left_color: #CABB94;
+
+
+// shelf grafik left (used as background)
+@regal_grafik_anfang__background: ../images/bookshelf-bg-dunkler-geteilt-links-001.png;
+
+// shelf grafik right (used as background)
+@regal_grafik_abschluss__background: ../images/bookshelf-bg-dunkler-geteilt-rechts-001.png;
+
+// shelf grafik behinde each book (used as background)
+@regal_grafik_mitte__background: ../images/bookshelf-bg-dunkler-geteilt-mitte-001.png;
+
+
+
+
+// if the script didn't find a cover (at amazon), the script will used a default image
+// (only color and color gradient). On top of this image the script will insert some informations
+// about the book.
+// the script will used random color, so each book looks a little be differnet
+// if the script will find a printed book and a ebook with the same title, ed. and year it will use
+// the same color for both books
+// only books without a cover from amazon get this captions!
+
+// the next tree variables are for the size of the information about the book
+// all sizes are in px
+
+// used this font size (px) for the book title
+@ohne_cover_shelf_image_title__font_size: 12px;
+
+
+// used this font size (px) for the book subtitle
+@ohne_cover_shelf_image_subtitle__font_size: 9px;
+
+
+// used this font size (px) for the authors
+@ohne_cover_shelf_image_authors__font_size: 12px;
+
+
+// Text color of title, subtitle and authors for books without amazon cover
+@ohne_cover_shelf_image_substitute__color: #ffffff;
+
+
+
+
+// height of header in px
+@header_hoehe: 95px;
+
+
+// Absolut Hight of the shelf in px
+// you find this value not direct in the css-file
+// value used to calculate other values
+@GesamtRegalHoehe: 980px;
+
+
+// width ob a QR image in px
+// we start with small qr codes, but then we realised not every smartphone can read this qr codes
+// so its a good idee to test the qr codes with different devices
+@QRBreite: 82px;
+
+
+// Value correlated with the width of a QR image
+// absolute width of a book
+// if QRBreite is 82px
+@MediumGesamtBreite: 241px;
+
+
+
+@regal_reihen: 4;
+
+
+// ---------------- bis hier ini-Datei umgewandlet -----------------------------------
+
+
+// ---------------- Berechnungen aus CreateGesamtBucherregal.pl entnommen ------------
+
+@nAnzahlReihen: @regal_reihen;
+
+
+// Pixel ausgleich bisher in pl berechnet
+@AusgleichsPixel: 20px;
+
+
+@id_unilogo__padding_right: (37px + @AusgleichsPixel);
+@id_trailer__left: (250px + @AusgleichsPixel);
+@ul_booklist__margin_left: (228px + @AusgleichsPixel);
+@id_navirahmen__width: (248px + @AusgleichsPixel);
+
+
+// Position des Pfeils für Verkleinern neben Navigation
+@id_collapse_menu__padding_left: (7px + (@AusgleichsPixel/2));
+
+// Breite des eingefalteten Navigationsrahmen
+// mit Pfeil zum Vergrößern und verkleinern
+@gesamt_navirahmen__width: (34px + @AusgleichsPixel);
+
+// Breite des eingefalteten Navigationsrahmen
+// mit Pfeil zum Vergrößern und verkleinern
+@gesamt_navirahmen_folded__width: (36px + @AusgleichsPixel);
+
+// Breite des eingefalteten Navigationsrahmen
+// mit Pfeil zum Vergrößern und verkleinern
+@bei_fixed_und_unfolded_id_collapse_menu__width: (18px + (@AusgleichsPixel/2));
+
+
+// Breite des eingefalteten Navigationsrahmen
+// mit Pfeil zum Vergrößern und verkleinern
+@bei_fixed_und_folded_id_collapse_menu__width: (21px + (@AusgleichsPixel/2));
+
+// Breite des eingefalteten Navigationsrahmen
+// mit Pfeil zum Vergrößern und verkleinern
+@bei_fixed_id_collapse_menu__width: (21px + (@AusgleichsPixel/2));
+
+
+
+// Breite des eingefalteten Navigationsrahmen
+//# mit Pfeil zum Vergrößern und verkleinern
+@bei_fixed_und_unfolded_ul_booklist_li_anfang__left: (252px + @AusgleichsPixel);
+
+
+// Linke Position des Anfangs des Regals
+@li_anfang_folded_fixed__left: (40px + @AusgleichsPixel);
+
+// Linke Position des Anfangs des Regals
+@li_anfang_fixed__left: (40px + @AusgleichsPixel);
+
+
+// Berechung der Regalhoehen
+@nHoeheRegalReihe: (@GesamtRegalHoehe / @nAnzahlReihen);
+
+// bisher 245
+@ul_booklist__height: @nHoeheRegalReihe;
+
+// Grafik für linken Abschluss des Regals
+@Regal_Grafik_Anfang__background: @regal_grafik_anfang__background;
+@Regal_Grafik_Abschluss__background: @regal_grafik_abschluss__background;
+@Regal_Grafik_Mitte__background: @regal_grafik_mitte__background;
+
+
+@Regalboden_vorderkante__height: 5px;
+
+@ul_booklist_li__height: (@ul_booklist__height + @Regalboden_vorderkante__height);
+
+@ul_booklist_li__line_height: (@ul_booklist__height - @Regalboden_vorderkante__height);
+
+
+
+
+@CoverVonUnterkante: 24px;
+@CoverVonOberkante: 16px;
+
+@nCoverHoehe: (@ul_booklist_li__line_height - @CoverVonUnterkante - @CoverVonOberkante);
+
+@cover_hoehe: @nCoverHoehe;
+
+
+
+@ul_booklist_li__width: @MediumGesamtBreite;
+
+@cover_breite: (@MediumGesamtBreite - @QRBreite - 16px);
+
+
+@qr_breite: @QRBreite;
+@qr_hoehe: @qr_breite;
+
+// eof: local.less

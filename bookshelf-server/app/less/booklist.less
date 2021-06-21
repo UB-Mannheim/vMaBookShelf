@@ -1,0 +1,1073 @@
+/**
+ * booklist.less
+ *
+ * @creator       Bernd Fallert, UB Mannheim
+ * @file          booklist.less
+ # wird zu booklist.min.css uebersetzt
+ *
+**/
+
+@import "local"; // local.less
+
+html, body, form {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    /* http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* http://stackoverflow.com/questions/826782/css-rule-to-disable-text-selection-highlighting */
+* {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+
+/*-----------------------------------------------------------------------*/
+/* Formatieren des jeweils aktuellen Menuebereichs via body id und li id */
+/* Formatting of the current menu area via body id and li id             */
+/*-----------------------------------------------------------------------*/
+#index      ul li#index  a,     /* index */
+#fach01     ul li#fach01  a,    /*  */
+#fach02     ul li#fach02  a,    /*  */
+#fach03     ul li#fach03  a,    /*  */
+#fach04     ul li#fach04  a,    /*  */
+#fach05     ul li#fach05  a,    /*  */
+#fach06     ul li#fach06  a,    /*  */
+#fach07     ul li#fach07  a,    /*  */
+#fach08     ul li#fach08  a,    /*  */
+#fach09     ul li#fach09  a,    /*  */
+#fach10     ul li#fach10  a,    /*  */
+#fach11     ul li#fach11  a,    /*  */
+#fach12     ul li#fach12  a,    /*  */
+#fach13     ul li#fach13  a,    /*  */
+#fach14     ul li#fach14  a,    /*  */
+#fach15     ul li#fach15  a,    /*  */
+#fach16     ul li#fach16  a,    /*  */
+#fach17     ul li#fach17  a,    /*  */
+#fach18     ul li#fach18  a,    /*  */
+#fach19     ul li#fach19  a,    /*  */
+#fach20     ul li#fach20  a,    /*  */
+#fach21     ul li#fach21  a,    /*  */
+#fach22     ul li#fach22  a,    /*  */
+#fach23     ul li#fach23  a,    /*  */
+#fach24     ul li#fach24  a,    /*  */
+#fach25     ul li#fach25  a,    /*  */
+#fach26     ul li#fach26  a,    /*  */
+#fach27     ul li#fach27  a,    /*  */
+#fach28     ul li#fach28  a,    /*  */
+#fach29     ul li#fach29  a,    /*  */
+#fach30     ul li#fach30  a,    /*  */
+#fach31     ul li#fach31  a,    /*  */
+#fach32     ul li#fach32  a,    /*  */
+#fach33     ul li#fach33  a,    /*  */
+#fach34     ul li#fach34  a,    /*  */
+#fach35     ul li#fach35  a,    /*  */
+#fach36     ul li#fach36  a,    /*  */
+#fach37     ul li#fach37  a,    /*  */
+#fach38     ul li#fach38  a {
+    background-color: @menu_active__background_color;
+    color: @menu_active__color;
+}
+
+/*-----------------------------------------------------------------------*/
+/* Formatieren des jeweils aktuellen Menuebereichs via body id und li id */
+/* Formatting of the current menu area via body id and li id             */
+/*-----------------------------------------------------------------------*/
+#index      ul li#index,     /* index */
+#fach01     ul li#fach01,    /*  */
+#fach02     ul li#fach02,    /*  */
+#fach03     ul li#fach03,    /*  */
+#fach04     ul li#fach04,    /*  */
+#fach05     ul li#fach05,    /*  */
+#fach06     ul li#fach06,    /*  */
+#fach07     ul li#fach07,    /*  */
+#fach08     ul li#fach08,    /*  */
+#fach09     ul li#fach09,    /*  */
+#fach10     ul li#fach10,    /*  */
+#fach11     ul li#fach11,    /*  */
+#fach12     ul li#fach12,    /*  */
+#fach13     ul li#fach13,    /*  */
+#fach14     ul li#fach14,    /*  */
+#fach15     ul li#fach15,    /*  */
+#fach16     ul li#fach16,    /*  */
+#fach17     ul li#fach17,    /*  */
+#fach18     ul li#fach18,    /*  */
+#fach19     ul li#fach19,    /*  */
+#fach20     ul li#fach20,    /*  */
+#fach21     ul li#fach21,    /*  */
+#fach22     ul li#fach22,    /*  */
+#fach23     ul li#fach23,    /*  */
+#fach24     ul li#fach24,    /*  */
+#fach25     ul li#fach25,    /*  */
+#fach26     ul li#fach26,    /*  */
+#fach27     ul li#fach27,    /*  */
+#fach28     ul li#fach28,    /*  */
+#fach29     ul li#fach29,    /*  */
+#fach30     ul li#fach30,    /*  */
+#fach31     ul li#fach31,    /*  */
+#fach32     ul li#fach32,    /*  */
+#fach33     ul li#fach33,    /*  */
+#fach34     ul li#fach34,    /*  */
+#fach35     ul li#fach35,    /*  */
+#fach36     ul li#fach36,    /*  */
+#fach37     ul li#fach37,    /*  */
+#fach38     ul li#fach38 {
+    background-color: @menu_active__background_color;
+    width: 100%;
+}
+
+
+/*-----------------------------------------------------------------------*/
+/* Formatieren des jeweils aktuellen Menuebereichs via body id und li id */
+/* Formatting of the current menu area via body id and li id             */
+/* Hier / Here: hover                                                    */
+/*-----------------------------------------------------------------------*/
+#index      ul li#index > a:hover,     /* index */
+#fach01     ul li#fach01 > a:hover,    /*  */
+#fach02     ul li#fach02 > a:hover,    /*  */
+#fach03     ul li#fach03 > a:hover,    /*  */
+#fach04     ul li#fach04 > a:hover,    /*  */
+#fach05     ul li#fach05 > a:hover,    /*  */
+#fach06     ul li#fach06 > a:hover,    /*  */
+#fach07     ul li#fach07 > a:hover,    /*  */
+#fach08     ul li#fach08 > a:hover,    /*  */
+#fach09     ul li#fach09 > a:hover,    /*  */
+#fach10     ul li#fach10 > a:hover,    /*  */
+#fach11     ul li#fach11 > a:hover,    /*  */
+#fach12     ul li#fach12 > a:hover,    /*  */
+#fach13     ul li#fach13 > a:hover,    /*  */
+#fach14     ul li#fach14 > a:hover,    /*  */
+#fach15     ul li#fach15 > a:hover,    /*  */
+#fach16     ul li#fach16 > a:hover,    /*  */
+#fach17     ul li#fach17 > a:hover,    /*  */
+#fach18     ul li#fach18 > a:hover,    /*  */
+#fach19     ul li#fach19 > a:hover,    /*  */
+#fach20     ul li#fach20 > a:hover,    /*  */
+#fach21     ul li#fach21 > a:hover,    /*  */
+#fach22     ul li#fach22 > a:hover,    /*  */
+#fach23     ul li#fach23 > a:hover,    /*  */
+#fach24     ul li#fach24 > a:hover,    /*  */
+#fach25     ul li#fach25 > a:hover,    /*  */
+#fach26     ul li#fach26 > a:hover,    /*  */
+#fach27     ul li#fach27 > a:hover,    /*  */
+#fach28     ul li#fach28 > a:hover,    /*  */
+#fach29     ul li#fach29 > a:hover,    /*  */
+#fach30     ul li#fach30 > a:hover,    /*  */
+#fach31     ul li#fach31 > a:hover,    /*  */
+#fach32     ul li#fach32 > a:hover,    /*  */
+#fach33     ul li#fach33 > a:hover,    /*  */
+#fach34     ul li#fach34 > a:hover,    /*  */
+#fach35     ul li#fach35 > a:hover,    /*  */
+#fach36     ul li#fach36 > a:hover,    /*  */
+#fach37     ul li#fach37 > a:hover,    /*  */
+#fach38     ul li#fach38 > a:hover,
+#index      ul li#index:hover,     /* index */
+#fach01     ul li#fach01:hover,    /*  */
+#fach02     ul li#fach02:hover,    /*  */
+#fach03     ul li#fach03:hover,    /*  */
+#fach04     ul li#fach04:hover,    /*  */
+#fach05     ul li#fach05:hover,    /*  */
+#fach06     ul li#fach06:hover,    /*  */
+#fach07     ul li#fach07:hover,    /*  */
+#fach08     ul li#fach08:hover,    /*  */
+#fach09     ul li#fach09:hover,    /*  */
+#fach10     ul li#fach10:hover,    /*  */
+#fach11     ul li#fach11:hover,    /*  */
+#fach12     ul li#fach12:hover,    /*  */
+#fach13     ul li#fach13:hover,    /*  */
+#fach14     ul li#fach14:hover,    /*  */
+#fach15     ul li#fach15:hover,    /*  */
+#fach16     ul li#fach16:hover,    /*  */
+#fach17     ul li#fach17:hover,    /*  */
+#fach18     ul li#fach18:hover,    /*  */
+#fach19     ul li#fach19:hover,    /*  */
+#fach20     ul li#fach20:hover,    /*  */
+#fach21     ul li#fach21:hover,    /*  */
+#fach22     ul li#fach22:hover,    /*  */
+#fach23     ul li#fach23:hover,    /*  */
+#fach24     ul li#fach24:hover,    /*  */
+#fach25     ul li#fach25:hover,    /*  */
+#fach26     ul li#fach26:hover,    /*  */
+#fach27     ul li#fach27:hover,    /*  */
+#fach28     ul li#fach28:hover,    /*  */
+#fach29     ul li#fach29:hover,    /*  */
+#fach30     ul li#fach30:hover,    /*  */
+#fach31     ul li#fach31:hover,    /*  */
+#fach32     ul li#fach32:hover,    /*  */
+#fach33     ul li#fach33:hover,    /*  */
+#fach34     ul li#fach34:hover,    /*  */
+#fach35     ul li#fach35:hover,    /*  */
+#fach36     ul li#fach36:hover,    /*  */
+#fach37     ul li#fach37:hover,    /*  */
+#fach38     ul li#fach38:hover {
+    background-color: @menu_active__background_color;
+}
+
+
+
+h1 {
+    margin-right: auto;
+}
+ul.booklist {
+    margin: 0 auto 5em auto;
+    padding: 0 0 10px 20px;
+    text-align: left;
+    list-style: none;
+    margin-left: @ul_booklist__margin_left;
+    /* wird durch wert in der html-Datei ueberschrieben! */
+    width: 1000%;
+    margin-bottom: -17px;
+    background: url("@{Regal_Grafik_Mitte__background}") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+body.fixed.unfolded ul.booklist {
+    /* flexibel machen */
+    margin-left: 290px;
+}
+body.fixed ul.booklist {
+    /* flexibel machen */
+    margin-left: 82px;
+}
+
+
+ul.booklist li {
+    display: inline-block;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    width: @ul_booklist_li__width;
+    height: @ul_booklist_li__height;
+    line-height: @ul_booklist_li__line_height;
+    vertical-align: top;
+    list-style: none;
+    position: relative;
+    background: url("@{Regal_Grafik_Mitte__background}") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    margin-left: -4px;
+    margin-right: -4px;
+    right: -4px;
+}
+ul.booklist div,
+ul.booklist div.cover {
+    display: block;
+    position: absolute;
+    width: 100%;
+    /* Korreliert mit xxx */
+    bottom: 9px;
+    line-height: 1em;
+    padding: 0 0 10px 0;
+    margin-left: 10px;
+}
+
+ul.booklist div.buchsignatur {
+    /* Korreliert mit xxx */
+    bottom: 4px;
+    font-family: arial;
+    font-size: 15px;
+    color: @buchsignatur__color;
+    margin-left: 10px;
+    text-align: left;
+}
+
+
+ul.booklist div.sigposEbook {
+    /* Korreliert mit xxx ev hier nicht vorher 4*/
+    bottom: 0;
+    font-family: arial;
+    font-size: 15px;
+    margin-left: 10px;
+    text-align: center;
+    width: @cover_breite;
+}
+ul.booklist div.sigposEbook a img,
+ul.booklist div.sigposEbook img {
+    box-shadow: none;
+    line-height: 1em;
+    margin-bottom: 0;
+    max-height: @cover_hoehe;
+    max-width: @cover_breite;
+    vertical-align: bottom;
+}
+
+ul.booklist div.shelf-image-jahr {
+    bottom: 0;
+    margin-left: 0px;
+    padding-bottom: 0;
+    padding-top: 7px;
+    position: relative;
+}
+
+ul.booklist div.cover {
+    /* Korreliert mit xxx */
+    bottom: 24px;
+}
+
+
+ul.booklist img {
+    border: none;
+    -webkit-box-shadow: 0 -2px 20px rgba(0,0,0,0.8);
+    -moz-box-shadow: 0 -2px 20px rgba(0,0,0,0.8);
+    box-shadow: 0 -2px 20px rgba(0,0,0,0.8);
+    max-width: @cover_breite;
+    max-height: @cover_hoehe;
+    vertical-align: bottom;
+    line-height: 1em;
+}
+
+ul.booklist div.cover a img.img_qr {
+    margin-left: -6px;
+}
+
+ul.booklist li div a {
+    outline: 0;
+    font-size: 0px;
+}
+
+
+ul.booklist .qrcode {
+    width: @qr_breite;
+    left: (@cover_breite - 10px - 6px);
+
+}
+
+body {
+    overflow-y:hidden;
+}
+
+body.fixed.folded .navi {
+    position: fixed;
+}
+
+.navi,
+.hide-navi,
+body.fixed.unfolded div.navi {
+    background-color: @menu__background_color;
+    /* Farbe des Pfeils vor der Navigation */
+    color: @menu__color;
+    float: left;
+    padding-right: 10px;
+    width: 234px;
+    width: 205px;
+
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.navi,
+.wo-mainnavi-menu  {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+body.top-navi-to-bottom .navi {
+    bottom: 22px;
+    position: absolute;
+}
+
+.navi > ul,
+.wo-mainnavi-menu > ul {
+    list-style: disc outside url("../images/pfeil_rot.png");
+    padding-left: 25px;
+}
+
+.navi > ul,
+.wo-mainnavi-menu > ul {
+    padding-left: 0;
+    padding-right: 15px;
+}
+.navi > ul li{
+    list-style: none;
+    padding-left: 25px;
+}
+.navi > ul li:before{
+    content: '' /*fontawesome char code inside the ''*/;
+    font-family: FontAwesome;
+    display: inline-block;
+    margin-left: -20px;
+    width: 20px;
+}
+
+
+
+/*----------------------------------------------------------------------*/
+/* Formatieren des jeweils aktuellen Menuebereichs via body id und li id */
+/*----------------------------------------------------------------------*/
+#index      ul li#index,     /* index */
+#fach01     ul li#fach01,    /*  */
+#fach02     ul li#fach02,    /*  */
+#fach03     ul li#fach03,    /*  */
+#fach04     ul li#fach04,    /*  */
+#fach05     ul li#fach05,    /*  */
+#fach06     ul li#fach06,    /*  */
+#fach07     ul li#fach07,    /*  */
+#fach08     ul li#fach08,    /*  */
+#fach09     ul li#fach09,    /*  */
+#fach10     ul li#fach10,    /*  */
+#fach11     ul li#fach11,    /*  */
+#fach12     ul li#fach12,    /*  */
+#fach13     ul li#fach13,    /*  */
+#fach14     ul li#fach14,    /*  */
+#fach15     ul li#fach15,    /*  */
+#fach16     ul li#fach16,    /*  */
+#fach17     ul li#fach17,    /*  */
+#fach18     ul li#fach18,    /*  */
+#fach19     ul li#fach19,    /*  */
+#fach20     ul li#fach20,    /*  */
+#fach21     ul li#fach21,    /*  */
+#fach22     ul li#fach22,    /*  */
+#fach23     ul li#fach23,    /*  */
+#fach24     ul li#fach24,    /*  */
+#fach25     ul li#fach25,    /*  */
+#fach26     ul li#fach26,    /*  */
+#fach27     ul li#fach27,    /*  */
+#fach28     ul li#fach28,    /*  */
+#fach29     ul li#fach29,    /*  */
+#fach30     ul li#fach30,    /*  */
+#fach31     ul li#fach31,    /*  */
+#fach32     ul li#fach32,    /*  */
+#fach33     ul li#fach33,    /*  */
+#fach34     ul li#fach34,    /*  */
+#fach35     ul li#fach35,    /*  */
+#fach36     ul li#fach36,    /*  */
+#fach37     ul li#fach37,    /*  */
+#fach38     ul li#fach38,    /*  */
+#index      ul li#index i,     /* index */
+#fach01     ul li#fach01 i,    /*  */
+#fach02     ul li#fach02 i,    /*  */
+#fach03     ul li#fach03 i,    /*  */
+#fach04     ul li#fach04 i,    /*  */
+#fach05     ul li#fach05 i,    /*  */
+#fach06     ul li#fach06 i,    /*  */
+#fach07     ul li#fach07 i,    /*  */
+#fach08     ul li#fach08 i,    /*  */
+#fach09     ul li#fach09 i,    /*  */
+#fach10     ul li#fach10 i,    /*  */
+#fach11     ul li#fach11 i,    /*  */
+#fach12     ul li#fach12 i,    /*  */
+#fach13     ul li#fach13 i,    /*  */
+#fach14     ul li#fach14 i,    /*  */
+#fach15     ul li#fach15 i,    /*  */
+#fach16     ul li#fach16 i,    /*  */
+#fach17     ul li#fach17 i,    /*  */
+#fach18     ul li#fach18 i,    /*  */
+#fach19     ul li#fach19 i,    /*  */
+#fach20     ul li#fach20 i,    /*  */
+#fach21     ul li#fach21 i,    /*  */
+#fach22     ul li#fach22 i,    /*  */
+#fach23     ul li#fach23 i,    /*  */
+#fach24     ul li#fach24 i,    /*  */
+#fach25     ul li#fach25 i,    /*  */
+#fach26     ul li#fach26 i,    /*  */
+#fach27     ul li#fach27 i,    /*  */
+#fach28     ul li#fach28 i,    /*  */
+#fach29     ul li#fach29 i,    /*  */
+#fach30     ul li#fach30 i,    /*  */
+#fach31     ul li#fach31 i,    /*  */
+#fach32     ul li#fach32 i,    /*  */
+#fach33     ul li#fach33 i,    /*  */
+#fach34     ul li#fach34 i,    /*  */
+#fach35     ul li#fach35 i,    /*  */
+#fach36     ul li#fach36 i,    /*  */
+#fach37     ul li#fach37 i,    /*  */
+#fach38     ul li#fach38 i     /*  */
+{
+    color: @menu_active__color;
+}
+
+.wo-mainnavi-menu > ul {
+    padding-left: 13px;
+}
+
+.navi li {
+    margin-bottom: 1px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+.navi a,
+.navi a.active {
+    color: @menu__color;
+    font-size: 12px;
+    line-height: 12px;
+    margin: 10px 0 0;
+    padding: 0;
+    text-decoration: none;
+}
+
+
+.navi a.active {
+    color: @menu_active__color;
+}
+
+
+.navi a:hover,
+li#top-navi-to-bottom:hover,
+li#top-navi-to-top:hover {
+    color: @menu__color;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+
+/* Navigation verkleinern */
+body.folded div.navi {
+    width: 8px;
+}
+
+body.folded div.navi,
+body.folded div.wo-mainnavi-menu {
+    display: none;
+}
+
+#collapse-menu:hover {
+    font-weight: bold;
+}
+#collapse-menu {
+    text-decoration: none;
+    list-style: none outside none;
+}
+
+#collapse-menu,
+div.wo-mainnavi-menu ul li {
+    cursor: pointer;
+}
+
+.hide-navi {
+    display: none;
+}
+
+body.folded ul.booklist {
+    margin-left: 14px;
+}
+
+/* Normale Navigation zwar fixieren aber auch ausblenden */
+body.fixed.unfolded div.navi {
+    display: block;
+    position: fixed;
+    z-index: 101;
+}
+
+/* Ende Navigation */
+
+
+
+#top-navi-to-bottom,
+#top-navi-to-top {
+    display: none;
+}
+
+
+
+
+
+
+/* neu 2014-03-17, 10:04:05 */
+/* Menuepunkt: "Naviation unten" wenn unten*/
+body div#navirahmen div.wo-mainnavi-menu ul li#top-navi-to-bottom {
+    display: list-item;
+}
+/* Menuepunkt: "Naviation unten" wenn oben */
+body.top-navi-to-bottom div#navirahmen div.wo-mainnavi-menu ul li#top-navi-to-bottom {
+    display: none;
+}
+/* Menuepunkt: "Naviation oben" wenn unten*/
+body div#navirahmen div.wo-mainnavi-menu ul li#top-navi-to-top {
+    display: none;
+}
+/* Menuepunkt: "Naviation oben" wenn oben */
+body.top-navi-to-bottom div#navirahmen div.wo-mainnavi-menu ul li#top-navi-to-top {
+    display: list-item;
+}
+
+
+
+
+
+ul.booklist li.anfang {
+    background: url("@{Regal_Grafik_Anfang__background}") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    width: 65px;
+}
+
+ul.booklist li.abschluss {
+    background: url("@{Regal_Grafik_Abschluss__background}") no-repeat scroll -51px 0 rgba(0, 0, 0, 0);
+    width: 69px;
+}
+
+ul.booklist div.cover img.ebookicon,
+ul.booklist div.cover a img.ebookicon {
+    border: medium none;
+    box-shadow: none;
+    float: none;
+    line-height: 1em;
+    margin-bottom: 48px;
+    max-height: @cover_hoehe;
+    max-width: 155px;
+    position: relative;
+    right: 44px;
+    vertical-align: top;
+}
+
+ul.booklist div div.ebookicondiv {
+    border: medium none;
+    box-shadow: none;
+    position: absolute;
+    right: -13px;
+    text-align: right;
+    top: 0;
+    vertical-align: top;
+}
+
+ul.booklist div div.ebookicondiv img.ebookicon {
+   box-shadow: none;
+}
+
+/* ---------------------------------------------------------------------------------- */
+/* ebookicondiv2 wird nur fuer die Entwicklung benoetigt 2014-06-24, 16:29:57 Fallert */
+/* ---------------------------------------------------------------------------------- */
+ul.booklist div div.ebookicondiv2 {
+    border: none;
+    display: block;
+    height: 188px;
+    position: relative;
+    right: -7px;
+    text-align: right;
+    vertical-align: top;
+    width: 94%;
+}
+
+div div.ebookicondiv2 a {
+    left: 35px;
+    text-align: right;
+    width: 100%;
+}
+
+div.ebookicondiv2 a img.ebookicon {
+    border: 1px none #008000;
+    display: block;
+    position: absolute;
+    right: 19px;
+    text-align: right;
+    top: 0;
+    vertical-align: top;
+    box-shadow: none;
+    z-index: 50;
+}
+/* ---------------------------------------------------------------------------------- */
+/* ebookicondiv2 wird nur fuer die Entwicklung benoetigt 2014-06-24, 16:29:57 Fallert */
+/* ---------------------------------------------------------------------------------- */
+
+
+
+.lazy0,
+.lazy1,
+.lazy2,
+.lazy3 {
+    opacity: 0;
+}
+
+
+div#navirahmen div.wo-mainnavi-menu,
+body.top-navi-to-bottom div#navirahmen div.wo-mainnavi-menu {
+    bottom: -8px;
+    position: absolute;
+}
+body.fixed.unfolded div#navirahmen div.wo-mainnavi-menu,
+body.fixed.unfolded.top-navi-to-bottom div#navirahmen div.wo-mainnavi-menu {
+    position: fixed;
+    z-index: 101;
+}
+
+
+div#navirahmen div.wo-mainnavi-menu ul {
+    list-style: none outside none;
+}
+
+
+div#navirahmen div.wo-mainnavi-menu ul li i.fa-border {
+    margin-right: 7px;
+    padding-bottom: 4px;
+}
+
+
+#navirahmen,
+body.fixed.unfolded #navirahmen {
+    background-color: @menu__background_color;
+    color: @menu__color;
+    float: left;
+    height: 100%;
+    width: @id_navirahmen__width;
+}
+
+body.fixed.unfolded #navirahmen {
+    position: fixed;
+    z-index: 100;
+}
+
+#collapse-menu {
+    border-left: 4px solid @id_collapse_menu__border_left_color;
+    border-right: 4px solid @menu__border_right__color;
+    height: 100%;
+    margin-left: 215px;
+    padding-left: @id_collapse_menu__padding_left;
+    position: relative;
+    vertical-align: middle;
+    z-index: 100;
+}
+
+body .menue_einklappen_abstand,
+body.folded .menue_ausklappen_abstand,
+body.fixed .menue_ausklappen_abstand {
+    height: 100%;
+    position: absolute;
+    top: 50%;
+}
+
+body.folded .menue_einklappen_abstand,
+body.fixed .menue_einklappen_abstand {
+    display: none;
+}
+
+
+body .menue_ausklappen_abstand,
+body.fixed.unfolded .menue_ausklappen_abstand {
+    display: none;
+}
+
+body.folded .menue_ausklappen_abstand,
+body.fixed .menue_ausklappen_abstand,
+body.fixed.unfolded .menue_einklappen_abstand {
+    display: block;
+}
+
+
+
+body.fixed #navirahmen {
+    width: @gesamt_navirahmen__width;
+}
+body.folded #navirahmen {
+    width: @gesamt_navirahmen_folded__width;
+}
+
+
+body.fixed  #collapse-menu {
+    position: fixed;
+}
+
+
+body.folded #collapse-menu,
+body.fixed #collapse-menu {
+    margin-left: 0;
+}
+body.fixed.unfolded #collapse-menu {
+    border-right: 4px solid @menu__border_right__color;
+    margin-left: 215px;
+    width: @bei_fixed_und_unfolded_id_collapse_menu__width;
+}
+
+body.fixed #collapse-menu {
+    background-color: @menu__background_color;
+    width: @bei_fixed_id_collapse_menu__width;
+    z-index: 100;
+    border-right: 4px solid @menu__border_right__color;
+}
+
+body.folded.fixed #collapse-menu {
+    left: 0px;
+    width: @bei_fixed_und_folded_id_collapse_menu__width;
+    border-right: 4px solid @menu__border_right__color;
+}
+
+
+/*-------------------------------------------------------*/
+/* Regale umsortieren wenn Navigation nach unten springt */
+/*-------------------------------------------------------*/
+body.top-navi-to-bottom ul.booklist.regal_0,
+body.top-navi-to-bottom ul.booklist.regal_1,
+body.top-navi-to-bottom ul.booklist.regal_2,
+body.top-navi-to-bottom ul.booklist.regal_3 {
+    float: left;
+    position: absolute;
+}
+
+body.top-navi-to-bottom ul.booklist.regal_0 {
+    bottom: 7px;
+}
+
+body.top-navi-to-bottom ul.booklist.regal_1 {
+    bottom: 247px;
+}
+
+body.top-navi-to-bottom ul.booklist.regal_2 {
+    bottom: 487px;
+}
+
+body.top-navi-to-bottom ul.booklist.regal_3 {
+    bottom: 725px;
+}
+/*------------------------------------------------------------*/
+/* Ende Regale umsortieren wenn Navigation nach unten springt */
+/*------------------------------------------------------------*/
+
+
+ul.booklist span.regalnummer {
+    background-color: @regalnummer__background_color;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 0.8);
+    color: @regalnummer__color;
+    font-family: arial;
+    margin-left: 25px;
+    padding: 3px;
+    border: 1px solid;
+}
+
+
+/* bei fixierter Navigation Zahlen am Anfang der Regalreihen fixieren */
+/* und die Position des Regalanfangs bestimmen */
+body.fixed ul.booklist li.anfang {
+    background: url("@{Regal_Grafik_Anfang__background}") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    left: 36px;
+    position: fixed;
+    /* Anpassbar machen */
+    width: 52px;
+    z-index: 106;
+}
+
+body.folded.fixed ul.booklist li.anfang {
+    left: @li_anfang_folded_fixed__left;
+}
+
+body.fixed ul.booklist li.anfang {
+    left: @li_anfang_fixed__left;
+}
+
+body.folded ul.booklist li.anfang {
+    left: 4px;
+}
+
+
+
+/* bei fixierter und expandierter Navigation Zahlen am Anfang der Regalreihen fixieren aber weiter rechts wg. naviviation*/
+body.fixed.unfolded ul.booklist li.anfang {
+    left: @bei_fixed_und_unfolded_ul_booklist_li_anfang__left;
+}
+
+
+ul.booklist {
+    height: @ul_booklist__height;
+}
+
+#header {
+    background-color: @header__background_color;
+    height: @header_hoehe;
+    margin-bottom: 4px;
+    position: fixed;
+    top: 0;
+    min-width: 100%;
+}
+
+#abstand {
+    margin-bottom: 100px;
+    width: 1000px;
+}
+
+
+#unilogo {
+    background-color: #FFFFFF;
+    height: @header_hoehe;
+    padding-right: @id_unilogo__padding_right;
+    position: absolute;
+}
+
+
+
+
+
+
+/* mit neuem Logo */
+#trailer {
+    background-color: @header__background_color;
+    left: @id_trailer__left;
+    padding-left: 0;
+    position: absolute;
+}
+#trailer > img {
+    position: relative;
+    top: 8px;
+}
+
+
+#loadContainer {
+    display: none;
+}
+#load {
+    background: none repeat scroll 0 0 #000000;
+    float: left;
+    height: 100%;
+    left: auto;
+    margin-left: 0;
+    margin-right: 0;
+    opacity: 0.73;
+    padding: 25% 40px 40px 45%;
+    position: fixed;
+    right: auto;
+    top: 0;
+    width: 100%;
+    z-index: 1002;
+}
+
+#loadZeige {
+    background-color: #FFFFFF;
+    float: left;
+    left: 45%;
+    opacity: 1;
+    padding: 70px;
+    position: fixed;
+    top: 41%;
+    z-index: 1010;
+}
+
+
+/* neu wg. verschiebeversuche */
+body.fixed div.navi,
+body.fixed div.wo-mainnavi-menu {
+    display: none;
+}
+
+.img_buchcover {
+    width: @cover_breite;
+}
+
+.img_qr {
+    width: @qr_breite;
+    height: @qr_hoehe;
+}
+
+
+/*-------------------------------------------------------------------------------------------*/
+/* Aus substitute.css uebernommen                                                            */
+/* 18.06.2014, 16:04:15 Fallert
+/*-------------------------------------------------------------------------------------------*/
+ul.booklist div.shelf-image-container,
+ul.booklist span.shelf-image-container {
+	margin: 0 auto;
+	padding: 0 0 8px 0;
+	text-decoration: none;
+}
+ul.booklist div.shelf-image-container,
+ul.booklist span.shelf-image-container {
+    width: @cover_breite;
+	height: @cover_hoehe;
+	margin: 20px 5px 0 5px;
+	text-align: center;
+    margin-left: 0px;
+}
+ul.booklist div.shelf-image-container image,
+ul.booklist span.shelf-image-container image {
+	border: none;
+}
+
+ul.booklist div.shelf-image-substitute,
+ul.booklist span.shelf-image-substitute {
+	overflow: hidden;
+	position: relative;
+	color: @ohne_cover_shelf_image_substitute__color;
+	font-family: Verdana, Verdana, Geneva, sans-serif;
+	display: inline-block;
+	text-align: center;
+	vertical-align: top;
+	padding: 0px;
+	text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    margin-left: 0px;
+}
+ul.booklist div.shelf-image-substitute,
+ul.booklist span.shelf-image-substitute {
+    width: 100%;
+	height: @cover_hoehe;
+	font-size: 18px;
+}
+ul.booklist div.shelf-image-bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background-size: 100% 100%;
+    margin-left: 0px;
+}
+ul.booklist div.shelf-image-title,
+ul.booklist div.shelf-image-subtitle,
+ul.booklist div.shelf-image-authors {
+	display: inline-block;
+	z-index: 0;
+}
+
+ul.booklist div.shelf-image-title,
+ul.booklist div.shelf-image-title11 {
+    font-size: @ohne_cover_shelf_image_title__font_size;
+    margin-left: 10px;
+    padding-top: 0.5em;
+    position: relative;
+    width: 90%;
+}
+
+ul.booklist div.shelf-image-title11 {
+    font-size: 11px;
+}
+
+
+ul.booklist div.shelf-image-subtitle {
+	position: relative;
+	padding-top: 0.5em;
+	font-size: @ohne_cover_shelf_image_subtitle__font_size;
+    width: 90%;
+}
+ul.booklist div.shelf-image-authors {
+	position: absolute;
+	font-size: @ohne_cover_shelf_image_authors__font_size;
+	padding: 1em 0 1.5em 0;
+	bottom: 0;
+	right: 6px;
+    width: 90%;
+}
+ul.booklist div.shelf-image-authors.static {
+	position: static;
+}
+
+ul.booklist div.shelf-ie-no-text-shadow {
+	text-shadow: none;
+}
+ul.booklist div.shelf-ie-box-shadow {
+	position: absolute;
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='5',MakeShadow='true',ShadowOpacity='0.25');
+	background: black;
+}
+ul.booklist div.shelf-ie-text-shadow {
+	position: absolute;
+	left: -2px;
+	right: 2px;
+	top: -1px;
+	bottom: 1px;
+	z-index: -1;
+	filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='2',MakeShadow='true',ShadowOpacity='0.25');
+}
+ul.booklist div.shelf-image-title > .shelf-ie-text-shadow {
+	padding-top: 0.5em;
+}
+ul.booklist div.shelf-image-subtitle > .shelf-ie-text-shadow {
+	padding-top: 0.5em;
+}
+ul.booklist div.shelf-image-authors > .shelf-ie-text-shadow {
+	padding: 1em 0 1.5em 0;
+}
+
+/* eof: booklist.less */
