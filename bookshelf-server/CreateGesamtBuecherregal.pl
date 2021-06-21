@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 #-------------------------------------------------------------------------------
-# Copyright (C) 2019 Universitätsbibliothek Mannheim
+# Copyright (C) 2021 Universitätsbibliothek Mannheim
 # Name:
 #       CreateGesamtBuecherregal.pl
 # Author:
@@ -11,6 +11,8 @@
 #       erzeugen aller HTML-Dateien
 #       holen der cover images von Open Library
 #       wenn nicht gefunden, holen der cover images von amazon
+#       erzeugen der CSS-Dateien wurde jetzt optional gemacht, standardmäßig werden
+#       keine Css-Dateien mehr erzeugt, diese werden jetzt per grunt / less erzeugt
 # Aufruf:
 #       perl CreateGesamtBuecherregal.pl --print=LBS_gesamt.csv --ebook=ebooks.csv
 #       da vor diesem Script zusätzlich CreateQRCodeFuerBuecherregal.pl
@@ -240,6 +242,7 @@ my $lMitGestensteuerung     = $cfg->val( 'GESTENSTEUERUNG', 'erzeuge' );
 my $tastendruckmultiplikator= $cfg->val( 'GESTENSTEUERUNG',
                                             'tastendruckmultiplikator' );
 my $AusgleichsPixel         = 20;
+my $lErzeugeCSS             = $falsch;
 
 
 
@@ -280,6 +283,7 @@ if (lc($lMitGestensteuerung) eq "ja" ||
 GetOptions(
             "sourceprint|quellprint|print=s"        => \$pSourceFilePrint,
             "sourceebook|quellebook|ebook=s"        => \$pSourceFileEbook,
+            "erzeugeCss"                            => \$lErzeugeCSS,
             # Errolog beim Starten loeschen
             "resetlog"                              => \$lresetlog,
             "debug"                                 => \$debug,
@@ -886,20 +890,21 @@ if ($lMitGestensteuerung) {
 }
 
 
-print "-"x40 . "\n";
-print "Erzeuge jetzt CSS-Datei\n";
-print "-"x40 . "\n";
+if ($lErzeugeCSS) {
+    print "-"x40 . "\n";
+    print "Erzeuge jetzt CSS-Datei\n";
+    print "-"x40 . "\n";
 
-$templCssRef->{index}   = $html;
-my $cssFile             = "css/booklist_erz.css";
+    $templCssRef->{index}   = $html;
+    my $cssFile             = "css/booklist_erz.css";
 
-# CSS-Datei jetzt auch erzeugen, dadurch sind berechnete Werte übernehmbar
-call_templateCSS(
-                    $templCssRef,
-                    $htmlpath . '/' . $cssFile,
-                    $nAnzahlReihen
-                );
-
+    # CSS-Datei jetzt auch erzeugen, dadurch sind berechnete Werte übernehmbar
+    call_templateCSS(
+                        $templCssRef,
+                        $htmlpath . '/' . $cssFile,
+                        $nAnzahlReihen
+                    );
+};
 
 
 #-------------------------------------------------------------------------------
