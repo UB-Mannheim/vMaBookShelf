@@ -38,6 +38,7 @@ module.exports = function (grunt) {
             less_master_base: 'less',
             bower_font_awesome: '<%= bower_basepath %>/font-awesome',
             bower_jquery_dist: '<%= bower_basepath %>/jquery/dist',
+            bower_jquery_lazy_load_dist: '<%= bower_basepath %>/jquery-lazyload',
             bower_jquery_1_dist: '<%= bower_basepath %>/jquery-legacy/dist'
         },
 
@@ -49,21 +50,21 @@ module.exports = function (grunt) {
                 }]
             }
         },
-
-        concat: {
-            dist: {
-                src: ['bower_components/jquery/dist/jquery.js'],
-                dest: '<%= paths.dist %>/js/jquery.js'
-            },
-            ma_js: {
-                //src: ['bower_components/jquery/dist/jquery.js'],
-                src: ['<%= paths.app %>/ma/js/ub-man.js',
-                      '<%= paths.app %>/ma/js/cookie_notice.js'
-                    ],
-                dest: '<%= paths.dist %>/js/ub-man.js',
-            },
-        },
-
+//
+//        concat: {
+//            dist: {
+//                src: ['bower_components/jquery/dist/jquery.js'],
+//                dest: '<%= paths.dist %>/js/jquery.js'
+//            },
+//            ma_js: {
+//                //src: ['bower_components/jquery/dist/jquery.js'],
+//                src: ['<%= paths.app %>/ma/js/ub-man.js',
+//                      '<%= paths.app %>/ma/js/cookie_notice.js'
+//                    ],
+//                dest: '<%= paths.dist %>/js/ub-man.js',
+//            },
+//        },
+//
         uglify: {
             dist: {
                 options: {
@@ -75,16 +76,16 @@ module.exports = function (grunt) {
                             "(c) jQuery Foundation | jquery.org/license */"
                 }
             },
-            ma_js: {
+            jquery_lazy_load: {
                 options: {
                     mangle: false,
                     compress: true,
                     sourceMap: true,
                     preserveComments: false,
-                    banner: "/*! ub-man.js | (c) UB Mannheim <%= grunt.template.today('yyyy.mm.dd HH:MM:ss') %> */"
+                    banner: "/*! jquery.lazyload.js | (c) UB Mannheim <%= grunt.template.today('yyyy.mm.dd HH:MM:ss') %> */"
                 },
                 files: {
-                    '<%= paths.webjs %>/ub-man.min.js': '<%= paths.dist %>/js/ub-man.js'
+                    '<%= paths.webjs %>/jquery-lazyload.min.js': '<%= paths.dist %>/js/jquery-lazyload.js'
                 },
             },
             jquery_1: {
@@ -133,6 +134,11 @@ module.exports = function (grunt) {
                     '<%= paths.webjs %>/jquery.min.map' : '<%= paths.bower_jquery_dist %>/jquery.min.map'
                 }
             },
+            dist_jquery_lazy_load : {
+                files : {
+                    '<%= paths.dist %>/js/jquery-lazyload.js' : '<%= paths.bower_jquery_lazy_load_dist %>/jquery.lazyload.js'
+                }
+            },
             ma_icon_02_resource : {
                 files : {
                     '<%= paths.webcss %>/fonts/ma-icon-02.eot' : '<%= paths.app_ma_icon_02 %>/fonts/ma-icon-02.eot',
@@ -172,7 +178,25 @@ module.exports = function (grunt) {
           css_core: {
             sourceMap: true,
             files: {
-                '<%= paths.webcss %>/booklist.min.css': '<%= paths.dist %>/css/booklist.css'
+                '<%= paths.webcss %>/booklist_erz.min.css': '<%= paths.dist %>/css/booklist.css'
+            }
+          },
+          css_substitute: {
+            sourceMap: true,
+            files: {
+                '<%= paths.webcss %>/substitute.min.css': '<%= paths.dist %>/css/substitute.css'
+            }
+          },
+          css_gesten: {
+            sourceMap: true,
+            files: {
+                '<%= paths.webcss %>/gesten.min.css': '<%= paths.dist %>/css/gesten.css'
+            }
+          },
+          css_externeurls: {
+            sourceMap: true,
+            files: {
+                '<%= paths.webcss %>/externeurls.min.css': '<%= paths.dist %>/css/externeurls.css'
             }
           },
           mafont: {
@@ -193,7 +217,10 @@ module.exports = function (grunt) {
             },
             // gilt nicht hier! Vor dem kompilieren wurde die Version aus relaunch_2016 hierher kopiert
             files: {
-                '<%= paths.dist %>/css/booklist.css': '<%= paths.app %>/less/booklist.less'
+                '<%= paths.dist %>/css/booklist.css': '<%= paths.app %>/less/booklist.less',
+                '<%= paths.dist %>/css/substitute.css': '<%= paths.app %>/less/substitute.less',
+                '<%= paths.dist %>/css/gesten.css': '<%= paths.app %>/less/gesten.less',
+                '<%= paths.dist %>/css/externeurls.css': '<%= paths.app %>/less/externeurls.less'
             }
           }
         },
@@ -241,9 +268,12 @@ module.exports = function (grunt) {
         'less:maCompileBase',
         'autoprefixer:css_core',
         'cssmin:css_core',
+        'cssmin:css_substitute',
+        'cssmin:css_gesten',
+        'cssmin:css_externeurls',
         'copy:dist_jquery',
-        'concat:ma_js',
-        'uglify:ma_js',
+        'copy:dist_jquery_lazy_load',
+        'uglify:jquery_lazy_load',
         'uglify:jquery_1'
     ]);
 
