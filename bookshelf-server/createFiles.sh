@@ -8,3 +8,5 @@ perl CreateGesamtBuecherregal.pl
 #then
 #   source ErzeugeMiniVersion.sh
 #fi
+
+grunt
