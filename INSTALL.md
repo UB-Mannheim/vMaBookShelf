@@ -27,52 +27,32 @@
   see the example in this file.
 
 
-### Java
+### Node.js
 
-A local version of Java is needed to minimize the js and css files.
-See
-  * [bookshelf-server/html/js/ErzeugeMiniVersion.sh_sample](bookshelf-server/html/js/ErzeugeMiniVersion.sh_sample) (for Linux)
-  * [bookshelf-server/html/js/ErzeugeMiniVersion.cmd_sample](bookshelf-server/html/js/ErzeugeMiniVersion.cmd_sample) (for Windows)
-
-There you have to insert the path into the variable "javaprog".
-
-apt-get install openjdk-7-jdk
+Node.js is now used to generate and compress the css files. The js files are also compressed with it. Java and YUICompressor is no longer needed.
 
 
-### YUICompressor
-It is needed for minimizing js and css files.
-See
-  * bookshelf-server/html/js/ErzeugeMiniVersion.sh_sample (for Linux)
-  * bookshelf-server/html/js/ErzeugeMiniVersion.cmd_sample (for Windows)
-
-There you have to insert the path into the variable "yuicomp".
-
-#### Download YUICompressor
-
-https://github.com/yui/yuicompressor/releases
-and download the actual jar file.
-
-#### Install YUICompressor
-
-See https://github.com/yui/yuicompressor/blob/master/README.md
-
-#### Rename Scripts to use YUICompressor
-Rename and adapt the example to your needs
-in this file you put the path and name of the jar file to the variable "yuicomp"
+#### Downloading and installing Node.js and npm
+    * https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 
-##### Linux
-Rename
-  * bookshelf-server/html/js/ErzeugeMiniVersionen.sh_sample to
-  * bookshelf-server/html/js/ErzeugeMiniVersionen.sh
+##### Windows Node version managers
+    * nvm-windows
+        * https://github.com/coreybutler/nvm-windows
 
-make the file executable
-  * chmod u+x bookshelf-server/html/js/ErzeugeMiniVersionen.sh
 
-##### Windows
-Rename
-  * bookshelf-server/html/js/ErzeugeMiniVersionen.cmd_sample to
-  * bookshelf-server/html/js/ErzeugeMiniVersionen.cmd
+#### install environment
+
+```bash
+nvm install 14
+nvm use 14.0.0
+npm install -g yarn
+yarn install
+npm install -g grunt-cli
+
+grunt
+```
+
 
 
 ### Perl
@@ -94,7 +74,6 @@ The scripts used the following perl modules. You can download them from cpan.
 - GD
 - GD::Barcode::QRcode
 - Image::Resize
-- HTML::Hyphenate
 - Config::IniFiles
 - Business::ISBN
 - File::Basename
@@ -102,7 +81,10 @@ The scripts used the following perl modules. You can download them from cpan.
 - JSON
 - Text::CSV
 
+
+##### is no longer needed
 - CGI::Enurl (Possibly unnecessary)
+- HTML::Hyphenate ()
 
 #### Install Perl-Module as Debian Pckages
 
@@ -154,14 +136,12 @@ CreateGesamtBuecherregal.pl are stored in
 
 
 ### Create minimized versions of js and css files
-For Linux, this step is now integrated in the
-bookshelf-server/createFiles.sh (see above).
+Das wird jetzt durch Grunt erledigt
 
-#### Manuel
-with
-cd bookshelf-server/html/js/
-- ./ErzeugeMiniVersion.sh   (for Linux)
-- ErzeugeMiniVersion.cmd    (for Windows)
+```bash
+grunt
+```
+
 
 ### RufeExterneURL.config.php
 Copy **RufeExterneURL.config.php_tmpl** to **RufeExterneURL.config.php**
@@ -176,6 +156,8 @@ create a symbolic link
 create a symbolic link
   * from: /usr/local/bin/vMaBookShelf/proxy-server/ds
   * to:   /var/www/ds, or copy the script to a different server
+
+
 
 
 ## Client where you like to test the Website

@@ -9,3 +9,6 @@ bookshelf-server/html/RufeExterneURL.config.php
 bookshelf-server/html/css/booklist_erz.css
 bookshelf-server/html/js/ErzeugeMiniVersion.sh
 yuicompressor/
+/bookshelf-server/node_modules
+/bookshelf-server/dist
+/bookshelf-server/bower_components
