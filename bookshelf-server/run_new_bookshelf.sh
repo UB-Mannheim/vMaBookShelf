@@ -10,9 +10,11 @@ perl HoleCSV_von_alma.pl --ebooks
 perl CreateQRCodeFuerBuecherregal.pl
 perl CreateGesamtBuecherregal.pl
 
-cd html/js
+#cd html/js
+#
+#if [ -f ErzeugeMiniVersion.sh ]
+#then
+#   source ErzeugeMiniVersion.sh
+#fi
 
-if [ -f ErzeugeMiniVersion.sh ]
-then
-   source ErzeugeMiniVersion.sh
-fi
+grunt
