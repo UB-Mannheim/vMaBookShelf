@@ -6,7 +6,7 @@
 
 - Rename **bookshelf-server/config/booklist.ini_tmpl** to **bookshelf-server/config/booklist.ini**
   and adapt the configuration to your needs.
-  See [bookshelf-server/config/README](bookshelf-server/config/README) for details.
+  See [bookshelf-server/config/README.md](bookshelf-server/config/README.md) for details.
 - Rename **bookshelf-server/template/buecherregal_header.tmpl_sample** to
          **bookshelf-server/template/buecherregal_header.tmpl**
   and adapt the example to your normal webpage header.
