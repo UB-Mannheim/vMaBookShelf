@@ -82,7 +82,7 @@ module.exports = function (grunt) {
                     compress: true,
                     sourceMap: true,
                     preserveComments: false,
-                    banner: "/*! jquery.lazyload.js | (c) UB Mannheim <%= grunt.template.today('yyyy.mm.dd HH:MM:ss') %> */"
+                    banner: "/*! jquery.lazyload.js | <%= grunt.template.today('yyyy.mm.dd HH:MM:ss') %> */"
                 },
                 files: {
                     '<%= paths.webjs %>/jquery-lazyload.min.js': '<%= paths.dist %>/js/jquery-lazyload.js'
