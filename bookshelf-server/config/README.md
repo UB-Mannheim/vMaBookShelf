@@ -1,19 +1,21 @@
+# README.md
+
 copy booklist.ini_tmpl to your local file booklist.ini.
 
 
-config/booklist.ini_tmpl
---------------------------
+## config/booklist.ini_tmpl
 
-[PATH]
-# csv files with book data
-# relative path
-csv=csv
+### [PATH]
+- csv files with book data
+- relative path
 
-# path for QR-Code files, the script will generate the QR-Code files
-# in these path. The path should be accessible via web browser
-#
-# absolute path
-qr_cache=/usr/local/bin/vMaBookShelf/bookshelf-server/html/QRCache/
+#### csv=csv
+
+- path for QR-Code files, the script will generate the QR-Code files
+- in these path. The path should be accessible via web browser
+- absolute path
+#### qr_cache=/usr/local/bin/vMaBookShelf/bookshelf-server/html/QRCache/
+
 # or Windows:
 # qr_cache=D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtual_bookshelf\html\QRCache\
 
