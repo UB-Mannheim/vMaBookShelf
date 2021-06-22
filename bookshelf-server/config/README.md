@@ -16,76 +16,75 @@ copy booklist.ini_tmpl to your local file booklist.ini.
 - absolute path
 #### qr_cache=/usr/local/bin/vMaBookShelf/bookshelf-server/html/QRCache/
 
-# or Windows:
-# qr_cache=D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtual_bookshelf\html\QRCache\
+- or Windows:
+#### qr_cache=D:\Data\listing\Perl\Primo\VirtuellesBuchregal\virtual_bookshelf\html\QRCache\
 
 
-# html-path
-# absolut or relative path
-# path to the directory where the script have to create the html files
-# create from this path a symbolic link to /var/www/**YourProjectName**
-html_path=html/
+- html-path
+- absolut or relative path
+- path to the directory where the script have to create the html files
+- create from this path a symbolic link to /var/www/**YourProjectName**
+#### html_path=html/
 
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # deprecated
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# better use
-# section '[URL]' variable 'html_web_path' +
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# html_web_path=/booklist/
+- better use
+- section '[URL]' variable 'html_web_path' +
+#### html_web_path=/booklist/
 
 
-[CSV]
-# file names without path
-# print => file with the book data for printed books
-# details see csv/print.readme.md
-print=sample_print.csv
+### [CSV]
+- file names without path
+- print => file with the book data for printed books
+- details see csv/print.readme.md
+#### print=sample_print.csv
 
 
-# file names without path
-# ebook => file with the book data for ebooks books
-# details see csv/ebook.readme.md
-ebook=sample_ebooks.csv
+- file names without path
+- ebook => file with the book data for ebooks books
+- details see csv/ebook.readme.md
+#### ebook=sample_ebooks.csv
 
 
 
-[URL]
-# This URL points to a script that forwards to Primo
-# This workaround is necessary because the number of characters must be encoded in the QR code, it is in this way much lower.
-# This URL will be complemented by 'MAN_ALEPH001494969'. see [ALEPH_ID] vorspann
-qr_base=http://link.bib.uni-mannheim.de/ds/
+### [URL]
+- This URL points to a script that forwards to Primo
+- This workaround is necessary because the number of characters must be encoded in the QR code, it is in this way much lower.
+- This URL will be complemented by 'MAN_ALEPH001494969'. see [ALEPH_ID] vorspann
+#### qr_base=http://link.bib.uni-mannheim.de/ds/
 
 
-# Used protocol.
-# Optional: default = http.
-# Possible values are http | https
-# ': //' is added by the script
-protocol=http
+- Used protocol.
+- Optional: default = http.
+- Possible values are http | https
+- ': //' is added by the script
+#### protocol=http
 
 
-# hostname full, (servername with html files and RufeExterneURL.php)
-# without "http://" !!!
-host=aleph.bib.uni-mannheim.de
+- hostname full, (servername with html files and RufeExterneURL.php)
+- without "http://" !!!
+#### host=aleph.bib.uni-mannheim.de
 
 
-# this is the directory that you specified as the target of the symbolic link of the 'html' subdirectory
-# if Apache DocumentRoot is /var/www
-# and your linked your html subdirecory to /var/www/booklist
-# then you should write here only /booklist/
-# This is a web path, not a unix path.
-#------------------------------------------------------------------------
-# The script adds at the beginning of these variables the following:
-#------------------------------------------------------------------------
-# section '[URL]' variable 'protocol' + '://' +
-# section '[URL]' variable 'host' +
-# section '[URL]' variable 'html_web_path' +
-# section '[URL]' variable 'openExterneURL_base'
-#------------------------------------------------------------------------
-# if the files are in the webroot you should write
-# html_web_path=/
-# moved from section '[PATH]' to '[URL]' at 18.12.2018
-html_web_path=/booklist/
+- this is the directory that you specified as the target of the symbolic link of the 'html' subdirectory
+- if Apache DocumentRoot is /var/www
+- and your linked your html subdirecory to /var/www/booklist
+- then you should write here only /booklist/
+- This is a web path, not a unix path.
+- ------------------------------------------------------------------------
+- The script adds at the beginning of these variables the following:
+- ------------------------------------------------------------------------
+- section '[URL]' variable 'protocol' + '://' +
+- section '[URL]' variable 'host' +
+- section '[URL]' variable 'html_web_path' +
+- section '[URL]' variable 'openExterneURL_base'
+- ------------------------------------------------------------------------
+- if the files are in the webroot you should write
+- html_web_path=/
+- moved from section '[PATH]' to '[URL]' at 18.12.2018
+#### html_web_path=/booklist/
 
 
 #--------------------------------------------------------------------------------
@@ -107,7 +106,7 @@ printMedien_base=http://primo.bib.uni-mannheim.de/primo_library/libweb/action/dl
 
 
 
-[ALEPH_ID]
+### [ALEPH_ID]
 # Every ID in the local opac beginn with ...
 # in Primo you can identify this string if you search for 'doc' within the link of 'Details'
 #
@@ -118,7 +117,7 @@ vorspann=MAN_ALEPH
 
 
 
-[INDEX]
+### [INDEX]
 # file name of the index file.
 html=index.html
 
@@ -128,7 +127,7 @@ html_gestensteuerung=index_g.html
 
 
 
-[STORE]
+### [STORE]
 # cache file if you didn't find a cover for this book
 # if a id is in this file the script will skip thes id if it has to check amazon
 # relative path with file name and perhaps extension
@@ -136,14 +135,14 @@ kein_treffer_cache_file=DatenCache/keinTreffer.dat
 
 
 
-[REGAL]
+### [REGAL]
 # shelf rows
 # attention: at the moment only 4 rows!!!!
 regal_reihen=4
 
 
 
-[NAVIGATION]
+### [NAVIGATION]
 # list of Subjects
 # in the direction in which they should be displayed in the html files
 # key is value in the csv file
@@ -181,7 +180,7 @@ regal_reihen=4
 
 
 
-[CSS]
+### [CSS]
 # these variables are used to create a css file, like SASS or LESS do it
 # i didn't use these until now.
 # in template/booklist.css.tmpl you will find these variables
@@ -289,7 +288,7 @@ QRBreite=82
 MediumGesamtBreite=241
 
 
-[GESTENSTEUERUNG]
+### [GESTENSTEUERUNG]
 # this section is used for a second version of the html-files
 # if you will use gesture control
 
@@ -306,7 +305,7 @@ erzeuge=no
 # with this parameter you can repeat X times this key
 tastendruckmultiplikator=15
 
-[ALMA]
+### [ALMA]
 # you can create in ALMA a Collection, use here the Collection-Key
 collection=99999999999999999
 
@@ -327,7 +326,7 @@ skipSubtitles=yes
 SkipStartWith=:
 
 
-[SET]
+### [SET]
 #used for HoleCSV_von_alma.pl
 
 # locationId in Alma
