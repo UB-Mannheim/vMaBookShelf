@@ -17,7 +17,11 @@ vMaBookShelf creates a virtual bookshelf:
 ![virtual booksholf in action](https://github.com/UB-Mannheim/vMaBookShelf/blob/master/Doku/screens/lbs.jpg)
 
 - creates static websites
-- download covers from Amazon
+- download covers from
+    - Amazon
+    - OpenLibrary
+    - Google Books
+    - Syndetics
 - creates qr-codes with link to a proxy-server
   (reason: shorten the links in the qr-code), this proxy-server can call
   your local Primo / Opac
