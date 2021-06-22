@@ -178,67 +178,64 @@ or Windows:
 
 
 ### ~~[CSS]~~               (:label: ***deprecated***)
-- This section is no longer used and will be dropped.
-- The CSS files are now generated with LESS.
-- Therefore the file template/booklist.css.tmpl is also no longer needed
 
-- ~~these variables are used to create a css file, like SASS or LESS do it
-- ~~i didn't use these until now.~~
-- ~~in template/booklist.css.tmpl you will find these variables~~
-- ~~example: background-color: [% menu_active__background_color %];~~
-- ~~the script will create a normal css file in css/booklist.css~~
+```
+The CSS files are now generated with LESS.
+Therefore the file template/booklist.css.tmpl is also no longer needed
+```
+> All Variables are transformed to `..\app\less\local.less`
 
-#### menu_active__background_color=#ffffff
+#### ~~menu_active__background_color=#ffffff~~
 - Menu active background color
 
-#### menu_active__color=#000000
+#### ~~menu_active__color=#000000~~
 - Menu active text color
 
-#### menu__background_color=#990000
+#### ~~menu__background_color=#990000~~
 - Menu normal background color
 
-#### menu__color=#ffffff
+#### ~~menu__color=#ffffff~~
 - Menu normal text color
  
-#### menu__border_right__color=#ffffff
+#### ~~menu__border_right__color=#ffffff~~
 - Menu, color of the right border, used as separator between menu and bookshelf, default is #ffffff
 
 
 
 
-#### header__background_color=#990000
+#### ~~header__background_color=#990000~~
 - Header background color
 
 
-#### regalnummer__background_color=#585858
+#### ~~regalnummer__background_color=#585858~~
 - shelf number, background color
 
 
 
-#### regalnummer__color=#ffffff
+#### ~~regalnummer__color=#ffffff~~
 - shelf number, text and border color
 
 
-#### buchsignatur__color=#ffffff
+#### ~~buchsignatur__color=#ffffff~~
 - shelf mark text color
 
 
-#### id_collapse_menu__border_left_color=#CABB94
+#### ~~id_collapse_menu__border_left_color=#CABB94~~
 - color of the left border, used as separator between menu and fold in icon / fold out icon
 
 
-#### regal_grafik_anfang__background=../images/bookshelf-bg-dunkler-geteilt-links-001.png
+#### ~~regal_grafik_anfang__background=../images/bookshelf-bg-dunkler-geteilt-links-001.png~~
 - shelf grafik left (used as background)
 
-#### regal_grafik_abschluss__background=../images/bookshelf-bg-dunkler-geteilt-rechts-001.png
+#### ~~regal_grafik_abschluss__background=../images/bookshelf-bg-dunkler-geteilt-rechts-001.png~~
 - shelf grafik right (used as background)
 
-#### regal_grafik_mitte__background=../images/bookshelf-bg-dunkler-geteilt-mitte-001.png
+#### ~~regal_grafik_mitte__background=../images/bookshelf-bg-dunkler-geteilt-mitte-001.png~~
 - shelf grafik behinde each book (used as background)
 
 
 
-#### ohne_cover_shelf_image_title__font_size=12
+#### ~~ohne_cover_shelf_image_title__font_size=12~~
 - if the script didn't find a cover (at amazon), the script will used a default image
 - (only color and color gradient). On top of this image the script will insert some informations
 - about the book.
@@ -253,37 +250,37 @@ or Windows:
 - used this font size (px) for the book title
 
 
-#### ohne_cover_shelf_image_subtitle__font_size=9
+#### ~~ohne_cover_shelf_image_subtitle__font_size=9~~
 - used this font size (px) for the book subtitle
 
 
-#### ohne_cover_shelf_image_authors__font_size=12
+#### ~~ohne_cover_shelf_image_authors__font_size=12~~
 - used this font size (px) for the authors
 
 
-#### ohne_cover_shelf_image_substitute__color=#ffffff
+#### ~~ohne_cover_shelf_image_substitute__color=#ffffff~~
 - Text color of title, subtitle and authors for books without amazon cover
 
 
 
 
-#### header_hoehe=95
+#### ~~header_hoehe=95~~
 - height of header in px
 
 
-#### GesamtRegalHoehe=980
+#### ~~GesamtRegalHoehe=980~~
 - Absolut Hight of the shelf in px
 - you find this value not direct in the css-file
 - value used to calculate other values
 
 
-#### QRBreite=82
+#### ~~QRBreite=82~~
 - width ob a QR image in px
 - we start with small qr codes, but then we realised not every smartphone can read this qr codes
 - so its a good idee to test the qr codes with different devices
 
 
-#### MediumGesamtBreite=241
+#### ~~MediumGesamtBreite=241~~
 - Value correlated with the width of a QR image
 - absolute width of a book
 - if QRBreite is 82px
