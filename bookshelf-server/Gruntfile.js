@@ -34,7 +34,6 @@ module.exports = function (grunt) {
             dist: 'dist',
             webjs: 'html/js',
             webcss: 'html/css',
-            app_ma_icon_02: 'app/ma-icon-02',
             less_master_base: 'less',
             bower_font_awesome: '<%= bower_basepath %>/font-awesome',
             bower_jquery_dist: '<%= bower_basepath %>/jquery/dist',
@@ -122,11 +121,6 @@ module.exports = function (grunt) {
                 dest   : '.tmp/styles/',
                 src    : '{,*/}*.css'
             },
-            ma_icon_02_dist : {
-                files : {
-                    '<%= paths.dist %>/css/ub_ma_icon.css' : '<%= paths.app_ma_icon_02 %>/styles.css'
-                }
-            },
             dist_jquery : {
                 files : {
                     '<%= paths.webjs %>/jquery.js' : '<%= paths.bower_jquery_dist %>/jquery.js',
@@ -137,20 +131,6 @@ module.exports = function (grunt) {
             dist_jquery_lazy_load : {
                 files : {
                     '<%= paths.dist %>/js/jquery-lazyload.js' : '<%= paths.bower_jquery_lazy_load_dist %>/jquery.lazyload.js'
-                }
-            },
-            ma_icon_02_resource : {
-                files : {
-                    '<%= paths.webcss %>/fonts/ma-icon-02.eot' : '<%= paths.app_ma_icon_02 %>/fonts/ma-icon-02.eot',
-                    '<%= paths.webcss %>/fonts/ma-icon-02.svg' : '<%= paths.app_ma_icon_02 %>/fonts/ma-icon-02.svg',
-                    '<%= paths.webcss %>/fonts/ma-icon-02.ttf' : '<%= paths.app_ma_icon_02 %>/fonts/ma-icon-02.ttf',
-                    '<%= paths.webcss %>/fonts/ma-icon-02.woff' : '<%= paths.app_ma_icon_02 %>/fonts/ma-icon-02.woff'
-                }
-            },
-            ma_icon_02_dist_min_to_resource : {
-                files : {
-                    '<%= paths.webcss %>/ub_ma_icon.min.css' : '<%= paths.dist %>/css/ub_ma_icon.min.css',
-                    '<%= paths.webcss %>/ub_ma_icon.min.css.map' : '<%= paths.dist %>/css/ub_ma_icon.min.css.map'
                 }
             },
             font_awesome_bootstrap_in_css: {
@@ -198,12 +178,6 @@ module.exports = function (grunt) {
             files: {
                 '<%= paths.webcss %>/externeurls.min.css': '<%= paths.dist %>/css/externeurls.css'
             }
-          },
-          mafont: {
-            sourceMap: true,
-            files: {
-                '<%= paths.dist %>/css/ub_ma_icon.min.css': '<%= paths.dist %>/css/ub_ma_icon.css'
-            }
           }
         },
 
@@ -215,7 +189,6 @@ module.exports = function (grunt) {
               outputSourceFiles: true,
               paths: '<%= paths.app %>/less'
             },
-            // gilt nicht hier! Vor dem kompilieren wurde die Version aus relaunch_2016 hierher kopiert
             files: {
                 '<%= paths.dist %>/css/booklist.css': '<%= paths.app %>/less/booklist.less',
                 '<%= paths.dist %>/css/substitute.css': '<%= paths.app %>/less/substitute.less',
@@ -276,12 +249,4 @@ module.exports = function (grunt) {
         'uglify:jquery_lazy_load',
         'uglify:jquery_1'
     ]);
-
-    grunt.registerTask('ma-font', [
-        'copy:ma_icon_02_dist',
-        'copy:ma_icon_02_resource',
-        'cssmin:mafont',
-        'copy:ma_icon_02_dist_min_to_resource'
-    ]);
-
 };
