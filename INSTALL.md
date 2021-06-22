@@ -33,19 +33,24 @@ Node.js is now used to generate and compress the css files. The js files are als
 
 
 #### Downloading and installing Node.js and npm
-    * https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+- https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
 
 
-##### Windows Node version managers
-    * nvm-windows
-        * https://github.com/coreybutler/nvm-windows
+#### Downloading and installing nvm
+
+nvm is a version manager for node.js, designed to be installed per-user, and invoked per-shell. nvm works on any POSIX-compliant shell (sh, dash, ksh, zsh, bash), in particular on these platforms: unix, macOS, and windows WSL.
+
+##### Windows Node version managers (nvm-windows)
+- nvm-windows
+    - https://github.com/coreybutler/nvm-windows
 
 
 #### install environment
 
 ```bash
+cd bookshelf-server
 nvm install 14
-nvm use 14.0.0
+nvm use 14.0.0    (or other version if necessary)
 npm install -g yarn
 yarn install
 npm install -g grunt-cli
@@ -86,7 +91,7 @@ The scripts used the following perl modules. You can download them from cpan.
 - CGI::Enurl (Possibly unnecessary)
 - HTML::Hyphenate ()
 
-#### Install Perl-Module as Debian Pckages
+#### Install Perl-Module as Debian Packages
 
 (List is just under construction)
 libgd-barcode-perl      - Perl module to create barcode images
@@ -118,6 +123,7 @@ perl -MCPAN -e "install <name>"
 
 This procedure is described in the modules README.txt. There may be special hints for each module.
 
+
 ### Create HTML-File, Download Covers ...
 Now you can create the html files, with
 cd bookshelf-server
@@ -136,7 +142,8 @@ CreateGesamtBuecherregal.pl are stored in
 
 
 ### Create minimized versions of js and css files
-Das wird jetzt durch Grunt erledigt
+
+This is now done by Grunt
 
 ```bash
 grunt
@@ -149,44 +156,58 @@ and adapt the example to your needs.
 
 ### Link html path to /var/www/**YourProjectName**
 create a symbolic link
-  * from: /usr/local/bin/vMaBookShelf/bookshelf-server/html
-  * to:   /var/www/**YourProjectName**
+  - from: /usr/local/bin/vMaBookShelf/bookshelf-server/html
+  - to:   /var/www/**YourProjectName**
 
 ### Link proxy-server/ds/ path to /var/www/ds
 create a symbolic link
-  * from: /usr/local/bin/vMaBookShelf/proxy-server/ds
-  * to:   /var/www/ds, or copy the script to a different server
+  - from: /usr/local/bin/vMaBookShelf/proxy-server/ds
+  - to:   /var/www/ds, or copy the script to a different server
+
 
 
 
 
 ## Client where you like to test the Website
 
-#### Download Node.js
+### Downloading and installing Node.js and npm
+
+- https://docs.npmjs.com/downloading-and-installing-node-js-and-npm
+or
 - https://nodejs.org/en/
 
-#### Install Node.js
-execute the downloaded version of nodeXXXXXX.msi
+
+### Downloading and installing nvm
+
+nvm is a version manager for node.js, designed to be installed per-user, and invoked per-shell. nvm works on any POSIX-compliant shell (sh, dash, ksh, zsh, bash), in particular on these platforms: unix, macOS, and windows WSL.
+
+#### Windows Node version managers (nvm-windows)
+
+- nvm-windows
+    - https://github.com/coreybutler/nvm-windows
+
 
 #### jpm
 The jpm tool is a Node-based replacement for cfx.
 It enables you to test, run, and package add-ons.
 
-#### Install Node.js
+##### Install jpm
 After you have npm installed and node on your PATH, install jpm just as you would
 any other npm package.
 
-### Installing jpm globally
+###### Installing jpm globally
+
 Depending on your setup, you might need to run this as an administrator!
 
 - open a "node.js command prompt" as Administrator
 - npm install jpm --global
 
-### Documentation for jqm
+##### Documentation for jqm
 - https://developer.mozilla.org/en-US/Add-ons/SDK/Tools/jpm
 
 
-#### Firefox Add-On "vMaBookShelfHelper"
+
+### Firefox Add-On "vMaBookShelfHelper"
 
  - in Firefox-Add-on\vMaBookShelfHelper\data\js\erzeuge-close-button.js
    you have to change some strings:

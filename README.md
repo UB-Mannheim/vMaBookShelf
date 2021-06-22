@@ -59,7 +59,10 @@ Please prepare your code contributions also on GitHub.
 This project uses other free software:
 
 * Font Awesome by Dave Gandy – http://fontawesome.io/ (SIL OFL 1.1, MIT License)
-* Java, OpenJDK – http://openjdk.java.net/ (GNU General Public License (GPL))
-* YUICompressor – https://github.com/yui/yuicompressor/ (BSD (revised) open source license)
-* Node.js       - https://nodejs.org/en/ (MIT)
-* jpm           - https://developer.mozilla.org/en-US/Add-ons/SDK/Tools/cfx_to_jpm
+* Node.js         - https://nodejs.org/en/ (MIT)
+* jpm             - https://developer.mozilla.org/en-US/Add-ons/SDK/Tools/cfx_to_jpm
+* jQuery          - https://jquery.com/
+* jquery-lazyload - https://github.com/jmmerino/jquery-lazyload
+* Grunt           - https://gruntjs.com/
+* yarn            - https://yarnpkg.com/
+* nvm             - https://github.com/nvm-sh/nvm
