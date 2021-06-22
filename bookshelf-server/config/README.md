@@ -27,9 +27,9 @@ copy booklist.ini_tmpl to your local file booklist.ini.
 #### html_path=html/
 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# deprecated
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- ------------------------------------------------------------------------
+- deprecated
+- ------------------------------------------------------------------------
 - better use
 - section '[URL]' variable 'html_web_path' +
 #### html_web_path=/booklist/
@@ -87,68 +87,68 @@ copy booklist.ini_tmpl to your local file booklist.ini.
 #### html_web_path=/booklist/
 
 
-#--------------------------------------------------------------------------------
-# The script adds at the beginning of these variables the following:
-# section '[URL]' variable 'protocol' + '://' +
-# section '[URL]' variable 'host' +
-# section '[URL]' variable 'html_web_path' +
-# section '[URL]' variable 'openExterneURL_base'
-#--------------------------------------------------------------------------------
-# script result: http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
-#--------------------------------------------------------------------------------
-openExterneURL_base=RufeExterneURL.php?url=
+- --------------------------------------------------------------------------------
+- The script adds at the beginning of these variables the following:
+- section '[URL]' variable 'protocol' + '://' +
+- section '[URL]' variable 'host' +
+- section '[URL]' variable 'html_web_path' +
+- section '[URL]' variable 'openExterneURL_base'
+- --------------------------------------------------------------------------------
+- script result: http://aleph.bib.uni-mannheim.de/booklist/RufeExterneURL.php?url=
+- --------------------------------------------------------------------------------
+#### openExterneURL_base=RufeExterneURL.php?url=
 
 
-# Local Opac, in Mannheim Primo
-# at the end of this url the script will add the opac id, in Mannheim the aleph id
-printMedien_base=http://primo.bib.uni-mannheim.de/primo_library/libweb/action/dlSearch.do?institution=MAN&vid=MAN_UB&search_scope=MAN_ALEPH&query=any,exact,
+- Local Opac, in Mannheim Primo
+- at the end of this url the script will add the opac id, in Mannheim the aleph id
+#### printMedien_base=http://primo.bib.uni-mannheim.de/primo_library/libweb/action/dlSearch.do?institution=MAN&vid=MAN_UB&search_scope=MAN_ALEPH&query=any,exact,
 
 
 
 
 ### [ALEPH_ID]
-# Every ID in the local opac beginn with ...
-# in Primo you can identify this string if you search for 'doc' within the link of 'Details'
-#
-# Kann ermittelt werden aus dem Link auf dem Reiter 'Details' und
-# innerhalb dessen der Parameter 'doc'
-# http://primo.bib.uni-mannheim.de/primo_library/libweb/action/display.do?ct=display&fn=search&doc=MAN_ALEPH001045794&indx=10&recIds=MAN_ALEPH001045794&recIdxs=9&elementId=0&renderMode=poppedOut&displayMode=full&fctN=facet_rtype&dscnt=1&rfnGrp=1&frbrVersion=2&fctV=books&scp.scps=scope%3A%28MAN_CIANDO%29%2Cscope%3A%28MAN_CUP%29%2Cscope%3A%28MAN_EBR%29%2Cscope%3A%28MAN_ALEPH%29%2Cscope%3A%28MAN%29%2Cscope%3A%28MAN_EB_TEST%29&tab=default_tab&dstmp=1401707388057&srt=rank&mode=Basic&gathStatTab=true&tb=t&fromLogin=true&rfnGrpCounter=1&vl(freeText0)=irland&vid=MAN_UB&vl(63144028UI0)=any&frbg=&vl(37987049UI1)=all_items&dum=true&http://primo.bib.uni-mannheim.de:80/primo_library/libweb/action/expand.do?dscnt=0&vl(1UIStartWith0)=contains&tabs=detailsTab&gathStatTab=true
-vorspann=MAN_ALEPH
+- Every ID in the local opac beginn with ...
+- in Primo you can identify this string if you search for 'doc' within the link of 'Details'
+
+- Kann ermittelt werden aus dem Link auf dem Reiter 'Details' und
+- innerhalb dessen der Parameter 'doc'
+- http://primo.bib.uni-mannheim.de/primo_library/libweb/action/display.do?ct=display&fn=search&doc=MAN_ALEPH001045794&indx=10&recIds=MAN_ALEPH001045794&recIdxs=9&elementId=0&renderMode=poppedOut&displayMode=full&fctN=facet_rtype&dscnt=1&rfnGrp=1&frbrVersion=2&fctV=books&scp.scps=scope%3A%28MAN_CIANDO%29%2Cscope%3A%28MAN_CUP%29%2Cscope%3A%28MAN_EBR%29%2Cscope%3A%28MAN_ALEPH%29%2Cscope%3A%28MAN%29%2Cscope%3A%28MAN_EB_TEST%29&tab=default_tab&dstmp=1401707388057&srt=rank&mode=Basic&gathStatTab=true&tb=t&fromLogin=true&rfnGrpCounter=1&vl(freeText0)=irland&vid=MAN_UB&vl(63144028UI0)=any&frbg=&vl(37987049UI1)=all_items&dum=true&http://primo.bib.uni-mannheim.de:80/primo_library/libweb/action/expand.do?dscnt=0&vl(1UIStartWith0)=contains&tabs=detailsTab&gathStatTab=true
+#### vorspann=MAN_ALEPH
 
 
 
 ### [INDEX]
-# file name of the index file.
-html=index.html
+- file name of the index file.
+#### html=index.html
 
 
-# if you like to use a version for gesture control you can choose here a second index file
-html_gestensteuerung=index_g.html
+- if you like to use a version for gesture control you can choose here a second index file
+#### html_gestensteuerung=index_g.html
 
 
 
 ### [STORE]
-# cache file if you didn't find a cover for this book
-# if a id is in this file the script will skip thes id if it has to check amazon
-# relative path with file name and perhaps extension
-kein_treffer_cache_file=DatenCache/keinTreffer.dat
+- cache file if you didn't find a cover for this book
+- if a id is in this file the script will skip thes id if it has to check amazon
+- relative path with file name and perhaps extension
+#### kein_treffer_cache_file=DatenCache/keinTreffer.dat
 
 
 
 ### [REGAL]
-# shelf rows
-# attention: at the moment only 4 rows!!!!
-regal_reihen=4
+- shelf rows
+- attention: at the moment only 4 rows!!!!
+#### regal_reihen=4
 
 
 
 ### [NAVIGATION]
-# list of Subjects
-# in the direction in which they should be displayed in the html files
-# key is value in the csv file
-# value is text for the link in the html file
-# in print-csv-file: Fach
-# in ebook-csv-file: Fach
+- list of Subjects
+- in the direction in which they should be displayed in the html files
+- key is value in the csv file
+- value is text for the link in the html file
+- in print-csv-file: Fach
+- in ebook-csv-file: Fach
 27=Allg. u. vergl. Sprach- und Literaturwissenschaft
 01=Allgemeines
 28=Anglistik
@@ -181,160 +181,160 @@ regal_reihen=4
 
 
 ### [CSS]
-# these variables are used to create a css file, like SASS or LESS do it
-# i didn't use these until now.
-# in template/booklist.css.tmpl you will find these variables
-# example: background-color: [% menu_active__background_color %];
-# the script will create a normal css file in css/booklist.css
+- these variables are used to create a css file, like SASS or LESS do it
+- i didn't use these until now.
+- in template/booklist.css.tmpl you will find these variables
+- example: background-color: [% menu_active__background_color %];
+- the script will create a normal css file in css/booklist.css
 
-# Menu active background color
-menu_active__background_color=#ffffff
+- Menu active background color
+#### menu_active__background_color=#ffffff
 
-# Menu active text color
-menu_active__color=#000000
+- Menu active text color
+#### menu_active__color=#000000
 
-# Menu normal background color
-menu__background_color=#990000
+- Menu normal background color
+#### menu__background_color=#990000
 
-# Menu normal text color
-menu__color=#ffffff
+- Menu normal text color
+#### menu__color=#ffffff
 
-# Menu, color of the right border, used as separator between menu and bookshelf, default is #ffffff
-menu__border_right__color=#ffffff
-
-
-
-
-# Header background color
-header__background_color=#990000
-
-
-# shelf number, background color
-regalnummer__background_color=#585858
-
-
-# shelf number, text and border color
-regalnummer__color=#ffffff
-
-
-# shelf mark text color
-buchsignatur__color=#ffffff
-
-
-# color of the left border, used as separator between menu and fold in icon / fold out icon
-id_collapse_menu__border_left_color=#CABB94
-
-
-# shelf grafik left (used as background)
-regal_grafik_anfang__background=../images/bookshelf-bg-dunkler-geteilt-links-001.png
-
-# shelf grafik right (used as background)
-regal_grafik_abschluss__background=../images/bookshelf-bg-dunkler-geteilt-rechts-001.png
-
-# shelf grafik behinde each book (used as background)
-regal_grafik_mitte__background=../images/bookshelf-bg-dunkler-geteilt-mitte-001.png
+- Menu, color of the right border, used as separator between menu and bookshelf, default is #ffffff
+#### menu__border_right__color=#ffffff
 
 
 
 
-# if the script didn't find a cover (at amazon), the script will used a default image
-# (only color and color gradient). On top of this image the script will insert some informations
-# about the book.
-# the script will used random color, so each book looks a little be differnet
-# if the script will find a printed book and a ebook with the same title, ed. and year it will use
-# the same color for both books
-# only books without a cover from amazon get this captions!
-
-# the next tree variables are for the size of the information about the book
-# all sizes are in px
-
-# used this font size (px) for the book title
-ohne_cover_shelf_image_title__font_size=12
+- Header background color
+#### header__background_color=#990000
 
 
-# used this font size (px) for the book subtitle
-ohne_cover_shelf_image_subtitle__font_size=9
+- shelf number, background color
+#### regalnummer__background_color=#585858
 
 
-# used this font size (px) for the authors
-ohne_cover_shelf_image_authors__font_size=12
+- shelf number, text and border color
+#### regalnummer__color=#ffffff
 
 
-# Text color of title, subtitle and authors for books without amazon cover
-ohne_cover_shelf_image_substitute__color=#ffffff
+- shelf mark text color
+#### buchsignatur__color=#ffffff
+
+
+- color of the left border, used as separator between menu and fold in icon / fold out icon
+#### id_collapse_menu__border_left_color=#CABB94
+
+
+- shelf grafik left (used as background)
+#### regal_grafik_anfang__background=../images/bookshelf-bg-dunkler-geteilt-links-001.png
+
+- shelf grafik right (used as background)
+#### regal_grafik_abschluss__background=../images/bookshelf-bg-dunkler-geteilt-rechts-001.png
+
+- shelf grafik behinde each book (used as background)
+#### regal_grafik_mitte__background=../images/bookshelf-bg-dunkler-geteilt-mitte-001.png
 
 
 
 
-# height of header in px
-header_hoehe=95
+- if the script didn't find a cover (at amazon), the script will used a default image
+- (only color and color gradient). On top of this image the script will insert some informations
+- about the book.
+- the script will used random color, so each book looks a little be differnet
+- if the script will find a printed book and a ebook with the same title, ed. and year it will use
+- the same color for both books
+- only books without a cover from amazon get this captions!
+
+- the next tree variables are for the size of the information about the book
+- all sizes are in px
+
+- used this font size (px) for the book title
+#### ohne_cover_shelf_image_title__font_size=12
 
 
-# Absolut Hight of the shelf in px
-# you find this value not direct in the css-file
-# value used to calculate other values
-GesamtRegalHoehe=980
+- used this font size (px) for the book subtitle
+#### ohne_cover_shelf_image_subtitle__font_size=9
 
 
-# width ob a QR image in px
-# we start with small qr codes, but then we realised not every smartphone can read this qr codes
-# so its a good idee to test the qr codes with different devices
-QRBreite=82
+- used this font size (px) for the authors
+#### ohne_cover_shelf_image_authors__font_size=12
 
 
-# Value correlated with the width of a QR image
-# absolute width of a book
-# if QRBreite is 82px
-MediumGesamtBreite=241
+- Text color of title, subtitle and authors for books without amazon cover
+#### ohne_cover_shelf_image_substitute__color=#ffffff
+
+
+
+
+- height of header in px
+#### header_hoehe=95
+
+
+- Absolut Hight of the shelf in px
+- you find this value not direct in the css-file
+- value used to calculate other values
+#### GesamtRegalHoehe=980
+
+
+- width ob a QR image in px
+- we start with small qr codes, but then we realised not every smartphone can read this qr codes
+- so its a good idee to test the qr codes with different devices
+#### QRBreite=82
+
+
+- Value correlated with the width of a QR image
+- absolute width of a book
+- if QRBreite is 82px
+#### MediumGesamtBreite=241
 
 
 ### [GESTENSTEUERUNG]
-# this section is used for a second version of the html-files
-# if you will use gesture control
+- this section is used for a second version of the html-files
+- if you will use gesture control
 
 
-# Create a second version of the html files with gesture control
-# yes or no
-# Options
-# turned on: ja / yes / j / y
-# turned off: nein / no / n
-erzeuge=no
+- Create a second version of the html files with gesture control
+- yes or no
+- Options
+- turned on: ja / yes / j / y
+- turned off: nein / no / n
+#### erzeuge=no
 
 
-# the gesture control software will send only one key if you wipe to left or right
-# with this parameter you can repeat X times this key
-tastendruckmultiplikator=15
+- the gesture control software will send only one key if you wipe to left or right
+- with this parameter you can repeat X times this key
+#### tastendruckmultiplikator=15
 
 ### [ALMA]
-# you can create in ALMA a Collection, use here the Collection-Key
-collection=99999999999999999
+- you can create in ALMA a Collection, use here the Collection-Key
+#### collection=99999999999999999
 
 
 # Ebooks
-# for EBooks you can create in ALMA a second Collection, use here the Collection-Key
-ebooks-collection=99999999999999999
+- for EBooks you can create in ALMA a second Collection, use here the Collection-Key
+#### ebooks-collection=99999999999999999
 
 
-# you can create in ALMA a search api.
-# with the indiducal apiKey you get the data as xml
-apiKey=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+- you can create in ALMA a search api.
+- with the indiducal apiKey you get the data as xml
+#### apiKey=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-# in Alma subtitles a part of the title field
-skipSubtitles=yes
+- in Alma subtitles a part of the title field
+#### skipSubtitles=yes
 
-# pattern to separate title from subtitle
-SkipStartWith=:
+- pattern to separate title from subtitle
+#### SkipStartWith=:
 
 
 ### [SET]
-#used for HoleCSV_von_alma.pl
+- used for HoleCSV_von_alma.pl
 
-# locationId in Alma
-# 'WEST_EG' or '120' are used values in Mannheim
-locationId=WEST_EG
+- locationId in Alma
+- 'WEST_EG' or '120' are used values in Mannheim
+#### locationId=WEST_EG
 
-# in Mannheim we used RVK call numbers
-# the first 3 numbers are shown the location
-# '120' is a used values in Mannheim
-# a possible call number is: 120 AH 11005 E36
-siganfang=120
+- in Mannheim we used RVK call numbers
+- the first 3 numbers are shown the location
+- '120' is a used values in Mannheim
+- a possible call number is: 120 AH 11005 E36
+#### siganfang=120
