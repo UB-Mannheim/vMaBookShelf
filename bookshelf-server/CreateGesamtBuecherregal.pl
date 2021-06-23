@@ -345,6 +345,7 @@ print STATISTIK "-"x60 . "\n";
 # CSS-Angaben und abhängige Werte
 # auslesen und berechnen
 ############################################
+my $nCoverHoehe;
 
 if ($lErzeugeCSS) {
     # CSS-Angaben einlesen
@@ -474,7 +475,7 @@ if ($lErzeugeCSS) {
     my $CoverVonUnterkante = 24;
     my $CoverVonOberkante = 16;
 
-    my $nCoverHoehe =
+    $nCoverHoehe =
         $templCssRef->{ul_booklist_li__line_height} -
         $CoverVonUnterkante -
         $CoverVonOberkante;
@@ -651,7 +652,7 @@ if ($lErzeugeCSS) {
     my $CoverVonUnterkante = 24;
     my $CoverVonOberkante = 16;
 
-    my $nCoverHoehe =
+    $nCoverHoehe =
         $templCssRef->{ul_booklist_li__line_height} -
         $CoverVonUnterkante -
         $CoverVonOberkante;
