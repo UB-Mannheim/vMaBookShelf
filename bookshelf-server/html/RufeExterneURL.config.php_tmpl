@@ -8,7 +8,7 @@
         // otherwise the script checks some ips
         // so you can allowed a singel or a range of ips
         //----------------------------------------------------------------------
-        $allowed_base_url = 'http://aleph.bib.uni-mannheim.de/booklist/';
+        $allowed_base_url = 'https://www2.bib.uni-mannheim.de/booklist/';
 
         $lenurl = strlen($allowed_base_url);
         $lTrust = false;
