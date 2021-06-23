@@ -196,7 +196,7 @@ Therefore the file template/booklist.css.tmpl is also no longer needed
 
 #### ~~menu__color=#ffffff~~
 - Menu normal text color
- 
+
 #### ~~menu__border_right__color=#ffffff~~
 - Menu, color of the right border, used as separator between menu and bookshelf, default is #ffffff
 
@@ -268,7 +268,7 @@ Therefore the file template/booklist.css.tmpl is also no longer needed
 - height of header in px
 
 
-#### ~~GesamtRegalHoehe=980~~
+#### GesamtRegalHoehe=980
 - Absolut Hight of the shelf in px
 - you find this value not direct in the css-file
 - value used to calculate other values
@@ -280,7 +280,7 @@ Therefore the file template/booklist.css.tmpl is also no longer needed
 - so its a good idee to test the qr codes with different devices
 
 
-#### ~~MediumGesamtBreite=241~~
+#### MediumGesamtBreite=241
 - Value correlated with the width of a QR image
 - absolute width of a book
 - if QRBreite is 82px

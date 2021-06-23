@@ -346,176 +346,354 @@ print STATISTIK "-"x60 . "\n";
 # auslesen und berechnen
 ############################################
 
-# CSS-Angaben einlesen
-$templCssRef->{menu_active__background_color}           =
-    $cfg->val( 'CSS', 'menu_active__background_color' );  # #ffffff
-$templCssRef->{menu_active__color}                      =
-    $cfg->val( 'CSS', 'menu_active__color' );             # #000000
+if ($lErzeugeCSS) {
+    # CSS-Angaben einlesen
+    $templCssRef->{menu_active__background_color}           =
+        $cfg->val( 'CSS', 'menu_active__background_color' );  # #ffffff
+    $templCssRef->{menu_active__color}                      =
+        $cfg->val( 'CSS', 'menu_active__color' );             # #000000
 
-$templCssRef->{menu__background_color}                  =
-    $cfg->val( 'CSS', 'menu__background_color' );         # #990000
-$templCssRef->{menu__color}                             =
-    $cfg->val( 'CSS', 'menu__color' );                    # #ffffff
+    $templCssRef->{menu__background_color}                  =
+        $cfg->val( 'CSS', 'menu__background_color' );         # #990000
+    $templCssRef->{menu__color}                             =
+        $cfg->val( 'CSS', 'menu__color' );                    # #ffffff
 
-$templCssRef->{buchsignatur__color}                     =
-    $cfg->val( 'CSS', 'buchsignatur__color' );            # #ffffff
+    $templCssRef->{buchsignatur__color}                     =
+        $cfg->val( 'CSS', 'buchsignatur__color' );            # #ffffff
 
-# Trennfarbe zwischen Navigation und Buchregal
-$templCssRef->{menu__border_right__color}               =
-    $cfg->val( 'CSS', 'menu__border_right__color' );      # #ffffff
+    # Trennfarbe zwischen Navigation und Buchregal
+    $templCssRef->{menu__border_right__color}               =
+        $cfg->val( 'CSS', 'menu__border_right__color' );      # #ffffff
 
-# Hintergrundfarbe der Regalnummern
-$templCssRef->{regalnummer__background_color}           =
-    $cfg->val( 'CSS', 'regalnummer__background_color' );  # #585858
-$templCssRef->{regalnummer__color}                      =
-    $cfg->val( 'CSS', 'regalnummer__color' );             # #ffffff
+    # Hintergrundfarbe der Regalnummern
+    $templCssRef->{regalnummer__background_color}           =
+        $cfg->val( 'CSS', 'regalnummer__background_color' );  # #585858
+    $templCssRef->{regalnummer__color}                      =
+        $cfg->val( 'CSS', 'regalnummer__color' );             # #ffffff
 
-# Header
-$templCssRef->{header__background_color}                =
-    $cfg->val( 'CSS', 'header__background_color' );       # #990000
+    # Header
+    $templCssRef->{header__background_color}                =
+        $cfg->val( 'CSS', 'header__background_color' );       # #990000
 
-# Trenner zwischen Menue und verkleinerungsleiste
-$templCssRef->{id_collapse_menu__border_left_color}     =
-    $cfg->val( 'CSS', 'id_collapse_menu__border_left_color' );    # #CABB94
-
-
-
-
-$templCssRef->{id_unilogo__padding_right} =  37 + $AusgleichsPixel;
-$templCssRef->{id_trailer__left}          = 250 + $AusgleichsPixel;
-$templCssRef->{ul_booklist__margin_left}  = 228 + $AusgleichsPixel;
-$templCssRef->{id_navirahmen__width}      = 248 + $AusgleichsPixel;
-
-# Position des Pfeils für Verkleinern neben Navigation
-$templCssRef->{id_collapse_menu__padding_left} =
-    7 + int($AusgleichsPixel/2);
-
-# Breite des eingefalteten Navigationsrahmen
-# mit Pfeil zum Vergrößern und verkleinern
-$templCssRef->{gesamt_navirahmen__width} =
-    34 + $AusgleichsPixel;
-
-# Breite des eingefalteten Navigationsrahmen
-# mit Pfeil zum Vergrößern und verkleinern
-$templCssRef->{gesamt_navirahmen_folded__width} =
-    36 + $AusgleichsPixel;
-
-# Breite des eingefalteten Navigationsrahmen
-# mit Pfeil zum Vergrößern und verkleinern
-$templCssRef->{bei_fixed_und_unfolded_id_collapse_menu__width} =
-    18 + int($AusgleichsPixel/2);
-
-
-# Breite des eingefalteten Navigationsrahmen
-# mit Pfeil zum Vergrößern und verkleinern
-$templCssRef->{bei_fixed_und_folded_id_collapse_menu__width} =
-    21 + int($AusgleichsPixel/2);
-
-# Breite des eingefalteten Navigationsrahmen
-# mit Pfeil zum Vergrößern und verkleinern
-$templCssRef->{bei_fixed_id_collapse_menu__width} =
-    21 + int($AusgleichsPixel/2);
+    # Trenner zwischen Menue und verkleinerungsleiste
+    $templCssRef->{id_collapse_menu__border_left_color}     =
+        $cfg->val( 'CSS', 'id_collapse_menu__border_left_color' );    # #CABB94
 
 
 
-# Breite des eingefalteten Navigationsrahmen
-# mit Pfeil zum Vergrößern und verkleinern
-$templCssRef->{bei_fixed_und_unfolded_ul_booklist_li_anfang__left} =
-    252 + $AusgleichsPixel;
+
+    $templCssRef->{id_unilogo__padding_right} =  37 + $AusgleichsPixel;
+    $templCssRef->{id_trailer__left}          = 250 + $AusgleichsPixel;
+    $templCssRef->{ul_booklist__margin_left}  = 228 + $AusgleichsPixel;
+    $templCssRef->{id_navirahmen__width}      = 248 + $AusgleichsPixel;
+
+    # Position des Pfeils für Verkleinern neben Navigation
+    $templCssRef->{id_collapse_menu__padding_left} =
+        7 + int($AusgleichsPixel/2);
+
+    # Breite des eingefalteten Navigationsrahmen
+    # mit Pfeil zum Vergrößern und verkleinern
+    $templCssRef->{gesamt_navirahmen__width} =
+        34 + $AusgleichsPixel;
+
+    # Breite des eingefalteten Navigationsrahmen
+    # mit Pfeil zum Vergrößern und verkleinern
+    $templCssRef->{gesamt_navirahmen_folded__width} =
+        36 + $AusgleichsPixel;
+
+    # Breite des eingefalteten Navigationsrahmen
+    # mit Pfeil zum Vergrößern und verkleinern
+    $templCssRef->{bei_fixed_und_unfolded_id_collapse_menu__width} =
+        18 + int($AusgleichsPixel/2);
 
 
-# Linke Position des Anfangs des Regals
-$templCssRef->{li_anfang_folded_fixed__left} =
-    40 + $AusgleichsPixel;
+    # Breite des eingefalteten Navigationsrahmen
+    # mit Pfeil zum Vergrößern und verkleinern
+    $templCssRef->{bei_fixed_und_folded_id_collapse_menu__width} =
+        21 + int($AusgleichsPixel/2);
 
-# Linke Position des Anfangs des Regals
-$templCssRef->{li_anfang_fixed__left} =
-    40 + $AusgleichsPixel;
-
-
-# berechung der Regalhoehen
-#my $GesamtRegalHoehe = 980;
-# 980
-my $GesamtRegalHoehe = $cfg->val( 'CSS', 'GesamtRegalHoehe' );
-my $nHoeheRegalReihe = $GesamtRegalHoehe / $nAnzahlReihen;
-
-# bisher 245
-$templCssRef->{ul_booklist__height} = $nHoeheRegalReihe;
-
-# Grafik für linken Abschluss des Regals
-$templCssRef->{Regal_Grafik_Anfang__background} =
-    $cfg->val( 'CSS', 'regal_grafik_anfang__background' );
-$templCssRef->{Regal_Grafik_Abschluss__background} =
-    $cfg->val( 'CSS', 'regal_grafik_abschluss__background' );
-$templCssRef->{Regal_Grafik_Mitte__background} =
-    $cfg->val( 'CSS', 'regal_grafik_mitte__background' );
-
-
-my $Regalboden_vorderkante__height = 5;
-
-# bisher 250
-$templCssRef->{ul_booklist_li__height} =
-    $templCssRef->{ul_booklist__height} +
-    $Regalboden_vorderkante__height;
-
-# bisher 240
-$templCssRef->{ul_booklist_li__line_height} =
-    $templCssRef->{ul_booklist__height} -
-    $Regalboden_vorderkante__height;
-
-# 41;
-my $QRBreite =
-    $cfg->val( 'CSS', 'QRBreite' );
-
-# ausgangspunkt war 200;
-my $MediumGesamtBreite =
-    $cfg->val( 'CSS', 'MediumGesamtBreite' );
-
-
-my $CoverVonUnterkante = 24;
-my $CoverVonOberkante = 16;
-
-my $nCoverHoehe =
-    $templCssRef->{ul_booklist_li__line_height} -
-    $CoverVonUnterkante -
-    $CoverVonOberkante;
-
-$templCssRef->{cover_hoehe} = $nCoverHoehe;
+    # Breite des eingefalteten Navigationsrahmen
+    # mit Pfeil zum Vergrößern und verkleinern
+    $templCssRef->{bei_fixed_id_collapse_menu__width} =
+        21 + int($AusgleichsPixel/2);
 
 
 
-# bisher 200
-$templCssRef->{ul_booklist_li__width} = $MediumGesamtBreite;
-
-$templCssRef->{cover_breite} = int($MediumGesamtBreite - $QRBreite - 16);
-
-
-$templCssRef->{qr_breite} = $QRBreite;
-$templCssRef->{qr_hoehe} = $templCssRef->{qr_breite};
+    # Breite des eingefalteten Navigationsrahmen
+    # mit Pfeil zum Vergrößern und verkleinern
+    $templCssRef->{bei_fixed_und_unfolded_ul_booklist_li_anfang__left} =
+        252 + $AusgleichsPixel;
 
 
-$templCssRef->{ohne_cover_shelf_image_title__font_size} =
-    $cfg->val( 'CSS', 'ohne_cover_shelf_image_title__font_size' );
-$templCssRef->{ohne_cover_shelf_image_subtitle__font_size} =
-    $cfg->val( 'CSS', 'ohne_cover_shelf_image_subtitle__font_size' );
-$templCssRef->{ohne_cover_shelf_image_authors__font_size} =
-    $cfg->val( 'CSS', 'ohne_cover_shelf_image_authors__font_size' );
+    # Linke Position des Anfangs des Regals
+    $templCssRef->{li_anfang_folded_fixed__left} =
+        40 + $AusgleichsPixel;
 
-$templCssRef->{ohne_cover_shelf_image_substitute__color} =
-    $cfg->val( 'CSS', 'ohne_cover_shelf_image_substitute__color' );
+    # Linke Position des Anfangs des Regals
+    $templCssRef->{li_anfang_fixed__left} =
+        40 + $AusgleichsPixel;
 
 
-# Header-Breich
-$templCssRef->{header_hoehe} =
-    $cfg->val( 'CSS', 'header_hoehe' );
+    # Calculation of rack heights
+    my $GesamtRegalHoehe = $cfg->val( 'CSS', 'GesamtRegalHoehe' );
+    my $nHoeheRegalReihe = $GesamtRegalHoehe / $nAnzahlReihen;
+
+    # bisher 245
+    $templCssRef->{ul_booklist__height} = $nHoeheRegalReihe;
+
+    # Grafik für linken Abschluss des Regals
+    $templCssRef->{Regal_Grafik_Anfang__background} =
+        $cfg->val( 'CSS', 'regal_grafik_anfang__background' );
+    $templCssRef->{Regal_Grafik_Abschluss__background} =
+        $cfg->val( 'CSS', 'regal_grafik_abschluss__background' );
+    $templCssRef->{Regal_Grafik_Mitte__background} =
+        $cfg->val( 'CSS', 'regal_grafik_mitte__background' );
+
+
+    my $Regalboden_vorderkante__height = 5;
+
+    # bisher 250
+    $templCssRef->{ul_booklist_li__height} =
+        $templCssRef->{ul_booklist__height} +
+        $Regalboden_vorderkante__height;
+
+    # bisher 240
+    $templCssRef->{ul_booklist_li__line_height} =
+        $templCssRef->{ul_booklist__height} -
+        $Regalboden_vorderkante__height;
+
+    # 41;
+    my $QRBreite =
+        $cfg->val( 'CSS', 'QRBreite' );
+
+    # ausgangspunkt war 200;
+    my $MediumGesamtBreite =
+        $cfg->val( 'CSS', 'MediumGesamtBreite' );
+
+
+    my $CoverVonUnterkante = 24;
+    my $CoverVonOberkante = 16;
+
+    my $nCoverHoehe =
+        $templCssRef->{ul_booklist_li__line_height} -
+        $CoverVonUnterkante -
+        $CoverVonOberkante;
+
+    $templCssRef->{cover_hoehe} = $nCoverHoehe;
 
 
 
-############################################
-# CSS-Angaben und abhängige Werte
-# auslesen und berechnen
-# Ende
-############################################
+    # bisher 200
+    $templCssRef->{ul_booklist_li__width} = $MediumGesamtBreite;
+
+    $templCssRef->{cover_breite} = int($MediumGesamtBreite - $QRBreite - 16);
+
+
+    $templCssRef->{qr_breite} = $QRBreite;
+    $templCssRef->{qr_hoehe} = $templCssRef->{qr_breite};
+
+
+    $templCssRef->{ohne_cover_shelf_image_title__font_size} =
+        $cfg->val( 'CSS', 'ohne_cover_shelf_image_title__font_size' );
+    $templCssRef->{ohne_cover_shelf_image_subtitle__font_size} =
+        $cfg->val( 'CSS', 'ohne_cover_shelf_image_subtitle__font_size' );
+    $templCssRef->{ohne_cover_shelf_image_authors__font_size} =
+        $cfg->val( 'CSS', 'ohne_cover_shelf_image_authors__font_size' );
+
+    $templCssRef->{ohne_cover_shelf_image_substitute__color} =
+        $cfg->val( 'CSS', 'ohne_cover_shelf_image_substitute__color' );
+
+
+    # Header-Breich
+    $templCssRef->{header_hoehe} =
+        $cfg->val( 'CSS', 'header_hoehe' );
+
+
+
+    ############################################
+    # CSS-Angaben und abhängige Werte
+    # auslesen und berechnen
+    # Ende
+    ############################################
+
+} else {
+
+    #--------------------------------------------
+    # Bis zur Klärung belassen
+    #--------------------------------------------
+
+    #----------------------------------------
+    # CSS-Angaben einlesen
+    #----------------------------------------
+    #$templCssRef->{menu_active__background_color}           =
+    #    $cfg->val( 'CSS', 'menu_active__background_color' );  # #ffffff
+    #$templCssRef->{menu_active__color}                      =
+    #    $cfg->val( 'CSS', 'menu_active__color' );             # #000000
+
+    #$templCssRef->{menu__background_color}                  =
+    #    $cfg->val( 'CSS', 'menu__background_color' );         # #990000
+    #$templCssRef->{menu__color}                             =
+    #    $cfg->val( 'CSS', 'menu__color' );                    # #ffffff
+
+    #$templCssRef->{buchsignatur__color}                     =
+    #    $cfg->val( 'CSS', 'buchsignatur__color' );            # #ffffff
+
+    ## Trennfarbe zwischen Navigation und Buchregal
+    #$templCssRef->{menu__border_right__color}               =
+    #    $cfg->val( 'CSS', 'menu__border_right__color' );      # #ffffff
+
+    ## Hintergrundfarbe der Regalnummern
+    #$templCssRef->{regalnummer__background_color}           =
+    #    $cfg->val( 'CSS', 'regalnummer__background_color' );  # #585858
+    #$templCssRef->{regalnummer__color}                      =
+    #    $cfg->val( 'CSS', 'regalnummer__color' );             # #ffffff
+
+    ## Header
+    #$templCssRef->{header__background_color}                =
+    #    $cfg->val( 'CSS', 'header__background_color' );       # #990000
+
+    ## Trenner zwischen Menue und verkleinerungsleiste
+    #$templCssRef->{id_collapse_menu__border_left_color}     =
+    #    $cfg->val( 'CSS', 'id_collapse_menu__border_left_color' );    # #CABB94
+
+
+
+
+    #$templCssRef->{id_unilogo__padding_right} =  37 + $AusgleichsPixel;
+    #$templCssRef->{id_trailer__left}          = 250 + $AusgleichsPixel;
+    #$templCssRef->{ul_booklist__margin_left}  = 228 + $AusgleichsPixel;
+    #$templCssRef->{id_navirahmen__width}      = 248 + $AusgleichsPixel;
+
+    ## Position des Pfeils für Verkleinern neben Navigation
+    #$templCssRef->{id_collapse_menu__padding_left} =
+    #    7 + int($AusgleichsPixel/2);
+
+    ## Breite des eingefalteten Navigationsrahmen
+    ## mit Pfeil zum Vergrößern und verkleinern
+    #$templCssRef->{gesamt_navirahmen__width} =
+    #    34 + $AusgleichsPixel;
+
+    ## Breite des eingefalteten Navigationsrahmen
+    ## mit Pfeil zum Vergrößern und verkleinern
+    #$templCssRef->{gesamt_navirahmen_folded__width} =
+    #    36 + $AusgleichsPixel;
+
+    ## Breite des eingefalteten Navigationsrahmen
+    ## mit Pfeil zum Vergrößern und verkleinern
+    #$templCssRef->{bei_fixed_und_unfolded_id_collapse_menu__width} =
+    #    18 + int($AusgleichsPixel/2);
+
+
+    ## Breite des eingefalteten Navigationsrahmen
+    ## mit Pfeil zum Vergrößern und verkleinern
+    #$templCssRef->{bei_fixed_und_folded_id_collapse_menu__width} =
+    #    21 + int($AusgleichsPixel/2);
+
+    ## Breite des eingefalteten Navigationsrahmen
+    ## mit Pfeil zum Vergrößern und verkleinern
+    #$templCssRef->{bei_fixed_id_collapse_menu__width} =
+    #    21 + int($AusgleichsPixel/2);
+
+
+
+    ## Breite des eingefalteten Navigationsrahmen
+    ## mit Pfeil zum Vergrößern und verkleinern
+    #$templCssRef->{bei_fixed_und_unfolded_ul_booklist_li_anfang__left} =
+    #    252 + $AusgleichsPixel;
+
+
+    ## Linke Position des Anfangs des Regals
+    #$templCssRef->{li_anfang_folded_fixed__left} =
+    #    40 + $AusgleichsPixel;
+
+    ## Linke Position des Anfangs des Regals
+    #$templCssRef->{li_anfang_fixed__left} =
+    #    40 + $AusgleichsPixel;
+
+
+    # Calculation of rack heights
+    my $GesamtRegalHoehe = $cfg->val( 'CSS', 'GesamtRegalHoehe' );
+    my $nHoeheRegalReihe = $GesamtRegalHoehe / $nAnzahlReihen;
+
+    # bisher 245
+    $templCssRef->{ul_booklist__height} = $nHoeheRegalReihe;
+
+    ## Grafik für linken Abschluss des Regals
+    #$templCssRef->{Regal_Grafik_Anfang__background} =
+    #    $cfg->val( 'CSS', 'regal_grafik_anfang__background' );
+    #$templCssRef->{Regal_Grafik_Abschluss__background} =
+    #    $cfg->val( 'CSS', 'regal_grafik_abschluss__background' );
+    #$templCssRef->{Regal_Grafik_Mitte__background} =
+    #    $cfg->val( 'CSS', 'regal_grafik_mitte__background' );
+
+
+    my $Regalboden_vorderkante__height = 5;
+
+    # bisher 250
+    #$templCssRef->{ul_booklist_li__height} =
+    #    $templCssRef->{ul_booklist__height} +
+    #    $Regalboden_vorderkante__height;
+
+    # bisher 240
+    $templCssRef->{ul_booklist_li__line_height} =
+        $templCssRef->{ul_booklist__height} -
+        $Regalboden_vorderkante__height;
+
+    # 41;
+    #my $QRBreite =
+    #    $cfg->val( 'CSS', 'QRBreite' );
+
+    # ausgangspunkt war 200;
+    my $MediumGesamtBreite =
+        $cfg->val( 'CSS', 'MediumGesamtBreite' );
+
+
+    my $CoverVonUnterkante = 24;
+    my $CoverVonOberkante = 16;
+
+    my $nCoverHoehe =
+        $templCssRef->{ul_booklist_li__line_height} -
+        $CoverVonUnterkante -
+        $CoverVonOberkante;
+
+    #$templCssRef->{cover_hoehe} = $nCoverHoehe;
+
+
+
+    # bisher 200
+    $templCssRef->{ul_booklist_li__width} = $MediumGesamtBreite;
+
+    #$templCssRef->{cover_breite} = int($MediumGesamtBreite - $QRBreite - 16);
+
+
+    #$templCssRef->{qr_breite} = $QRBreite;
+    #$templCssRef->{qr_hoehe} = $templCssRef->{qr_breite};
+
+
+    #$templCssRef->{ohne_cover_shelf_image_title__font_size} =
+    #    $cfg->val( 'CSS', 'ohne_cover_shelf_image_title__font_size' );
+    #$templCssRef->{ohne_cover_shelf_image_subtitle__font_size} =
+    #    $cfg->val( 'CSS', 'ohne_cover_shelf_image_subtitle__font_size' );
+    #$templCssRef->{ohne_cover_shelf_image_authors__font_size} =
+    #    $cfg->val( 'CSS', 'ohne_cover_shelf_image_authors__font_size' );
+
+    #$templCssRef->{ohne_cover_shelf_image_substitute__color} =
+    #    $cfg->val( 'CSS', 'ohne_cover_shelf_image_substitute__color' );
+
+
+    ## Header-Breich
+    #$templCssRef->{header_hoehe} =
+    #    $cfg->val( 'CSS', 'header_hoehe' );
+
+
+
+    ############################################
+    # CSS-Angaben und abhängige Werte
+    # auslesen und berechnen
+    # Ende
+    ############################################
+}
+
 my %Statistik           = ();
 
 LeseQuellDaten( \*SOURCEPRINT,
