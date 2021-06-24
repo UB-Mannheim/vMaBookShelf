@@ -17,4 +17,5 @@ perl CreateGesamtBuecherregal.pl
 #   source ErzeugeMiniVersion.sh
 #fi
 
-grunt
+# aktuell nur interaktiv interessant
+# grunt
